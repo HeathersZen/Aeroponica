@@ -1,0 +1,6 @@
+packages:
+  remote_package:
+    url: https://github.com/HeathersZen/Aeroponica
+    refresh: 0s
+    files:
+      - esphome/components/aeroponica/aeroponica.yml
