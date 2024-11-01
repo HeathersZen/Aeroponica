@@ -33,53 +33,77 @@ captive_portal:
 web_server:
   port: 80
 
+one_wire:
+  - platform: gpio
+    pin: GPIO19
+
+# Current sensors/switches/capability set:
+# 1. Drain solenoid - Drains nutrient from circulation loop to waste
+# 2. Fill solenoid - Adds fresh water to circulation loop to nutrient tank
+# 3. Nutrient temperature sensor - Temperature of the nutrient flowing thru circulation loop
+# 4. Pre-filter pressure sensor - Pressure of the circulation loop just before the filter
+# 5. Circulation loop pressure sensor - Pressure of the circulation loop just before return to nutrient tank
+# 6. Pressure loop pressure sensor - Pressure of the nutrient in the pressure loop
+# 7. Circulation loop flow sensor - Volume of nutrient flowing in the circulation loop
+# 8. Pressure loop flow sensor - Volume of nutrient flowing in the pressure loop out to the plants
+# 9. Ultrasonic distance sensor - Level/amount of nutrient in the nutrient tank
+
 
 ###############################
 ## Switches
 ###############################
 switch:
+    # Drain solenoid
   - platform: gpio
     pin: GPIO32
-    name: "Line 1 Feeder"
-    id: line_1_feeder
+    name: "Drain solenoid"
+    id: drainSolenoid
 
+    # Fill solenoid
   - platform: gpio
     pin: GPIO33
-    name: "Line 2 Feeder"
-    id: line_2_feeder
+    name: "Fill solenoid"
+    id: fillSolenoid
  
-
+    # Unused
   - platform: gpio
     pin: GPIO25
-    name: "Line 3 Feeder"
-    id: line_3_feeder
+    name: "Unused 3"
+    id: unused3
 
-
+    # Unused
   - platform: gpio
     pin: GPIO26
-    name: "Line 4 Feeder"
-    id: line_4_feeder
+    name: "Unused 4"
+    id: unused4
 
-
+    # Unused
   - platform: gpio
     pin: GPIO27
-    name: "Line 5 Feeder"
-    id: line_5_feeder
+    name: "Unused 5"
+    id: unused5
 
-
+    # Unused
   - platform: gpio
     pin: GPIO14
-    name: "Line 6 Feeder"
-    id: line_6_feeder
+    name: "Unused 6"
+    id: unused6
 
-
+    # Unused
   - platform: gpio
     pin: GPIO12
-    name: "Line 7 Feeder"
-    id: line_7_feeder
+    name: "Unused 7"
+    id: unused7
 
-
+    # Unused
   - platform: gpio
     pin: GPIO13
-    name: "Line 8 Feeder"
-    id: line_8_feeder
+    name: "Unused 8"
+    id: unused8
+
+sensor:
+  - platform: dallas_temp
+    address: 0x1234567812345628
+    name: temperature
+    update_interval: 60s
+
