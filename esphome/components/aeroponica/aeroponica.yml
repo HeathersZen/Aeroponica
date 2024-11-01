@@ -58,48 +58,56 @@ switch:
     pin: GPIO32
     name: "Drain solenoid"
     id: drainSolenoid
+    icon: icon7-level-up
 
     # Fill solenoid
   - platform: gpio
     pin: GPIO33
     name: "Fill solenoid"
     id: fillSolenoid
+    icon: icon7-level-up
  
     # Unused
   - platform: gpio
     pin: GPIO25
     name: "Unused 3"
     id: unused3
+    internal: true
 
     # Unused
   - platform: gpio
     pin: GPIO26
     name: "Unused 4"
     id: unused4
+    internal: true
 
     # Unused
   - platform: gpio
     pin: GPIO27
     name: "Unused 5"
     id: unused5
+    internal: true
 
     # Unused
   - platform: gpio
     pin: GPIO14
     name: "Unused 6"
     id: unused6
+    internal: true
 
     # Unused
   - platform: gpio
     pin: GPIO12
     name: "Unused 7"
     id: unused7
+    internal: true
 
     # Unused
   - platform: gpio
     pin: GPIO13
     name: "Unused 8"
     id: unused8
+    internal: true
 
 sensor:
   - platform: dallas_temp
@@ -108,6 +116,7 @@ sensor:
     name: "Nutrient Temperature (C)"
     update_interval: 60s
     unit_of_measurement: "°C"
+    icon: icon7-sun-fill
 
   - platform: template
     id: nutrientTemperatureFahrenheit
@@ -115,4 +124,5 @@ sensor:
     lambda: return id(nutrientTemperatureCelsius).state * (9.0/5.0) + 32.0;
     unit_of_measurement: "°F"
     update_interval: 60s
+    icon: icon7-sun-fill    
 
