@@ -60,59 +60,17 @@ uart:
 switch:
     # Drain solenoid
   - platform: gpio
-    pin: GPIO32
+    pin: GPIO16
     name: "Drain solenoid"
     id: drainSolenoid
     icon: mdi:icon7-level-up
 
     # Fill solenoid
   - platform: gpio
-    pin: GPIO33
+    pin: GPIO17
     name: "Fill solenoid"
     id: fillSolenoid
     icon: mdi:icon7-level-up
- 
-    # Unused
-  - platform: gpio
-    pin: GPIO25
-    name: "Unused 3"
-    id: unused3
-    internal: true
-
-    # Unused
-  - platform: gpio
-    pin: GPIO26
-    name: "Unused 4"
-    id: unused4
-    internal: true
-
-    # Unused
-  - platform: gpio
-    pin: GPIO27
-    name: "Unused 5"
-    id: unused5
-    internal: true
-
-    # Unused
-  - platform: gpio
-    pin: GPIO14
-    name: "Unused 6"
-    id: unused6
-    internal: true
-
-    # Unused
-  - platform: gpio
-    pin: GPIO12
-    name: "Unused 7"
-    id: unused7
-    internal: true
-
-    # Unused
-  - platform: gpio
-    pin: GPIO13
-    name: "Unused 8"
-    id: unused8
-    internal: true
 
 sensor:
     # Temperature probe:
