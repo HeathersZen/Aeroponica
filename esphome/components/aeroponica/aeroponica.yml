@@ -111,5 +111,5 @@ sensor:
   - platform: template
     id: nutrientTemperatureFahrenheit
     name: "Nutrient Temperature (F)"
-    lambda: return id(nutrientTemperatureCelsius).state * (9/5) + 32;
+    lambda: return ((id(nutrientTemperatureCelsius).state) * (9/5)) + 32;
 
