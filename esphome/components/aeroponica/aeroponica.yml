@@ -13,11 +13,11 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: "1TS2o7dPW5Zp/D56tU0Ej6eYQ+XJpCFv4vn4uRtS8Q4="
+    key: "esK9Thrx/4BZ/vsSBjg1ZpmZFulzkfNGutV0iJ+tK88="
 
 ota:
   - platform: esphome
-    password: "4419d1abf17b27227480e3aefc6dea43"
+    password: "7ef21a64f3e9a19b788b789b96b6c44f"
 
 wifi:
   ssid: !secret wifi_ssid
@@ -35,7 +35,7 @@ web_server:
 
 one_wire:
   - platform: gpio
-    pin: GPIO27
+    pin: GPIO19
 
 uart:
   tx_pin: GPIO01
@@ -60,56 +60,56 @@ uart:
 switch:
     # Drain solenoid
   - platform: gpio
-    pin: GPIO33
+    pin: GPIO32
     name: "Drain solenoid"
     id: drainSolenoid
     icon: mdi:icon7-level-up
 
     # Fill solenoid
   - platform: gpio
-    pin: GPIO32
+    pin: GPIO33
     name: "Fill solenoid"
     id: fillSolenoid
     icon: mdi:icon7-level-up
  
     # Unused
   - platform: gpio
-    pin: GPIO13
+    pin: GPIO25
     name: "Unused 3"
     id: unused3
     internal: true
 
     # Unused
   - platform: gpio
-    pin: GPIO12
+    pin: GPIO26
     name: "Unused 4"
     id: unused4
     internal: true
 
     # Unused
   - platform: gpio
-    pin: GPIO21
+    pin: GPIO27
     name: "Unused 5"
     id: unused5
     internal: true
 
     # Unused
   - platform: gpio
-    pin: GPIO19
+    pin: GPIO14
     name: "Unused 6"
     id: unused6
     internal: true
 
     # Unused
   - platform: gpio
-    pin: GPIO18
+    pin: GPIO12
     name: "Unused 7"
     id: unused7
     internal: true
 
     # Unused
   - platform: gpio
-    pin: GPIO05
+    pin: GPIO13
     name: "Unused 8"
     id: unused8
     internal: true
@@ -136,6 +136,5 @@ sensor:
     # JSN-SR04T Waterproof distance sensor
   - platform: "jsn_sr04t"
     name: "Nutrient Tank Fill Distance"
-    id: nutrientTankFillDistance
     update_interval: 1s    
 
