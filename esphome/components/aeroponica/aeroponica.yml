@@ -37,6 +37,11 @@ one_wire:
   - platform: gpio
     pin: GPIO19
 
+uart:
+  tx_pin: GPIO01
+  rx_pin: GPIO03
+  baud_rate: 9600
+
 # Current sensors/switches/capability set:
 # 1. Drain solenoid - Drains nutrient from circulation loop to waste
 # 2. Fill solenoid - Adds fresh water to circulation loop to nutrient tank
@@ -110,6 +115,7 @@ switch:
     internal: true
 
 sensor:
+    # Temperature probe:
   - platform: dallas_temp
     address: 0xd7011452dd22aa28 
     id: nutrientTemperatureCelsius
@@ -118,6 +124,7 @@ sensor:
     unit_of_measurement: "°C"
     icon: mdi:icon7-sun-fill
 
+    # Temperature probe (converted to F)
   - platform: template
     id: nutrientTemperatureFahrenheit
     name: "Nutrient Temperature (F)"
@@ -125,4 +132,9 @@ sensor:
     unit_of_measurement: "°F"
     update_interval: 60s
     icon: mdi:icon7-sun-fill    
+
+    # JSN-SR04T Waterproof distance sensor
+  - platform: "jsn_sr04t"
+    name: "Nutrient Tank Fill Distance"
+    update_interval: 1s    
 
