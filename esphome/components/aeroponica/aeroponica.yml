@@ -107,9 +107,12 @@ sensor:
     id: nutrientTemperatureCelsius
     name: "Nutrient Temperature (C)"
     update_interval: 60s
+    unit_of_measurement: "°C"
 
   - platform: template
     id: nutrientTemperatureFahrenheit
     name: "Nutrient Temperature (F)"
-    lambda: return id(nutrientTemperatureCelsius).state * (9.0/5.0) + 32;
+    lambda: return id(nutrientTemperatureCelsius).state * (9.0/5.0) + 32.0;
+    unit_of_measurement: "°F"
+    update_interval: 60s
 
