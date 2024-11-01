@@ -33,9 +33,9 @@ captive_portal:
 web_server:
   port: 80
 
-one_wire:
-  - platform: gpio
-    pin: GPIO19
+# one_wire:
+#   - platform: gpio
+#     pin: GPIO19
 
 # Current sensors/switches/capability set:
 # 1. Drain solenoid - Drains nutrient from circulation loop to waste
@@ -101,8 +101,15 @@ switch:
     name: "Unused 8"
     id: unused8
 
-sensor:
-  - platform: dallas_temp
-    name: temperature
-    update_interval: 60s
+# sensor:
+#   - platform: dallas_temp
+#     address: 0xd7011452dd22aa28 
+#     id: nutrientTemperatureCelsius
+#     name: "Nutrient Temperature (C)"
+#     update_interval: 60s
+
+#   - platform: template
+#     id: nutrientTemperatureFahrenheit
+#     name: "Nutrient Temperature (F)"
+#     lambda: return id(nutrientTemperatureCelsius) * (9/5) + 32;
 
