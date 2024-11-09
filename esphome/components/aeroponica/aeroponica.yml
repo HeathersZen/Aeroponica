@@ -37,10 +37,6 @@ one_wire:
   - platform: gpio
     pin: GPIO19
 
-uart:
-  tx_pin: GPIO01
-  rx_pin: GPIO03
-  baud_rate: 9600
 
 # Current sensors/switches/capability set:
 # 1. Drain solenoid - Drains nutrient from circulation loop to waste
@@ -90,9 +86,3 @@ sensor:
     unit_of_measurement: "°F"
     update_interval: 60s
     icon: mdi:icon7-sun-fill    
-
-    # JSN-SR04T Waterproof distance sensor
-  - platform: "jsn_sr04t"
-    name: "Nutrient Tank Fill Distance"
-    update_interval: 1s    
-
