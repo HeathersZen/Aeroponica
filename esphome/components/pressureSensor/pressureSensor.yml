@@ -2,10 +2,10 @@ esphome:
   name: aeroponica-hipressuresensor
   friendly_name: Aeroponica-HiPressureSensor
   on_boot:
-  then:
-    - script.execute: 
-        id: flashLED
-        flashCount: 10
+    then:
+      - script.execute: 
+          id: flashLED
+          flashCount: 10
 
 esp8266:
   board: esp01_1m
