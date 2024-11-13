@@ -1,0 +1,118 @@
+esphome:
+  name: aeroponica-hipressuresensor
+  friendly_name: Aeroponica-HiPressureSensor
+  on_boot:
+  then:
+    - script.execute: 
+        id: flashLED
+        flashCount: 10
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "LW4okVAe7uCaNop9UyN5ABj7nm+0u+kuxdbkFg7DCfY="
+
+ota:
+  - platform: esphome
+    password: "32544f3e4b328cc86b5fc03d5497e9b6"
+
+web_server:
+  port: 80
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Aeroponica-Hipressuresensor"
+    password: "pU1Bu99or3Rc"
+
+captive_portal:
+
+one_wire:
+  - platform: gpio
+    pin: GPIO0
+    
+switch:
+  - platform: gpio
+    pin: 2
+    id: LED
+    name: LED
+    inverted: True
+    restore_mode: RESTORE_DEFAULT_OFF
+
+sensor:
+- platform: adc
+  name: "Filter Pressure"
+  pin: A0
+  id: pressure
+  update_interval: 10s
+  unit_of_measurement: "PSI"
+  accuracy_decimals: 2
+  # # results in 37.18 @ 75psi on pressure gauge
+  # filters: 
+  #   - calibrate_linear:
+  #     - 0.33 -> 0.0
+  #     - 1.65 -> 150.0
+  #     - 2.97 -> 300
+
+
+  # # results in 37.18 @ 75psi on pressure gauge
+  # filters: 
+  #   - calibrate_linear:
+  #     - 0.33 -> 0.0
+  #     - 1.65 -> 75.0
+  #     - 2.97 -> 150
+
+
+
+  # results in 19.91832 @ 75psi on pressure gauge
+  # This is the "math correct" version, which takes the values from the data sheet (.5 @ 0psi, 2.5 @ 50psi, 4.5 @ 100psi @ 5v) and
+  # scales them down 3.3v values
+  filters: 
+    - calibrate_linear:
+      - 0.32 -> 0.0
+      - 1.60 -> 50.0
+      - 2.88 -> 100.0
+
+
+  # results in 24.78693 @ 75psi on pressure gauge
+  # filters: 
+  #   - calibrate_linear:
+  #     - 0.33 -> 0.0
+  #     - 1.65 -> 50.0
+  #     - 2.97 -> 100
+  # filters:
+  #   - calibrate_linear:
+  #     - 0.33 -> 0.0
+  #     - 1.435 -> 37.5
+  #     - 3.2 -> 75
+
+interval:
+  - interval: 1min
+    then:
+      - script.execute: 
+          id: flashLED
+          flashCount: 3  
+
+script:
+  # Flash the LED to indicate the system is working normally. This is called on startup and intermittently by the interval tag.
+  - id: flashLED
+    mode: single
+    parameters: 
+      flashCount: int
+    then:
+      - repeat:
+          count: !lambda 'return flashCount;'
+          then:
+            - switch.turn_on: LED  
+            - delay: 200ms
+            - switch.turn_off: LED  
+            - delay: 200ms
