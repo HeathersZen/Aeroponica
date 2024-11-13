@@ -529,7 +529,7 @@ button:
               deliveredAmount: return 222;
               expectedAmount: return 333;
 interval:
-  - interval: 5min
+  - interval: 4min
     then:
       - logger.log: "Feed cycle initiated"
       - sensor.template.publish:                                                                                                                                           
