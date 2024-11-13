@@ -6,7 +6,7 @@ esphome:
       - script.execute: 
           id: flashLED
           flashCount: 10
-          
+
 esp32:
   board: esp32dev
   framework:
@@ -158,7 +158,7 @@ script:
               message: "CRITICAL! The nutrient tank is currently id(tankFillPercentage).state % full. You should fill it immediately!"
 
 script:
-  # Flash the LED to indicate the system is working normally. This is called on startup and intermittently by the interval tag.
+  # Flash the LED to indicate the system is working normally. This is called on startup and intermittently by the interval tag. 
   - id: flashLED
     mode: single
     parameters: 
