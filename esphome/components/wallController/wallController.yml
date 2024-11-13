@@ -1,0 +1,570 @@
+esphome:
+  name: "wall-2-controller"
+  friendly_name: Wall 2 Controller
+  includes: std_includes.h
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+  level: INFO
+  logs:
+      sensor: NONE
+      text_sensor: NONE
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "n/m/KLtSyqPPgEjFrwBwlFa2pjjCZp+mABT+/KTns20="
+
+ota:
+  - platform: esphome
+    password: "39257ddcf3dcf4d10097052a623a9f2e"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Wall-2-Controller"
+    password: "u3TUdveCPDRW"
+
+web_server:
+  port: 80
+
+
+###############################
+## Switches
+###############################
+switch:
+    ## Allows the silencing of various system alerts. Should default to true.
+  - platform: template
+    name: "Alerts Enabled"
+    id: isAlertsEnabled  
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+
+  - platform: gpio
+    pin: GPIO33
+    name: "Line 1 Feeder"
+    id: line_1_feeder
+    on_turn_on:
+      - script.execute: resetLastFeedAmountCounter
+    on_turn_off:
+      - sensor.template.publish:
+          id: Line1LastFeedAmount
+          state: !lambda return float(id(lastFeedAmount).state);
+      - script.execute: 
+          id: checkFeedAmountWithinLimits          
+          feedLineName: "Wall 2 Line 1"
+          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
+
+  - platform: gpio
+    pin: GPIO32
+    name: "Line 2 Feeder"
+    id: line_2_feeder
+    on_turn_on:
+      - script.execute: resetLastFeedAmountCounter
+    on_turn_off:
+      - sensor.template.publish:
+          id: Line2LastFeedAmount
+          state: !lambda return float(id(lastFeedAmount).state);
+      - script.execute: 
+          id: checkFeedAmountWithinLimits          
+          feedLineName: "Wall 2 Line 2"
+          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
+
+  - platform: gpio
+    pin: GPIO13
+    name: "Line 3 Feeder"
+    id: line_3_feeder
+    on_turn_on:
+      - script.execute: resetLastFeedAmountCounter
+    on_turn_off:
+      - sensor.template.publish:
+          id: Line3LastFeedAmount
+          state: !lambda return float(id(lastFeedAmount).state);
+      - script.execute: 
+          id: checkFeedAmountWithinLimits          
+          feedLineName: "Wall 2 Line 3"
+          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
+
+  - platform: gpio
+    pin: GPIO12
+    name: "Line 4 Feeder"
+    id: line_4_feeder
+    on_turn_on:
+      - script.execute: resetLastFeedAmountCounter
+    on_turn_off:
+      - sensor.template.publish:
+          id: Line4LastFeedAmount
+          state: !lambda return float(id(lastFeedAmount).state);
+      - script.execute: 
+          id: checkFeedAmountWithinLimits          
+          feedLineName: "Wall 2 Line 4"
+          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
+
+  - platform: gpio
+    pin: GPIO21
+    name: "Line 5 Feeder"
+    id: line_5_feeder
+    on_turn_on:
+      - script.execute: resetLastFeedAmountCounter
+    on_turn_off:
+      - sensor.template.publish:
+          id: Line5LastFeedAmount
+          state: !lambda return float(id(lastFeedAmount).state);
+      - script.execute: 
+          id: checkFeedAmountWithinLimits          
+          feedLineName: "Wall 2 Line 5"
+          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
+
+  - platform: gpio
+    pin: GPIO19
+    name: "Line 6 Feeder"
+    id: line_6_feeder
+    on_turn_on:
+      - script.execute: resetLastFeedAmountCounter
+    on_turn_off:
+      - sensor.template.publish:
+          id: Line6LastFeedAmount
+          state: !lambda return float(id(lastFeedAmount).state);
+      - script.execute: 
+          id: checkFeedAmountWithinLimits          
+          feedLineName: "Wall 2 Line 6"
+          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
+
+  - platform: gpio
+    pin: GPIO18
+    name: "Line 7 Feeder"
+    id: line_7_feeder
+    on_turn_on:
+      - script.execute: resetLastFeedAmountCounter
+    on_turn_off:
+      - sensor.template.publish:
+          id: Line7LastFeedAmount
+          state: !lambda return float(id(lastFeedAmount).state);
+      - script.execute: 
+          id: checkFeedAmountWithinLimits          
+          feedLineName: "Wall 2 Line 7"
+          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
+
+  - platform: gpio
+    pin: GPIO5
+    name: "Line 8 Feeder"
+    id: line_8_feeder
+    on_turn_on:
+      - script.execute: resetLastFeedAmountCounter
+    on_turn_off:
+      - sensor.template.publish:
+          id: Line8LastFeedAmount
+          state: !lambda return float(id(lastFeedAmount).state);
+      - script.execute: 
+          id: checkFeedAmountWithinLimits          
+          feedLineName: "Wall 2 Line 8"
+          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
+
+  # - platform: gpio
+  #   pin: GPIO25
+  #   inverted: True
+  #   name: "LED"
+  #   id: RedLED
+
+
+################
+## Scripts
+################
+script:
+  - id: resetLastFeedAmountCounter
+    mode: single
+    then:
+    - sensor.integration.reset: lastFeedAmount     
+  - id: checkFeedAmountWithinLimits
+    parameters: 
+      feedLineName: string
+      lastFeedAmount: float
+    mode: single
+    then:
+    - logger.log:
+        format: "checkFeedAmountWithinLimits: IsAlertsActive value: %d"
+        args: ['id(isAlertsEnabled)']
+    - if:
+        condition:
+          - and:
+              - switch.is_on: isAlertsEnabled
+              - lambda: 'return lastFeedAmount < id(underfeedAlertThreshold).state;'
+        then:
+        - homeassistant.action:
+            action: script.sendalert
+            data:
+              title: UNDERFEED ALERT
+            data_template:
+              message: "CRITICAL! {{ feedLineNameToken }} measured less than the underfeed alert threshold. Delivered: {{ deliveredAmount }} Underfeed threshold: {{ expectedAmount }}"
+            variables:
+              feedLineNameToken: return feedLineName;
+              deliveredAmount: return lastFeedAmount;
+              expectedAmount: return id(underfeedAlertThreshold).state;
+        - homeassistant.action:
+            action: notify.persistent_notification
+            data:
+              title: UNDERFEED ALERT
+            data_template:
+              message: "CRITICAL! {{ feedLineNameToken }} measured less than the underfeed alert threshold. Delivered: {{ deliveredAmount }} Underfeed threshold: {{ expectedAmount }}"
+            variables:
+              feedLineNameToken: return feedLineName;
+              deliveredAmount: return lastFeedAmount;
+              expectedAmount: return id(underfeedAlertThreshold).state;
+    - if:
+        condition:
+          - and:
+              - switch.is_on: isAlertsEnabled
+              - lambda: 'return lastFeedAmount > id(overfeedAlertThreshold).state;'
+        then:
+        - homeassistant.action:
+            action: notify.mobile_app_aspiration
+            data:
+              title: OVERFEED ALERT
+            data_template:
+              message: "CRITICAL! {{ feedLineNameToken }} measured more than the overfeed alert threshold. Delivered: {{ deliveredAmount }} Overfeed threshold: {{ expectedAmount }}"
+            variables:
+              feedLineNameToken: return feedLineName;
+              deliveredAmount: return lastFeedAmount;
+              expectedAmount: return id(overfeedAlertThreshold).state;
+        - homeassistant.action:
+            action: notify.persistent_notification
+            data:
+              title: OVERFEED ALERT
+            data_template:
+              message: "CRITICAL! {{ feedLineNameToken }} measured more than the overfeed alert threshold. Delivered: {{ deliveredAmount }} Overfeed threshold: {{ expectedAmount }}"
+            variables:
+              feedLineNameToken: return feedLineName;
+              deliveredAmount: return lastFeedAmount;
+              expectedAmount: return id(overfeedAlertThreshold).state;
+
+##################
+## Sensors
+##################
+sensor:
+  - platform: wifi_signal
+    name: "WiFi Signal"
+    id: wifi_signal_db
+    update_interval: 60s
+    entity_category: diagnostic
+
+##########################
+## Flow Sensors
+##
+## Measures the flow of nutrient solution into and out of the grow wall.
+##########################
+
+  # Reports the WiFi signal strength in %
+  - platform: copy
+    source_id: wifi_signal_db
+    name: "WiFi Strength"
+    filters:
+      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
+    unit_of_measurement: "%"
+    entity_category: diagnostic
+
+  # feedFlowRate: Feed flow sensor measures how much the L/m speed of nutrients flowing into the wall.
+  - platform: pulse_counter
+    id: flowRateFeed
+    name: "Flow Rate (Feed)"
+    state_class: measurement
+    pin: 
+        number: GPIO22
+    update_interval: 1000ms
+    filters:
+      - round: 2
+      - lambda: return ((x / 38.0) / 60);
+    unit_of_measurement: "L/m" 
+
+  # returnFlowRate: Return flow sensor measures how much the L/m speed of nutrients flowing back into the reservoir.
+  - platform: pulse_counter
+    id: flowRateReturn
+    name: "Flow Rate (Return)"
+    state_class: measurement
+    pin: 
+        number: GPIO34
+    update_interval: 1000ms
+    filters:
+      - round: 2
+      - lambda: return ((x / 38.0) / 60);
+    unit_of_measurement: "L/m"     
+
+  # lastFeedAmount: Last feed amount from any of the grow lines
+  - platform: integration
+    id: lastFeedAmount
+    name: "Last Feed Amount" 
+    sensor: flowRateFeed
+    unit_of_measurement: "L"
+    time_unit: min
+
+  ## cumulativeFeedAmount: Cumulative feed amount across all lines since startup  
+  - platform: integration
+    id: cumulativeFeedAmount
+    name: "Cumulative Feed Amount" 
+    sensor: flowRateFeed
+    state_class: total_increasing
+    unit_of_measurement: "L"
+    time_unit: min
+
+  # lastFeedAmount: Last feed amount from any of the grow lines
+  - platform: integration
+    id: lastReturnAmount
+    name: "Last Return Amount" 
+    sensor: flowRateReturn
+    unit_of_measurement: "L"
+    time_unit: min
+
+  ## cumulativeFeedAmount: Cumulative feed amount across all lines since startup  
+  - platform: integration
+    id: cumulativeReturnAmount
+    name: "Cumulative Return Amount" 
+    sensor: flowRateReturn
+    state_class: total_increasing
+    unit_of_measurement: "L"
+    time_unit: min    
+
+########################################
+## Feed amount sensors for each line
+##
+## We want to measure how much nutrient solution each line received in the last feed cycle.
+## These values are published by the on/off event trigger for each line's switch.
+########################################
+  - platform: template
+    name: "Line 1 Last Feed Amount"
+    id: Line1LastFeedAmount
+    accuracy_decimals: 4
+    unit_of_measurement: "L"
+
+  - platform: template
+    name: "Line 2 Last Feed Amount"
+    id: Line2LastFeedAmount
+    accuracy_decimals: 4
+    unit_of_measurement: "L"
+
+  - platform: template
+    name: "Line 3 Last Feed Amount"
+    id: Line3LastFeedAmount
+    accuracy_decimals: 4
+    unit_of_measurement: "L"
+
+  - platform: template
+    name: "Line 4 Last Feed Amount"
+    id: Line4LastFeedAmount
+    accuracy_decimals: 4
+    unit_of_measurement: "L"
+
+  - platform: template
+    name: "Line 5 Last Feed Amount"
+    id: Line5LastFeedAmount
+    accuracy_decimals: 4
+    unit_of_measurement: "L" 
+
+  - platform: template
+    name: "Line 6 Last Feed Amount"
+    id: Line6LastFeedAmount
+    accuracy_decimals: 4
+    unit_of_measurement: "L"  
+
+  - platform: template
+    name: "Line 7 Last Feed Amount"
+    id: Line7LastFeedAmount
+    accuracy_decimals: 4
+    unit_of_measurement: "L"  
+
+  - platform: template
+    name: "Line 8 Last Feed Amount"
+    id: Line8LastFeedAmount
+    accuracy_decimals: 4
+    unit_of_measurement: "L"
+
+  - platform: template
+    name: "Last Feed Timestamp"
+    id: lastFeedTimestamp   
+    device_class: timestamp
+
+########################
+## Numbers
+########################
+number:
+  # Set the number of grow lines for this wall. This doesn't do anything yet as I haven't figured out how to make ESPHome do anything dynamic with this.
+  - platform: template
+    name: Line Count
+    id: lineCount
+    min_value: 1
+    max_value: 40
+    initial_value: 8
+    step: 1
+    optimistic: true
+    mode: BOX
+  - platform: template
+    name: Feed Duration ## How long to open the feed solenoids for (in seconds)
+    id: feedDuration
+    min_value: 1
+    max_value: 20
+    initial_value: 5
+    step: .1
+    optimistic: true
+    mode: BOX
+    unit_of_measurement: "duration"
+  - platform: template
+    name: Rest Duration ## How long to wait between feed cycles (in seconds)
+    id: restDuration
+    min_value: 1
+    max_value: 3000
+    initial_value: 300
+    step: 1
+    optimistic: true
+    mode: BOX       
+    unit_of_measurement: "duration"
+  - platform: template
+    name: Feed Pause Duration ## How long to wait between feeding each grow line in a feed cycle. (A feed cycle feeds every growline in the system once)
+    id: feedPauseDuration
+    min_value: 1
+    max_value: 10
+    initial_value: 1
+    step: .1
+    optimistic: true
+    mode: BOX       
+    unit_of_measurement: "duration"    
+  - platform: template
+    name: Underfeed Alert Threshold ## If the amount measured is less than this, an alert will be sent.
+    id: underfeedAlertThreshold
+    min_value: 0
+    max_value: 30
+    initial_value: .002
+    step: .0001
+    optimistic: true
+    mode: BOX   
+    unit_of_measurement: "volume"
+  - platform: template
+    name: Overfeed Alert Threshold ## If the amount measured is more than this, an alert will be sent.
+    id: overfeedAlertThreshold
+    min_value: 0
+    max_value: 30
+    initial_value: .03
+    step: .0001
+    optimistic: true
+    mode: BOX
+    unit_of_measurement: "volume"             
+
+
+text:
+
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+    timezone: America/Los_Angeles
+
+text_sensor:
+  - platform: template
+    name: "Last Feed"
+    id: lastFeedTime
+    device_class: ""
+    lambda: |-
+      char str[17];
+      time_t currTime = id(lastFeedTimestamp).state; 
+      strftime(str, sizeof(str), "%H:%M:%S", localtime(&currTime));
+      return  { str }; 
+  - platform: template
+    name: "Next Feed"
+    id: nextFeedTimestamp
+    device_class: ""
+    lambda: |-
+      char str[17];
+      time_t currTime = id(lastFeedTimestamp).state + id(restDuration).state; 
+      strftime(str, sizeof(str), "%H:%M:%S", localtime(&currTime));
+      return  { str };       
+  - platform: template
+    name: "Current time"
+    id: currentTime
+    lambda: |-
+      char str[17];
+      time_t currTime = id(homeassistant_time).now().timestamp;
+      strftime(str, sizeof(str), "%H:%M:%S", localtime(&currTime));
+      return  { str };
+    update_interval: 1000ms
+  - platform: template
+    name: "Next Feed Countdown"
+    id: nextFeedCountdown
+    update_interval: 1000ms
+    lambda: |-
+      auto TAG = "Next Feed Countdown Lambda";    
+      // Parse the NextFeedTime string into a usable time.
+
+      std::string str_time = id(nextFeedTimestamp).state; 
+      std::tm tm = {};
+      std::istringstream ss(str_time);
+      std::time_t nextFeedTimestamp = std::mktime(&tm);
+      ESP_LOGD(TAG, "Next feed timestamp: %s", str_time );
+
+      // Subtract the NextFeedTime from the current time to get the remaining time.
+      //std::time_t duration = nextFeedTimestamp - id(homeassistant_time).now().timestamp;
+      std::time_t duration = id(homeassistant_time).now().timestamp;
+      char buffer[80];
+      strftime(buffer, sizeof(buffer), "%H:%M:%S", std::localtime(&duration));
+      return { buffer };
+
+button:
+  - platform: template
+    id: sendAlertTest
+    name: Test Feed Alert
+    on_press: 
+      then:
+        - homeassistant.action:
+            action: script.sendalert
+            data:
+              title: TESTING FEED ALERT
+            data_template:
+              message: "(TESTING) CRITICAL! {{ feedLineNameToken }} measured less than the underfeed alert threshold. Delivered: {{ deliveredAmount }} Underfeed threshold: {{ expectedAmount }}"
+            variables:
+              feedLineNameToken: return 999;
+              deliveredAmount: return 222;
+              expectedAmount: return 333;
+interval:
+  - interval: 5min
+    then:
+      - logger.log: "Feed cycle initiated"
+      - sensor.template.publish:                                                                                                                                           
+            id: lastFeedTimestamp                                                                                                                                                   
+            state: !lambda 'return id(homeassistant_time).now().timestamp;'
+      - switch.turn_on: line_1_feeder
+      - delay: "00:00:03"
+      - switch.turn_off: line_1_feeder
+      - delay: "00:00:01"
+      - switch.turn_on: line_2_feeder
+      - delay: "00:00:03"
+      - switch.turn_off: line_2_feeder
+      - delay: "00:00:01"
+      - switch.turn_on: line_3_feeder
+      - delay: "00:00:03"
+      - switch.turn_off: line_3_feeder
+      - delay: "00:00:01"
+      - switch.turn_on: line_4_feeder
+      - delay: "00:00:03"
+      - switch.turn_off: line_4_feeder
+      - delay: "00:00:01"
+      - switch.turn_on: line_5_feeder
+      - delay: "00:00:03"
+      - switch.turn_off: line_5_feeder
+      - delay: "00:00:01"
+      - switch.turn_on: line_6_feeder
+      - delay: "00:00:03"
+      - switch.turn_off: line_6_feeder
+      - delay: "00:00:01"
+      - switch.turn_on: line_7_feeder
+      - delay: "00:00:03"
+      - switch.turn_off: line_7_feeder
+      - delay: "00:00:01"
+      - switch.turn_on: line_8_feeder
+      - delay: "00:00:03"
+      - switch.turn_off: line_8_feeder
+
+captive_portal:
