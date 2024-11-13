@@ -3,4 +3,4 @@ packages:
     url: https://github.com/HeathersZen/Aeroponica
     refresh: 0s
     files:
-      - esphome/components/bme280/bme280Local.yml
+      - esphome/components/bme280/bme280.yml
