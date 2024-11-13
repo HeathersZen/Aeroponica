@@ -1,0 +1,57 @@
+esphome:
+  name: "system4-thp-sensor"
+  friendly_name: system4-thp-sensor
+
+external_components:
+  - source: github://TheStaticTurtle/esphome_syslog
+    components: [syslog]
+
+syslog:
+    ip_address: "sunnyslope.grafana.net"
+    port: 514
+
+# Enable logging
+logger:
+  level: INFO
+
+  
+esp8266:
+  board: esp01_1m
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "czhoVjNvAL45QTYr9dPGNpYZ5rM8X66JAs5opv4f89E="
+
+ota:
+  - platform: esphome
+    password: "dd7adf95aa5a34e92677177dae6487fd"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Ambientdht22-1 Fallback Hotspot"
+    password: "R9dbW0nldQ7y"
+
+i2c:
+  sda: GPIO4
+  scl: GPIO5
+  scan: true
+  id: bus_a
+
+sensor:
+  - platform: bme280_i2c
+    temperature:
+      name: "BME280 Temperature"
+      id: "system4_temperature"
+    pressure:
+      name: "BME280 Pressure"
+      id: "system4_pressure"
+    humidity:
+      name: "BME280 Humidity"
+      id: "system4_humidity"
+
+captive_portal:
