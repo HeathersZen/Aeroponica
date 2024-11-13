@@ -1,3 +1,10 @@
+# This YAML is meant to manage all of the sensors in Aeroponica in a single ESP32.
+# Very much under development.
+# When complete, it should manage all aspects, including:
+# Sensors: Flow sensors, Pressure sensors, temperature, ph, EC, ORP, etc.
+# Power/solenoids: Fill solenoid, drain solenoid, chiller, Aquatec pump, Growee, circulation pump, boost pump, etc.
+# UPS: Monitor the UPS status via USB
+# Human interface: Buttons for fill/drain, LEDs to indicate status, pressure gauges, etc.
 esphome:
   name: aeroponica-controller
   friendly_name: Aeroponica-Controller
