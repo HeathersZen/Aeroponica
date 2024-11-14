@@ -245,16 +245,16 @@ script:
               deliveredAmount: return lastFeedAmount;
               expectedAmount: return id(overfeedAlertThreshold).state;
         - homeassistant.action:
-          - action: notify.mobile_app_aspiration
+            action: notify.mobile_app_aspiration
             data:
-              title: "Wake up!"
-              message: "The house is on fire and the cat's stuck in the dryer!"
+              message: hello4
+              title: OVERFEED ALERT
               data:
                 push:
                   sound:
                     name: "default"
                     critical: 1
-                    volume: 1.0        
+                    volume: 1.0     
           
 
 ##################
