@@ -229,7 +229,7 @@ script:
             data:
               message: over feed alert
               target:
-              - media_player.everywhere
+                - media_player.everywhere
               data:
                 type: announce
         - homeassistant.action:
