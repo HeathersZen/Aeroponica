@@ -212,11 +212,6 @@ script:
             action: notify.persistent_notification
             data:
               title: UNDERFEED ALERT
-              push:
-                sound:
-                  name: "default"
-                  critical: 1
-                  volume: 1.0                 
             data_template:
               message: "CRITICAL! {{ feedLineNameToken }} measured less than the underfeed alert threshold. Delivered: {{ deliveredAmount }} Underfeed threshold: {{ expectedAmount }}"
             variables:
@@ -237,7 +232,7 @@ script:
                 sound:
                   name: "default"
                   critical: 1
-                  volume: 1.0                 
+                  volume: 1.0                  
             data_template:
               message: "CRITICAL! {{ feedLineNameToken }} measured more than the overfeed alert threshold. Delivered: {{ deliveredAmount }} Overfeed threshold: {{ expectedAmount }}"
             variables:
