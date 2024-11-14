@@ -248,7 +248,7 @@ script:
             action: notify.mobile_app_aspiration
             data:
               message: hello4
-              title: OVERFEED ALERT
+              title: "Wake up!"
               data:
                 push:
                   sound:
