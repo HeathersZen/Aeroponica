@@ -244,17 +244,7 @@ script:
               feedLineNameToken: return feedLineName;
               deliveredAmount: return lastFeedAmount;
               expectedAmount: return id(overfeedAlertThreshold).state;
-        - homeassistant.action:
-            action: notify.mobile_app_aspiration
-            data:
-              message: hello4
-              title: "Wake up!"
-              data:
-                push:
-                  sound:
-                    name: "default"
-                    critical: 1
-                    volume: 1.0     
+
           
 
 ##################
