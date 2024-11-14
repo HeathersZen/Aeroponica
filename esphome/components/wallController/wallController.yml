@@ -245,7 +245,7 @@ script:
               deliveredAmount: return lastFeedAmount;
               expectedAmount: return id(overfeedAlertThreshold).state;
         - homeassistant.action:
-            action: notify.notify.mobile_app_aspiration
+            action: notify.mobile_app_aspiration
             data:
               title: OVERFEED ALERT
               push:
