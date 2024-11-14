@@ -227,12 +227,6 @@ script:
                   name: "default"
                   critical: 1
                   volume: 1.0              
-            data_template:
-              message: "CRITICAL! {{ feedLineNameToken }} measured less than the underfeed alert threshold. Delivered: {{ deliveredAmount }} Underfeed threshold: {{ expectedAmount }}"
-            variables:
-              feedLineNameToken: return feedLineName;
-              deliveredAmount: return lastFeedAmount;
-              expectedAmount: return id(underfeedAlertThreshold).state;
     - if:
         condition:
           - and:
@@ -268,12 +262,7 @@ script:
                   name: "default"
                   critical: 1
                   volume: 1.0              
-            data_template:
-              message: "CRITICAL! {{ feedLineNameToken }} measured more than the overfeed alert threshold. Delivered: {{ deliveredAmount }} Overfeed threshold: {{ expectedAmount }}"
-            variables:
-              feedLineNameToken: return feedLineName;
-              deliveredAmount: return lastFeedAmount;
-              expectedAmount: return id(overfeedAlertThreshold).state;              
+          
 
 ##################
 ## Sensors
