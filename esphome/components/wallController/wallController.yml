@@ -225,16 +225,13 @@ script:
               - lambda: 'return lastFeedAmount > id(overfeedAlertThreshold).state;'
         then:
         - homeassistant.action:
-            action: notify.mobile_app_aspiration
+            action: notify.alexa_media
             data:
-              message: hello4
-              title: "Wake up!"
+              message: over feed alert
+              target:
+              - media_player.everywhere
               data:
-                push:
-                  sound:
-                    name: "default"
-                    critical: 1
-                    volume: 1.0   
+                type: announce
         - homeassistant.action:
             action: notify.persistent_notification
             data:
