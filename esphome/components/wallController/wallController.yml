@@ -227,18 +227,14 @@ script:
         - homeassistant.action:
             action: notify.mobile_app_aspiration
             data:
-              title: OVERFEED ALERT
-              push:
-                sound:
-                  name: "default"
-                  critical: 1
-                  volume: 1.0                  
-            data_template:
-              message: "CRITICAL! {{ feedLineNameToken }} measured more than the overfeed alert threshold. Delivered: {{ deliveredAmount }} Overfeed threshold: {{ expectedAmount }}"
-            variables:
-              feedLineNameToken: return feedLineName;
-              deliveredAmount: return lastFeedAmount;
-              expectedAmount: return id(overfeedAlertThreshold).state;
+              message: hello4
+              title: "Wake up!"
+              data:
+                push:
+                  sound:
+                    name: "default"
+                    critical: 1
+                    volume: 1.0   
         - homeassistant.action:
             action: notify.persistent_notification
             data:
