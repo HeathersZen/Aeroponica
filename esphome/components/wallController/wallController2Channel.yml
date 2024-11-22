@@ -1,7 +1,13 @@
 esphome:
-  name: "wall-2-controller"
-  friendly_name: Wall 2 Controller
-  includes: std_includes.h
+  name: "wallcontrollerdev"
+  friendly_name: WallControllerDev
+  includes: 
+    - std_includes.h
+  on_boot:
+    then:
+      - script.execute: 
+          id: flashLED
+          flashCount: 10
 
 esp32:
   board: esp32dev
@@ -19,11 +25,11 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: "n/m/KLtSyqPPgEjFrwBwlFa2pjjCZp+mABT+/KTns20="
+    key: "4yFb2xUTx0JYFL7IL6jyAxoxh0r/ZvbtlpfiS5sdNr4="
 
 ota:
   - platform: esphome
-    password: "39257ddcf3dcf4d10097052a623a9f2e"
+    password: "5b414a9cb91721ead13325d8a2e9f32b"
 
 wifi:
   ssid: !secret wifi_ssid
@@ -31,8 +37,8 @@ wifi:
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
-    ssid: "Wall-2-Controller"
-    password: "u3TUdveCPDRW"
+    ssid: "Wallcontrollerdev"
+    password: "8LNfiYiQkxy1"
 
 web_server:
   port: 80
@@ -41,23 +47,16 @@ web_server:
 ## Globals
 ###############################
 globals:
-#  - id: feeders
-#    type: int* [2][2]
-#    initial_value: '{{1,id(line_1_feeder)}, {2, id(line_2_feeder)}}'
  - id: wallControllerVersion
    type: std::string
-   restore_value: no
-   initial_value: '"v .0.0.2 Nov 21, 2024 4:33"'
+   restore_value: false
+   initial_value: '"v .0.0.1 Nov 19, 2024"'
+ - id: curLoop
+   type: int
+   restore_value: false
+   initial_value: '0'
 
-# feeders:
-#   - switch: line_1_feeder
-#   - switch: line_2_feeder
-#   - switch: line_3_feeder
-#   - switch: line_4_feeder
-#   - switch: line_5_feeder
-#   - switch: line_6_feeder
-#   - switch: line_7_feeder
-#   - switch: line_8_feeder
+
 
 
 ###############################
@@ -72,7 +71,7 @@ switch:
     restore_mode: RESTORE_DEFAULT_ON
 
   - platform: gpio
-    pin: GPIO33
+    pin: GPIO16
     name: "Line 1 Feeder"
     id: line_1_feeder
     on_turn_on:
@@ -83,11 +82,11 @@ switch:
           state: !lambda return float(id(lastFeedAmount).state);
       - script.execute: 
           id: checkFeedAmountWithinLimits          
-          feedLineName: "Wall 2 Line 1"
+          feedLineName: "Dev Wall Line 1"
           lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
 
   - platform: gpio
-    pin: GPIO32
+    pin: GPIO17
     name: "Line 2 Feeder"
     id: line_2_feeder
     on_turn_on:
@@ -98,103 +97,32 @@ switch:
           state: !lambda return float(id(lastFeedAmount).state);
       - script.execute: 
           id: checkFeedAmountWithinLimits          
-          feedLineName: "Wall 2 Line 2"
+          feedLineName: "Dev Wall Line 2"
           lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
 
   - platform: gpio
-    pin: GPIO13
-    name: "Line 3 Feeder"
-    id: line_3_feeder
-    on_turn_on:
-      - script.execute: resetLastFeedAmountCounter
-    on_turn_off:
-      - sensor.template.publish:
-          id: Line3LastFeedAmount
-          state: !lambda return float(id(lastFeedAmount).state);
-      - script.execute: 
-          id: checkFeedAmountWithinLimits          
-          feedLineName: "Wall 2 Line 3"
-          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
-
-  - platform: gpio
-    pin: GPIO12
-    name: "Line 4 Feeder"
-    id: line_4_feeder
-    on_turn_on:
-      - script.execute: resetLastFeedAmountCounter
-    on_turn_off:
-      - sensor.template.publish:
-          id: Line4LastFeedAmount
-          state: !lambda return float(id(lastFeedAmount).state);
-      - script.execute: 
-          id: checkFeedAmountWithinLimits          
-          feedLineName: "Wall 2 Line 4"
-          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
-
-  - platform: gpio
-    pin: GPIO21
-    name: "Line 5 Feeder"
-    id: line_5_feeder
-    on_turn_on:
-      - script.execute: resetLastFeedAmountCounter
-    on_turn_off:
-      - sensor.template.publish:
-          id: Line5LastFeedAmount
-          state: !lambda return float(id(lastFeedAmount).state);
-      - script.execute: 
-          id: checkFeedAmountWithinLimits          
-          feedLineName: "Wall 2 Line 5"
-          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
-
-  - platform: gpio
-    pin: GPIO19
-    name: "Line 6 Feeder"
-    id: line_6_feeder
-    on_turn_on:
-      - script.execute: resetLastFeedAmountCounter
-    on_turn_off:
-      - sensor.template.publish:
-          id: Line6LastFeedAmount
-          state: !lambda return float(id(lastFeedAmount).state);
-      - script.execute: 
-          id: checkFeedAmountWithinLimits          
-          feedLineName: "Wall 2 Line 6"
-          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
-
-  - platform: gpio
-    pin: GPIO18
-    name: "Line 7 Feeder"
-    id: line_7_feeder
-    on_turn_on:
-      - script.execute: resetLastFeedAmountCounter
-    on_turn_off:
-      - sensor.template.publish:
-          id: Line7LastFeedAmount
-          state: !lambda return float(id(lastFeedAmount).state);
-      - script.execute: 
-          id: checkFeedAmountWithinLimits          
-          feedLineName: "Wall 2 Line 7"
-          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
-
-  - platform: gpio
-    pin: GPIO5
-    name: "Line 8 Feeder"
-    id: line_8_feeder
-    on_turn_on:
-      - script.execute: resetLastFeedAmountCounter
-    on_turn_off:
-      - sensor.template.publish:
-          id: Line8LastFeedAmount
-          state: !lambda return float(id(lastFeedAmount).state);
-      - script.execute: 
-          id: checkFeedAmountWithinLimits          
-          feedLineName: "Wall 2 Line 8"
-          lastFeedAmount: !lambda return float(id(lastFeedAmount).state);
+    pin: 23
+    id: LED
+    name: LED
+    inverted: True
+    restore_mode: RESTORE_DEFAULT_OFF    
 
 ################
 ## Scripts
 ################
 script:
+  - id: flashLED
+    mode: single
+    parameters: 
+      flashCount: int
+    then:
+      - repeat:
+          count: !lambda 'return flashCount;'
+          then:
+            - switch.turn_on: LED  
+            - delay: 200ms
+            - switch.turn_off: LED  
+            - delay: 200ms
   - id: feedAllThePlants
     mode: single
     then:
@@ -209,83 +137,20 @@ script:
     mode: single
     then:
       - logger.log:
-          format: "feedPlantsByTime: Feed cycle initiated feedDuration: %d  restDuration: %d"
-          args: ['id(feedDuration).state', 'id(restDuration).state']
+          format: "feedPlantsByTime: Feed cycle initiated feedMistingDuration: %f  feedPauseDuration: %f"
+          args: ['id(feedMistingDuration).state', 'id(feedPauseDuration).state']
       - sensor.template.publish:                                                                                                                                           
             id: lastFeedTimestamp                                                                                                                                                   
             state: !lambda 'return id(homeassistant_time).now().timestamp;'
       - switch.turn_on: line_1_feeder
-      - delay: !lambda "return id(feedDuration).state * 1000;"
+      - delay: !lambda "return id(feedMistingDuration).state * 1000;"
       - switch.turn_off: line_1_feeder
-      - delay: !lambda "return id(restDuration).state * 1000;"
+      - delay: !lambda "return id(feedPauseDuration).state * 1000;"
       - switch.turn_on: line_2_feeder
-      - delay: !lambda "return id(feedDuration).state * 1000;"
+      - delay: !lambda "return id(feedMistingDuration).state * 1000;"
       - switch.turn_off: line_2_feeder
-      - delay: !lambda "return id(restDuration).state * 1000;"
-      - switch.turn_on: line_3_feeder
-      - delay: !lambda "return id(feedDuration).state * 1000;"
-      - switch.turn_off: line_3_feeder
-      - delay: !lambda "return id(restDuration).state * 1000;"
-      - switch.turn_on: line_4_feeder
-      - delay: !lambda "return id(feedDuration).state * 1000;"
-      - switch.turn_off: line_4_feeder
-      - delay: !lambda "return id(restDuration).state * 1000;"
-      - switch.turn_on: line_5_feeder
-      - delay: !lambda "return id(feedDuration).state * 1000;"
-      - switch.turn_off: line_5_feeder
-      - delay: !lambda "return id(restDuration).state * 1000;"
-      - switch.turn_on: line_6_feeder
-      - delay: !lambda "return id(feedDuration).state * 1000;"
-      - switch.turn_off: line_6_feeder
-      - delay: !lambda "return id(restDuration).state * 1000;"
-      - switch.turn_on: line_7_feeder
-      - delay: !lambda "return id(feedDuration).state * 1000;"
-      - switch.turn_off: line_7_feeder
-      - delay: !lambda "return id(restDuration).state * 1000;"
-      - switch.turn_on: line_8_feeder
-      - delay: !lambda "return id(feedDuration).state * 1000;"
-      - switch.turn_off: line_8_feeder   
-  - id: feedPlantsByTimeStaticDelay
-    mode: single
-    then:
       - logger.log:
-          format: "feedPlantsByTimeStaticDelay: Feed cycle initiated."
-      - sensor.template.publish:                                                                                                                                           
-            id: lastFeedTimestamp                                                                                                                                                   
-            state: !lambda 'return id(homeassistant_time).now().timestamp;'
-      - switch.turn_on: line_1_feeder
-      - delay: 4s
-      - switch.turn_off: line_1_feeder
-      - delay: 1s
-      - switch.turn_on: line_2_feeder
-      - delay: 4s
-      - switch.turn_off: line_2_feeder
-      - delay: 1s
-      - switch.turn_on: line_3_feeder
-      - delay: 4s
-      - switch.turn_off: line_3_feeder
-      - delay: 1s
-      - switch.turn_on: line_4_feeder
-      - delay: 4s
-      - switch.turn_off: line_4_feeder
-      - delay: 1s
-      - switch.turn_on: line_5_feeder
-      - delay: 4s
-      - switch.turn_off: line_5_feeder
-      - delay: 1s
-      - switch.turn_on: line_6_feeder
-      - delay: 4s
-      - switch.turn_off: line_6_feeder
-      - delay: 1s
-      - switch.turn_on: line_7_feeder
-      - delay: 4s
-      - switch.turn_off: line_7_feeder
-      - delay: 1s
-      - switch.turn_on: line_8_feeder
-      - delay: 4s
-      - switch.turn_off: line_8_feeder         
-      - logger.log:
-          format: "feedPlantsByTimeStaticDelay: Feed cycle completed."
+          format: "feedPlantsByTime: Feed cycle completed."
   - id: feedPlantsByVolume
     mode: single
     then:
@@ -293,18 +158,15 @@ script:
     mode: single
     then:
       - logger.log:
-          format: "feedPlantsByTimeLambda: Feed cycle initiated feedDuration: %d  restDuration: %d"
-          args: ['id(feedDuration).state', 'id(restDuration).state']
+          format: "feedPlantsByTimeLambda: Feed cycle initiated feedMistingDuration: %d  feedPauseDuration: %d"
+          args: ['id(feedMistingDuration).state', 'id(feedPauseDuration).state']
       - lambda: |-
           esphome::gpio::GPIOSwitch* feedersList[2] = {id(line_1_feeder), id(line_2_feeder)};
 
-          for(int i = 0; i < sizeof(feedersList); i++) 
+          for(int i = 0; i < 2; i++) 
           {
             feedersList[i]->turn_on();
-            esphome::delay_microseconds_safe(id(feedDuration).state * 1000);
-
             feedersList[i]->turn_off();
-            esphome::delay_microseconds_safe(id(restDuration).state * 1000);
           }
       - logger.log:
           format: "feedPlantsByTimeLambda: Cycle completed"
@@ -354,14 +216,13 @@ script:
               - lambda: 'return lastFeedAmount > id(overfeedAlertThreshold).state;'
         then:
         # - homeassistant.action:
-        #     action: 
-        #       - service: notify.alexa_media
-        #         data:
-        #           target:
-        #             - media_player.everywhere
-        #           data:
-        #             type: announce
-        #           message: "over feed alert"
+        #     action: notify.alexa_media
+        #     data:
+        #       message: over feed alert
+        #       target:
+        #       - media_player.everywhere
+        #       data:
+        #         type: announce
         - homeassistant.action:
             action: notify.persistent_notification
             data:
@@ -372,8 +233,30 @@ script:
               feedLineNameToken: return feedLineName;
               deliveredAmount: return lastFeedAmount;
               expectedAmount: return id(overfeedAlertThreshold).state;
+  - id: testStatic
+    parameters: 
+      loopCount: int
+    mode: single
+    then:
+      - logger.log:
+          format: "testStatic: Start with %d"
+          args: ['loopCount']
+      - lambda: |-
+          id(curLoop) = loopCount;
+      - while:
+          condition: 
+            lambda: "return id(curLoop) > 0;"
+          then:
+            - logger.log:
+                format: "testStatic: %d"
+                args: ['id(curLoop)']
+            - delay: 1s
+            - lambda: |-
+                id(curLoop)--;
 
-          
+
+
+
 
 ##################
 ## Sensors
@@ -407,24 +290,11 @@ sensor:
     state_class: measurement
     pin: 
         number: GPIO22
-    update_interval: 1000ms
+    update_interval: 10s
     filters:
       - round: 2
       - lambda: return ((x / 38.0) / 60);
     unit_of_measurement: "L/m" 
-
-  # returnFlowRate: Return flow sensor measures how much the L/m speed of nutrients flowing back into the reservoir.
-  - platform: pulse_counter
-    id: flowRateReturn
-    name: "Flow Rate (Return)"
-    state_class: measurement
-    pin: 
-        number: GPIO34
-    update_interval: 1000ms
-    filters:
-      - round: 2
-      - lambda: return ((x / 38.0) / 60);
-    unit_of_measurement: "L/m"     
 
   # lastFeedAmount: Last feed amount from any of the grow lines
   - platform: integration
@@ -443,23 +313,6 @@ sensor:
     unit_of_measurement: "L"
     time_unit: min
 
-  # lastFeedAmount: Last feed amount from any of the grow lines
-  - platform: integration
-    id: lastReturnAmount
-    name: "Last Return Amount" 
-    sensor: flowRateReturn
-    unit_of_measurement: "L"
-    time_unit: min
-
-  ## cumulativeFeedAmount: Cumulative feed amount across all lines since startup  
-  - platform: integration
-    id: cumulativeReturnAmount
-    name: "Cumulative Return Amount" 
-    sensor: flowRateReturn
-    state_class: total_increasing
-    unit_of_measurement: "L"
-    time_unit: min    
-
 ########################################
 ## Feed amount sensors for each line
 ##
@@ -475,42 +328,6 @@ sensor:
   - platform: template
     name: "Line 2 Last Feed Amount"
     id: Line2LastFeedAmount
-    accuracy_decimals: 4
-    unit_of_measurement: "L"
-
-  - platform: template
-    name: "Line 3 Last Feed Amount"
-    id: Line3LastFeedAmount
-    accuracy_decimals: 4
-    unit_of_measurement: "L"
-
-  - platform: template
-    name: "Line 4 Last Feed Amount"
-    id: Line4LastFeedAmount
-    accuracy_decimals: 4
-    unit_of_measurement: "L"
-
-  - platform: template
-    name: "Line 5 Last Feed Amount"
-    id: Line5LastFeedAmount
-    accuracy_decimals: 4
-    unit_of_measurement: "L" 
-
-  - platform: template
-    name: "Line 6 Last Feed Amount"
-    id: Line6LastFeedAmount
-    accuracy_decimals: 4
-    unit_of_measurement: "L"  
-
-  - platform: template
-    name: "Line 7 Last Feed Amount"
-    id: Line7LastFeedAmount
-    accuracy_decimals: 4
-    unit_of_measurement: "L"  
-
-  - platform: template
-    name: "Line 8 Last Feed Amount"
-    id: Line8LastFeedAmount
     accuracy_decimals: 4
     unit_of_measurement: "L"
 
@@ -547,13 +364,13 @@ number:
     id: lineCount
     min_value: 1
     max_value: 40
-    initial_value: 8
+    initial_value: 2
     step: 1
     optimistic: true
     mode: BOX
   - platform: template
-    name: Feed Duration ## How long to open the feed solenoids for (in seconds)
-    id: feedDuration
+    name: Feed - Misting Duration ## How long to open the feed solenoids for (in seconds)
+    id: feedMistingDuration
     min_value: 1
     max_value: 20
     initial_value: 5
@@ -562,8 +379,8 @@ number:
     mode: BOX
     unit_of_measurement: "duration"
   - platform: template
-    name: Rest Duration ## How long to wait between feed cycles (in seconds)
-    id: restDuration
+    name: Feed - Rest Duration ## How long to wait between feed cycles (in seconds)
+    id: feedRestDuration
     min_value: 1
     max_value: 3000
     initial_value: 300
@@ -572,7 +389,7 @@ number:
     mode: BOX       
     unit_of_measurement: "duration"
   - platform: template
-    name: Feed Pause Duration ## How long to wait between feeding each grow line in a feed cycle. (A feed cycle feeds every growline in the system once)
+    name: Feed - Pause Duration ## How long to wait between feeding each grow line in a feed cycle. (A feed cycle feeds every growline in the system once)
     id: feedPauseDuration
     min_value: 1
     max_value: 10
@@ -602,18 +419,18 @@ number:
     mode: BOX
     unit_of_measurement: "volume"             
 
-
-
 time:
   - platform: homeassistant
     id: homeassistant_time
     timezone: America/Los_Angeles
+
 text_sensor:
   - platform: template
     id: wallControllerCodeVersion
     name: Wall Controller Code Version
     lambda:       
       return {"v .0.0.1 Nov 19, 2024"};
+
   - platform: template
     name: "Last Feed"
     id: lastFeedTime
@@ -623,15 +440,17 @@ text_sensor:
       time_t currTime = id(lastFeedTimestamp).state; 
       strftime(str, sizeof(str), "%H:%M:%S", localtime(&currTime));
       return  { str }; 
+
   - platform: template
     name: "Next Feed"
     id: nextFeedTimestamp
     device_class: ""
     lambda: |-
       char str[17];
-      time_t currTime = id(lastFeedTimestamp).state + id(restDuration).state; 
+      time_t currTime = id(lastFeedTimestamp).state + id(feedRestDuration).state; 
       strftime(str, sizeof(str), "%H:%M:%S", localtime(&currTime));
-      return  { str };       
+      return  { str };     
+
   - platform: template
     name: "Current time"
     id: currentTime
@@ -641,6 +460,7 @@ text_sensor:
       strftime(str, sizeof(str), "%H:%M:%S", localtime(&currTime));
       return  { str };
     update_interval: 1000ms
+
   - platform: template
     name: "Next Feed Countdown"
     id: nextFeedCountdown
@@ -664,6 +484,38 @@ text_sensor:
 
 button:
   - platform: template
+    id: testFeedByTimeLambda
+    name: Test Feed By Time Lambda
+    on_press:
+      then:
+        - logger.log:
+            format: "feedPlantsByTimeLambdaButton: Calling feedPlantsByTimeLambda"
+        - script.execute: feedPlantsByTimeLambda
+  - platform: template
+    id: testFeedByTime
+    name: Test Feed By Time
+    on_press:
+      then:
+        - logger.log:
+            format: "feedPlantsByTimeButton: Calling feedPlantsByTime"
+        - script.execute: feedPlantsByTime
+  - platform: template
+    id: testStaticButton
+    name: Test Static
+    on_press:
+      then:
+        - logger.log:
+            format: "testStaticButton: Calling testStatic"
+        - script.execute: 
+            id: testStatic          
+            loopCount: 5
+          
+         
+
+
+
+
+  - platform: template
     id: sendAlertTest
     name: Test Feed Alert
     on_press: 
@@ -678,20 +530,14 @@ button:
               feedLineNameToken: return 999;
               deliveredAmount: return 222;
               expectedAmount: return 333;
-  - platform: template
-    id: ExecuteTimedFeedCycle
-    name: Execute Timed Feed Cycle
-    on_press:
-      then:
-        script.execute: feedPlantsByTime
 
-interval:
-  - interval: 4min
-    then:
-      - logger.log: "Interval Feed cycle initiated"
-      - sensor.template.publish:                                                                                                                                           
-            id: lastFeedTimestamp                                                                                                                                                   
-            state: !lambda 'return id(homeassistant_time).now().timestamp;'
-      - script.execute: feedPlantsByTimeStaticDelay
+# interval:
+#   - interval: 4min
+#     then:
+#       - logger.log: "Feed cycle initiated"
+#       - sensor.template.publish:                                                                                                                                           
+#             id: lastFeedTimestamp                                                                                                                                                   
+#             state: !lambda 'return id(homeassistant_time).now().timestamp;'
+#       - script.execute: feedPlantsByTime
 
 captive_portal:

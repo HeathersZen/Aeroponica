@@ -24,13 +24,6 @@ api:
   encryption:
     key: "NdF2EF2GaehuTsDKoj1rQprpcRAgrihAiV8E79s0/wA="
 
-influxdb:
-  server: "http://system4.sunnyslope.us:8086"  # Replace with your server address
-  database: "espHome"
-  measurement: "esphome_sensor_data"
-  username: halogger
-  password: !secret halogger_password
-
 ota:
   - platform: esphome
     password: "45b59df2bdcf022f1088f525fe61d6c8"
@@ -71,8 +64,6 @@ sensor:
       - round: 2
       - lambda: return ((x / 38.0) / 60);
     unit_of_measurement: "L/m"
-    on_value:
-      - influxdb.send
 
     # circulationLoopFlowRate: Measures the nutrient flowing in the circulation loop. Should be relatively constant most times, when only the
     # circulation pump is running (it is always running except during maintenance). Should go up significantly when the boost pump is turned on.
@@ -87,8 +78,6 @@ sensor:
       - round: 2
       - lambda: return ((x / 38.0) / 60);
     unit_of_measurement: "L/m" 
-    on_value:
-      - influxdb.send
     
 interval:
   - interval: 1min
