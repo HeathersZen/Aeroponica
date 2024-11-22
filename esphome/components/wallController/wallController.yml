@@ -10,6 +10,7 @@ esp32:
 
 # Enable logging
 logger:
+  level: info
   logs:
     sensor: NONE
     text_sensor: ERROR
