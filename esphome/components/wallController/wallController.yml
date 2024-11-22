@@ -379,7 +379,7 @@ script:
         then:
         - logger.log:
             format: "checkFeedAmountWithinLimits: Underfeed detected on line %s. Expected Amount: %d Measured Amount: %d"
-            args: [feedLineNameToken, expectedAmount, deliveredAmount]
+            args: [feedLineName, id(underfeedAlertThreshold).state, lastFeedAmount]
             level: info
         - homeassistant.action:
             action: script.sendalert
@@ -418,7 +418,7 @@ script:
         #           message: "over feed alert"
         - logger.log:
             format: "checkFeedAmountWithinLimits: Overfeed detected on line %s. Expected Amount: %d Measured Amount: %d"
-            args: [feedLineNameToken, expectedAmount, deliveredAmount]
+            args: [feedLineName, id(underfeedAlertThreshold).state, lastFeedAmount]
             level: info
         - homeassistant.action:
             action: notify.persistent_notification
