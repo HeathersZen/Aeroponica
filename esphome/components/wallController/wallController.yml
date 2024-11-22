@@ -15,6 +15,7 @@ logger:
     text_sensor: ERROR
     pulse_counter: ERROR  
     Next Feed Countdown Lambda: ERROR
+    switch: DEBUG
 
 # Enable Home Assistant API
 api:
@@ -40,14 +41,11 @@ web_server:
 ###############################
 ## Globals
 ###############################
-globals:
+#globals:
 #  - id: feeders
 #    type: int* [2][2]
 #    initial_value: '{{1,id(line_1_feeder)}, {2, id(line_2_feeder)}}'
- - id: wallControllerVersion
-   type: std::string
-   restore_value: no
-   initial_value: '"v .0.0.2 Nov 21, 2024 4:33"'
+
 
 # feeders:
 #   - switch: line_1_feeder
@@ -195,21 +193,53 @@ switch:
 ## Scripts
 ################
 script:
+    # feedAllThePlants
   - id: feedAllThePlants
     mode: single
     then:
-      if: 
-        condition:
-          - lambda: 'return id(feedMode).state == "Time";'
-        then:
-          - script.execute: feedPlantsByTime
-        else:
-          - script.execute: feedPlantsByVolume
-  - id: feedPlantsByTime
+      - if: 
+          condition:
+            - lambda: 'return id(feedMode).state == "Feed By Time Static Delay";'
+          then:
+            - script.execute: feedPlantsByTimeStaticDelay
+          else:
+          - if: 
+              condition:
+                - lambda: 'return id(feedMode).state == "Feed By Time Dynamic Delay";'
+              then:
+                - logger.log:
+                    format: "Feed mode '%s' selected"
+                    args: [id(feedMode).state]
+                - script.execute: feedPlantsByTimeDynamicDelay
+              else:
+              - if:
+                  condition:
+                    - lambda: 'return id(feedMode).state == "Feed By Time Lambda";'
+                  then:
+                    - logger.log:
+                        format: "Feed mode '%s' selected"
+                        args: [id(feedMode).state]
+                    - script.execute: feedPlantsByTimeLambda
+                  else:
+                  - if:
+                      condition:
+                        - lambda: 'return id(feedMode).state == "Feed By Volume";'
+                      then:
+                        - logger.log:
+                            format: "Feed mode '%s' selected"
+                            args: [id(feedMode).state]
+                        - script.execute: feedPlantsByVolume
+                      else:
+                          - logger.log:
+                              format: "Unknown feed mode '%s' selected. Not gonna do anything."
+                              args: [id(feedMode).state]
+
+    # feedPlantsByTimeDynamicDelay
+  - id: feedPlantsByTimeDynamicDelay
     mode: single
     then:
       - logger.log:
-          format: "feedPlantsByTime: Feed cycle initiated feedDuration: %d  restDuration: %d"
+          format: "feedPlantsByTimeDynamicDelay: Feed cycle initiated feedDuration: %d  restDuration: %d"
           args: ['id(feedDuration).state', 'id(restDuration).state']
       - sensor.template.publish:                                                                                                                                           
             id: lastFeedTimestamp                                                                                                                                                   
@@ -245,50 +275,64 @@ script:
       - switch.turn_on: line_8_feeder
       - delay: !lambda "return id(feedDuration).state * 1000;"
       - switch.turn_off: line_8_feeder   
+      - logger.log:
+          format: "feedPlantsByTimeDynamicDelay: Feed cycle completed."
+
+  # feedPlantsByTimeStaticDelay
   - id: feedPlantsByTimeStaticDelay
     mode: single
     then:
       - logger.log:
-          format: "feedPlantsByTimeStaticDelay: Feed cycle initiated."
+          format: "feedPlantsByTimeStaticDelay: Feed cycle initiated (3.5s on, 1s off)."
+          level: info
       - sensor.template.publish:                                                                                                                                           
             id: lastFeedTimestamp                                                                                                                                                   
             state: !lambda 'return id(homeassistant_time).now().timestamp;'
       - switch.turn_on: line_1_feeder
-      - delay: 4s
+      - delay: 3.5s
       - switch.turn_off: line_1_feeder
       - delay: 1s
       - switch.turn_on: line_2_feeder
-      - delay: 4s
+      - delay: 3.5s
       - switch.turn_off: line_2_feeder
       - delay: 1s
       - switch.turn_on: line_3_feeder
-      - delay: 4s
+      - delay: 3.5s
       - switch.turn_off: line_3_feeder
       - delay: 1s
       - switch.turn_on: line_4_feeder
-      - delay: 4s
+      - delay: 3.5s
       - switch.turn_off: line_4_feeder
       - delay: 1s
       - switch.turn_on: line_5_feeder
-      - delay: 4s
+      - delay: 3.5s
       - switch.turn_off: line_5_feeder
       - delay: 1s
       - switch.turn_on: line_6_feeder
-      - delay: 4s
+      - delay: 3.5s
       - switch.turn_off: line_6_feeder
       - delay: 1s
       - switch.turn_on: line_7_feeder
-      - delay: 4s
+      - delay: 3.5s
       - switch.turn_off: line_7_feeder
       - delay: 1s
       - switch.turn_on: line_8_feeder
-      - delay: 4s
+      - delay: 3.5s
       - switch.turn_off: line_8_feeder         
       - logger.log:
           format: "feedPlantsByTimeStaticDelay: Feed cycle completed."
+          level: info
+
+  # feedPlantsByVolume
   - id: feedPlantsByVolume
     mode: single
     then:
+      - logger.log:
+          format: "feedPlantsByVolume: Feed cycle initiated. This is not implemented. Plants will NOT be fed."
+      - logger.log:
+          format: "feedPlantsByVolume: Feed cycle completed. "
+
+  # feedPlantsByTimeLambda
   - id: feedPlantsByTimeLambda
     mode: single
     then:
@@ -308,10 +352,15 @@ script:
           }
       - logger.log:
           format: "feedPlantsByTimeLambda: Cycle completed"
+
+  # resetLastFeedAmountCounter
   - id: resetLastFeedAmountCounter
     mode: single
     then:
     - sensor.integration.reset: lastFeedAmount     
+
+  # checkFeedAmountWithinLimits
+  # Verifies that the amount fed was within the expected limits, and if not, sends an alert
   - id: checkFeedAmountWithinLimits
     parameters: 
       feedLineName: string
@@ -321,12 +370,17 @@ script:
     - logger.log:
         format: "checkFeedAmountWithinLimits: IsAlertsActive value: %s"
         args: ['id(isAlertsEnabled).state ? "true" : "false"']
+        level: debug
     - if:
         condition:
           - and:
               - switch.is_on: isAlertsEnabled
               - lambda: 'return lastFeedAmount < id(underfeedAlertThreshold).state;'
         then:
+        - logger.log:
+            format: "checkFeedAmountWithinLimits: Underfeed detected on line %s. Expected Amount: %d Measured Amount: %d"
+            args: [feedLineNameToken, expectedAmount, deliveredAmount]
+            level: info
         - homeassistant.action:
             action: script.sendalert
             data:
@@ -362,6 +416,10 @@ script:
         #           data:
         #             type: announce
         #           message: "over feed alert"
+        - logger.log:
+            format: "checkFeedAmountWithinLimits: Overfeed detected on line %s. Expected Amount: %d Measured Amount: %d"
+            args: [feedLineNameToken, expectedAmount, deliveredAmount]
+            level: info
         - homeassistant.action:
             action: notify.persistent_notification
             data:
@@ -527,9 +585,11 @@ select:
     name: Feed Mode
     id: feedMode
     options:
-     - "Time"
-     - "Volume"
-    initial_option: "Time"
+     - "Feed By Time Static Delay"
+     - "Feed By Time Dynamic Delay"
+     - "Feed By Time Lambda"
+     - "Feed By Volume"
+    initial_option: "Feed By Time Static Delay"
     optimistic: true
     set_action:
       - logger.log:
@@ -613,7 +673,7 @@ text_sensor:
     id: wallControllerCodeVersion
     name: Wall Controller Code Version
     lambda:       
-      return {"v .0.0.1 Nov 19, 2024"};
+      return {"v .0.0.41 Nov 21, 2024 6:34"};
   - platform: template
     name: "Last Feed"
     id: lastFeedTime
@@ -663,6 +723,7 @@ text_sensor:
       return { buffer };
 
 button:
+    # Send Alert Test
   - platform: template
     id: sendAlertTest
     name: Test Feed Alert
@@ -678,17 +739,18 @@ button:
               feedLineNameToken: return 999;
               deliveredAmount: return 222;
               expectedAmount: return 333;
+    # ExecuteTimedFeedCycle
   - platform: template
-    id: ExecuteTimedFeedCycle
-    name: Execute Timed Feed Cycle
+    id: ExecuteFeedCycle
+    name: Execute Selected Feed Cycle
     on_press:
       then:
-        script.execute: feedPlantsByTime
+        script.execute: feedAllThePlants
 
 interval:
   - interval: 4min
     then:
-      - logger.log: "Interval Feed cycle initiated"
+      - logger.log: "Interval Feed cycle initiated (4minutes static)"
       - sensor.template.publish:                                                                                                                                           
             id: lastFeedTimestamp                                                                                                                                                   
             state: !lambda 'return id(homeassistant_time).now().timestamp;'
