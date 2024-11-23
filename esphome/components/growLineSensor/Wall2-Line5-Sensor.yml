@@ -1,0 +1,13 @@
+substitutions:
+  lineNumber: "5"
+  wallNumber: "2"
+  encryptionKey: "D+EJUJ0GwYtaUE3XUmzc0nZCtvsw1vDZKlz0A3zrsM8="
+  otaPassword: "70e32441a758b48c73a942bb2d70b99c"
+  fallbackHotspotPassword: "7NmMh4NbSFUd"
+
+packages:
+  remote_package:
+    url: https://github.com/HeathersZen/Aeroponica
+    refresh: 0s
+    files:
+      - esphome/components/growLineSensor/growLineSensor.yml
