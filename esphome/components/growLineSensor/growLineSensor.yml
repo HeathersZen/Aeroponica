@@ -33,7 +33,7 @@ wifi:
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
-    ssid: "Wall2-Line1-Temphumid"
+    ssid: "Wall2-Line{$lineNumber}-Temphumid"
     password: "{$fallbackHotspotPassword}"
 
 captive_portal:
@@ -120,7 +120,7 @@ text_sensor:
     id: yamlVersion
     name: YAML Version
     lambda:       
-      return {"v .0.1 Nov 22, 2024 17:24"};
+      return {"v .0.1 Nov 22, 2024 22:51"};
 
 interval:
   - interval: 1min
