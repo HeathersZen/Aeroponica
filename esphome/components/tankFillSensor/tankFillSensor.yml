@@ -104,6 +104,13 @@ text_sensor:
       else
       { return {"OK"}; }
 
+  - platform: template
+    id: yamlVersion
+    name: YAML Version
+    lambda:       
+      return {"v 1.0 Nov 25, 2024 17:39"};
+
+
 number:
     # Value at which the tank refill solenoid should be closed.
   - platform: template
