@@ -50,7 +50,8 @@ sensor:
     filters:
       - filter_out: nan
       - median:
-          window_size: 7   
+          window_size: 5
+          send_every: 4
       - clamp:
           min_value: 35
           max_value: 400
