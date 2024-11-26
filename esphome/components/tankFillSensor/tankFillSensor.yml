@@ -157,8 +157,8 @@ script:
     mode: single
     then:
     - logger.log:
-        format: "checkTankLevelLimits: IsAlertsActive value: %d"
-        args: ['id(isAlertsEnabled)']
+        format: "checkTankLevelLimits: IsAlertsActive value: %s"
+        args: ['id(isAlertsEnabled).state ? "true" : "false"']
     - if:
         condition:
           - and:
