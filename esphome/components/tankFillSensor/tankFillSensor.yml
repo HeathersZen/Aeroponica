@@ -55,7 +55,7 @@ sensor:
       - clamp:
           min_value: 35
           max_value: 400
-    throttle: 10s
+      - throttle: 10s
   - platform: template
     name: "Tank Fill Percentage"
     update_interval: 10s
