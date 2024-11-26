@@ -55,6 +55,7 @@ sensor:
       - clamp:
           min_value: 35
           max_value: 400
+    update_interval: 10s
   - platform: template
     name: "Tank Fill Percentage"
     update_interval: 10s
@@ -109,7 +110,6 @@ text_sensor:
     name: YAML Version
     lambda:       
       return {"v 1.0 Nov 25, 2024 17:39"};
-
 
 number:
     # Value at which the tank refill solenoid should be closed.
