@@ -2,7 +2,10 @@ esphome:
   name: wall$wallNumber-line$lineNumber-temphumid
   friendly_name: Wall$wallNumber-Line$lineNumber-TempHumid
   on_boot:
+    priority: 200
     then:
+      - lambda: |-        
+          delay(500);  
       - script.execute: 
           id: flashLED
           flashCount: 10
@@ -45,7 +48,7 @@ i2c:
   sda: 4
   scl: 5
   scan: true
-  frequency: 50khz
+  frequency: 400khz
   # timeout: 10ms
 
 sensor:
