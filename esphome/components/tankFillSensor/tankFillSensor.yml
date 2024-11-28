@@ -170,7 +170,7 @@ script:
             data:
               title: LOW NUTRIENT TANK ALERT
             data_template:
-              message: "CRITICAL! The nutrient tank is currently id(tankFillPercentage).state % full. You should fill it immediately!"
+              message: "CRITICAL! The nutrient tank is currently ${id(tankFillPercentage).state} % full. You should fill it immediately!"
   # Flash the LED to indicate the system is working normally. This is called on startup and intermittently by the interval tag. 
   - id: flashLED
     mode: single
