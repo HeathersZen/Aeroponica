@@ -52,6 +52,7 @@ i2c:
   scan: true
   frequency: 800khz
   timeout: 10ms
+  id: "bus_a"
 
 # external_components:
 #    - source:
