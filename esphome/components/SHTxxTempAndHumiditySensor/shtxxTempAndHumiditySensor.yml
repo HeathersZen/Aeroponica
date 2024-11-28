@@ -17,11 +17,11 @@ esp32:
 
 # Enable logging
 logger:
-  level: debug
-  # logs:
-  #   switch: error
-  #   text_sensor: error
-  #   sensor: info
+  level: info
+  logs:
+    switch: error
+    text_sensor: error
+    sensor: info
 
 # Enable Home Assistant API
 api:
