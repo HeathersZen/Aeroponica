@@ -61,6 +61,7 @@ i2c:
 
 sensor:
   - platform: sht3xd
+    i2c_id: bus_a  
     temperature:
       name: "Line ${lineNumber} Interior Temperature (C)"
       id: 'line${lineNumber}InteriorTempC'
