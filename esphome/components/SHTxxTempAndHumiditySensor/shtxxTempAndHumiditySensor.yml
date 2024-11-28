@@ -48,7 +48,7 @@ i2c:
   sda: 4
   scl: 5
   scan: true
-  frequency: 400khz
+  frequency: 50khz
   # timeout: 10ms
 
 sensor:
