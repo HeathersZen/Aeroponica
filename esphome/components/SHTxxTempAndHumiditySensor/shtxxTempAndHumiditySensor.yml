@@ -53,11 +53,11 @@ i2c:
   frequency: 400khz
   timeout: 10ms
 
-# external_components:
-#    - source:
-#         type: git
-#         url: https://github.com/mrtoy-me/esphome-components-test
-#      components: [ sht3xd ]
+external_components:
+   - source:
+        type: git
+        url: https://github.com/mrtoy-me/esphome-components-test
+     components: [ sht3xd ]
 
 sensor:
   - platform: sht3xd
