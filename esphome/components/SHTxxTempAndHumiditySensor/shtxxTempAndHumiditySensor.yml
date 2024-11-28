@@ -13,10 +13,10 @@ esp8266:
 # Enable logging
 logger:
   level: debug
-  logs:
-    switch: error
-    text_sensor: error
-    sensor: info
+  # logs:
+  #   switch: error
+  #   text_sensor: error
+  #   sensor: info
 
 # Enable Home Assistant API
 api:
@@ -127,7 +127,7 @@ text_sensor:
     id: yamlVersion
     name: YAML Version
     lambda:       
-      return {"v .0.1 Nov 22, 2024 22:51"};
+      return {"v .0.1 Nov 27, 2024 18:10"};
 
 interval:
   - interval: 1min
