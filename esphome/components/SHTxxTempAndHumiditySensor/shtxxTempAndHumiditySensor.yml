@@ -48,8 +48,8 @@ i2c:
   sda: 4
   scl: 5
   scan: true
-  frequency: 50khz
-  # timeout: 10ms
+  frequency: 400khz
+  timeout: 10ms
 
 external_components:
    - source:
