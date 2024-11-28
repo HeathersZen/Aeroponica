@@ -45,8 +45,8 @@ i2c:
   sda: 4
   scl: 5
   scan: true
-  frequency: 800khz
-  timeout: 10ms
+  # frequency: 800khz
+  # timeout: 10ms
 
 sensor:
   - platform: sht3xd
@@ -56,7 +56,7 @@ sensor:
     humidity:
       name: "Line ${lineNumber} Interior Humidity"
       id: 'line${lineNumber}InteriorHumidity'
-    address: 0x44
+    #address: 0x44
     update_interval: 60s
 
     # Temperature probe (converted to F)
