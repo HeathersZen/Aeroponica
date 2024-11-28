@@ -42,8 +42,8 @@ web_server:
   port: 80
     
 i2c:
-  sda: 5
-  scl: 4
+  sda: 4
+  scl: 5
   scan: true
   frequency: 800khz
   timeout: 10ms
