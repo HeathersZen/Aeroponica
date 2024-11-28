@@ -56,7 +56,7 @@ sensor:
     humidity:
       name: "Line ${lineNumber} Interior Humidity"
       id: 'line${lineNumber}InteriorHumidity'
-    #address: 0x44
+    address: 0x70
     update_interval: 60s
 
     # Temperature probe (converted to F)
