@@ -57,55 +57,55 @@ external_components:
         url: https://github.com/mrtoy-me/esphome-components-test
      components: [ sht3xd ]
 
-sensor:
-  - platform: sht3xd
-    temperature:
-      name: "Line ${lineNumber} Interior Temperature (C)"
-      id: 'line${lineNumber}InteriorTempC'
-    humidity:
-      name: "Line ${lineNumber} Interior Humidity"
-      id: 'line${lineNumber}InteriorHumidity'
-    address: 0x44
-    update_interval: 60s
+# sensor:
+#   - platform: sht3xd
+#     temperature:
+#       name: "Line ${lineNumber} Interior Temperature (C)"
+#       id: 'line${lineNumber}InteriorTempC'
+#     humidity:
+#       name: "Line ${lineNumber} Interior Humidity"
+#       id: 'line${lineNumber}InteriorHumidity'
+#     address: 0x44
+#     update_interval: 60s
 
-    # Temperature probe (converted to F)
-  - platform: template
-    id: 'line${lineNumber}InteriorTempFRaw'
-    name: "Line ${lineNumber} Interior Temperature Raw (F)"
-    lambda: return id(line${lineNumber}InteriorTempC).state * (9.0/5.0) + 32.0;
-    unit_of_measurement: "°F"
-    accuracy_decimals: 1
-    update_interval: 60s
-    icon: mdi:icon7-sun-fill    
-    on_value: 
-      - lambda: |-
-          id(line${lineNumber}InteriorTempFCalibrated).publish_state(id(line${lineNumber}InteriorTempFRaw).state + id(line${lineNumber}CalibrationOffsetFahrenheit).state);
+#     # Temperature probe (converted to F)
+#   - platform: template
+#     id: 'line${lineNumber}InteriorTempFRaw'
+#     name: "Line ${lineNumber} Interior Temperature Raw (F)"
+#     lambda: return id(line${lineNumber}InteriorTempC).state * (9.0/5.0) + 32.0;
+#     unit_of_measurement: "°F"
+#     accuracy_decimals: 1
+#     update_interval: 60s
+#     icon: mdi:icon7-sun-fill    
+#     on_value: 
+#       - lambda: |-
+#           id(line${lineNumber}InteriorTempFCalibrated).publish_state(id(line${lineNumber}InteriorTempFRaw).state + id(line${lineNumber}CalibrationOffsetFahrenheit).state);
 
-    # Temperature probe (converted to F)
-  - platform: template
-    id: 'line${lineNumber}InteriorTempFCalibrated'
-    name: "Line ${lineNumber} Interior Temperature (F - Calibrated)"
-    lambda: return id(line${lineNumber}InteriorTempFRaw).state + id(line${lineNumber}CalibrationOffsetFahrenheit).state;
-    unit_of_measurement: "°F"
-    accuracy_decimals: 1
-    update_interval: 120s
-    icon: mdi:icon7-sun-fill    
+#     # Temperature probe (converted to F)
+#   - platform: template
+#     id: 'line${lineNumber}InteriorTempFCalibrated'
+#     name: "Line ${lineNumber} Interior Temperature (F - Calibrated)"
+#     lambda: return id(line${lineNumber}InteriorTempFRaw).state + id(line${lineNumber}CalibrationOffsetFahrenheit).state;
+#     unit_of_measurement: "°F"
+#     accuracy_decimals: 1
+#     update_interval: 120s
+#     icon: mdi:icon7-sun-fill    
 
-number:
-  # A number to use to offset whatever reading is taken to correct to the calibrated temp
-  - platform: template
-    name: Line ${lineNumber} Calibration Offset (F)
-    id: 'line${lineNumber}CalibrationOffsetFahrenheit'
-    restore_value: True
-    min_value: -100
-    max_value: 100
-    initial_value: 0
-    step: .1
-    optimistic: true
-    mode: BOX
-    on_value: 
-      - lambda: |-
-          id(line${lineNumber}InteriorTempFCalibrated).publish_state(id(line${lineNumber}InteriorTempFRaw).state + id(line${lineNumber}CalibrationOffsetFahrenheit).state);
+# number:
+#   # A number to use to offset whatever reading is taken to correct to the calibrated temp
+#   - platform: template
+#     name: Line ${lineNumber} Calibration Offset (F)
+#     id: 'line${lineNumber}CalibrationOffsetFahrenheit'
+#     restore_value: True
+#     min_value: -100
+#     max_value: 100
+#     initial_value: 0
+#     step: .1
+#     optimistic: true
+#     mode: BOX
+#     on_value: 
+#       - lambda: |-
+#           id(line${lineNumber}InteriorTempFCalibrated).publish_state(id(line${lineNumber}InteriorTempFRaw).state + id(line${lineNumber}CalibrationOffsetFahrenheit).state);
 
 switch:
   - platform: gpio
