@@ -50,9 +50,9 @@ i2c:
   sda: 21
   scl: 22
   scan: true
-  frequency: 800khz
-  timeout: 10ms
-  id: "bus_a"
+  frequency: 50khz
+  # timeout: 10ms
+  # id: "bus_a"
 
 # external_components:
 #    - source:
@@ -62,7 +62,6 @@ i2c:
 
 sensor:
   - platform: sht3xd
-    i2c_id: bus_a  
     temperature:
       name: "Line ${lineNumber} Interior Temperature (C)"
       id: 'line${lineNumber}InteriorTempC'
