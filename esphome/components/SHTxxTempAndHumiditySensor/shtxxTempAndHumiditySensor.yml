@@ -4,8 +4,8 @@ esphome:
   on_boot:
     priority: 200
     then:
-      # - lambda: |-        
-      #     delay(500);  
+      - lambda: |-        
+          delay(500);  
       - script.execute: 
           id: flashLED
           flashCount: 10
