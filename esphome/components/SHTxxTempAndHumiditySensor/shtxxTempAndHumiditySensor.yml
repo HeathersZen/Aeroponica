@@ -52,8 +52,10 @@ sensor:
   - platform: sht3xd
     temperature:
       name: "Line ${lineNumber} Interior Temperature (C)"
+      id: 'line${lineNumber}InteriorTempC'
     humidity:
       name: "Line ${lineNumber} Interior Humidity"
+      id: 'line${lineNumber}InteriorHumidity'
     address: 0x44
     update_interval: 60s
 
