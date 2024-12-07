@@ -61,6 +61,12 @@ i2c:
 #      components: [ sht3xd ]
 
 sensor:
+  - platform: absolute_humidity
+    name: "Line ${lineNumber} Absolute Humidity"
+    id: 'line${lineNumber}AbsoluteHumidity'
+    temperature: 'line${lineNumber}InteriorTempC'
+    humidity: 'line${lineNumber}InteriorHumidity'
+
   - platform: sht3xd
     temperature:
       name: "Line ${lineNumber} Interior Temperature (C)"
