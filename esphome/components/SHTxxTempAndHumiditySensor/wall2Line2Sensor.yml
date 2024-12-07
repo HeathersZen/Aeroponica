@@ -1,8 +1,8 @@
 substitutions:
   lineNumber: "2"
   wallNumber: "2"
-  encryptionKey: "XqNcPzUB4vyobdj7Vd765WLQyZTF/86JwF5CXomjWVg="
-  otaPassword: "313e3ef0b80c4b7644a540d6b0d947c9"
+  encryptionKey: "WVRSI3PbGzHt5/06iL7JmvuRE3R4TFNFnT0YiL8Zke4="
+  otaPassword: "929a4a4786d9fbf7a959c7238546fa08"
   fallbackHotspotPassword: "UhtYT6DWw17v"
 
 packages:
