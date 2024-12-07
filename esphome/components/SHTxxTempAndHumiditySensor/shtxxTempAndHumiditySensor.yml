@@ -69,6 +69,7 @@ sensor:
       name: "Line ${lineNumber} Interior Humidity"
       id: 'line${lineNumber}InteriorHumidity'
     address: "0x44"
+    accuracy_decimals: 4
     update_interval: 10s
 
     # Temperature probe (converted to F)
@@ -139,7 +140,7 @@ text_sensor:
     id: yamlVersion
     name: YAML Version
     lambda:       
-      return {"v .0.1 Dec 2, 2024 22:10"};
+      return {"v .0.1 Dec 6, 2024 22:37"};
 
 interval:
   - interval: 1min
