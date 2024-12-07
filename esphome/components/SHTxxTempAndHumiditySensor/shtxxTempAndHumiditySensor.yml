@@ -139,7 +139,7 @@ text_sensor:
     id: yamlVersion
     name: YAML Version
     lambda:       
-      return {"v .0.1 Dec 2, 2024 13:46"};
+      return {"v .0.1 Dec 2, 2024 22:10"};
 
 interval:
   - interval: 1min
