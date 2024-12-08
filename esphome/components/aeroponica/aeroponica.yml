@@ -95,4 +95,4 @@ sensor:
     icon: mdi:icon7-sun-fill    
 
 text_sensor:
-<<: !include "../common/yamlVersion.yml"
+  <<: !include "../common/yamlVersion.yml"
