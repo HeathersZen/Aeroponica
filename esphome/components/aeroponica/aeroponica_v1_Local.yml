@@ -8,4 +8,4 @@ packages:
     url: https://github.com/HeathersZen/Aeroponica
     refresh: 0s
     files:
-      - esphome/components/aeroponica/aeroponicaV1.yml
+      - esphome/components/aeroponica/aeroponica_v1.yml
