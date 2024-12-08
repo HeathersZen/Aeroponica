@@ -1,0 +1,5 @@
+  - platform: template
+    id: yamlVersion
+    name: YAML Version
+    lambda:       
+      return {"v .0.1 Nov 22, 2024 22:51"};

@@ -20,11 +20,11 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: "esK9Thrx/4BZ/vsSBjg1ZpmZFulzkfNGutV0iJ+tK88="
+    key: "${encryptionKey}"
 
 ota:
   - platform: esphome
-    password: "7ef21a64f3e9a19b788b789b96b6c44f"
+    password: "${otaPassword}"
 
 wifi:
   ssid: !secret wifi_ssid
@@ -33,7 +33,7 @@ wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "Aeroponica-Controller"
-    password: "Smr1a5L9tYEg"
+    password: "${fallbackHotspotPassword}"
 
 captive_portal:
 
@@ -93,3 +93,6 @@ sensor:
     unit_of_measurement: "°F"
     update_interval: 60s
     icon: mdi:icon7-sun-fill    
+
+text_sensor:
+<<: !include "../common/yamlVersion.yml"
