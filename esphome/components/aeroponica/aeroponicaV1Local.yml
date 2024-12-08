@@ -1,0 +1,11 @@
+substitutions:
+  encryptionKey: "hpXN+rXUDSLWGcobsuXwhxTEm5gOzXQ8+giugMVABv8="
+  otaPassword: "7d111d45dbb313c5e9b70879d0682d71"
+  fallbackHotspotPassword: "UhtYT6DWw17v"
+
+packages:
+  remote_package:
+    url: https://github.com/HeathersZen/Aeroponica
+    refresh: 0s
+    files:
+      - esphome/components/aeroponica/aeroponicaV1.yml

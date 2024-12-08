@@ -1,0 +1,38 @@
+switch:
+  - platform: gpio
+    pin: 2
+    id: LED
+    name: LED
+    inverted: True
+    internal: True
+    restore_mode: RESTORE_DEFAULT_OFF
+
+script:
+#Flash the LED to indicate the system is working normally.This is called on startup and intermittently by the interval tag.
+  - id: flashLED
+    mode: single
+    parameters: 
+      flashCount: int
+    then:
+      - repeat:
+          count: !lambda 'return flashCount;'
+          then:
+            - switch.turn_on: LED  
+            - delay: 200ms
+            - switch.turn_off: LED  
+            - delay: 200ms
+
+text_sensor:
+  - platform: template
+    id: yamlVersion
+    name: YAML Version
+    lambda:       
+      return {"v .0.1 Dec 6, 2024 22:37"};
+
+interval:
+  - interval: 1min
+    then:
+      - logger.log: "Heartbeat"
+      - script.execute: 
+          id: flashLED
+          flashCount: 3  
