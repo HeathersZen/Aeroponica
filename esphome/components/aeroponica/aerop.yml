@@ -6,8 +6,8 @@
 # UPS: Monitor the UPS status via USB
 # Human interface: Buttons for fill/drain, LEDs to indicate status, pressure gauges, etc.
 esphome:
-  name: aeroponicab
-  friendly_name: Aeroponicab
+  name: aerop
+  friendly_name: aerop
 
 esp32:
   board: esp32dev
