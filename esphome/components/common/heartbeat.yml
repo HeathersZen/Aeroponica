@@ -33,3 +33,7 @@ interval:
       - script.execute: 
           id: flashLED
           flashCount: 3 
+
+logger:
+  logs:
+    switch: error
