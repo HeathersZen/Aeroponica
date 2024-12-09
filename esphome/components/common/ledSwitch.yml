@@ -1,5 +1,5 @@
   - platform: gpio
-    pin: ${LedGpio}
+    pin: ${ledGpio}
     id: LED
     name: LED
     inverted: True
