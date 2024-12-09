@@ -60,7 +60,7 @@ one_wire:
 ###############################
 ## Switches
 ###############################
-<<: !include "./common/ledSwitch.yml"
+<<: !include "../common/ledSwitch.yml"
 
 switch:
     # Drain solenoid
