@@ -3,4 +3,4 @@ text_sensor:
     id: yamlVersion
     name: YAML Version
     lambda:       
-      return {"${yamlVersion}"};
+      return {"${YAML_VERSION}"};
