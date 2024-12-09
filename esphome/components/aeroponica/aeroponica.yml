@@ -11,8 +11,8 @@ packages:
   yamlVersion: !include
     file: ../common/yamlVersion.yml
     vars:
-      YAML_VERSION: "v0.0.1 Dec 8, 2024 18:32pm"
+      YAML_VERSION: "v0.0.1 Dec 8, 2024 19:45pm"
   heartbeat: !include
     file: ../common/heartbeat.yml
     vars:
-      LED_GPIO: GPIO2
+      LED_GPIO: GPIO23
