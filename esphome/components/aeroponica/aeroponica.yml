@@ -61,3 +61,8 @@ sensor:
       - round: 2
       - lambda: return ((x / 38.0) / 60);
     unit_of_measurement: "L/m" 
+
+  - platform: adc
+    pin: GPIO25
+    name: "Tank Pressure"
+    update_interval: 2s
