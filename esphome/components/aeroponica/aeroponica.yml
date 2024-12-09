@@ -62,7 +62,6 @@ one_wire:
 ###############################
 <<: !include "../common/ledSwitch.yml"
 
-
 switch:
     # Drain solenoid
   - platform: gpio
