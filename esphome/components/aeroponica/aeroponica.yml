@@ -62,26 +62,18 @@ one_wire:
 ###############################
 switch:
     # Drain solenoid
-  # - platform: gpio
-  #   pin: ${drainSolenoidGpio}
-  #   name: "Drain solenoid"
-  #   id: drainSolenoid
-  #   icon: mdi:icon7-level-up
-
-  #   # Fill solenoid
-  # - platform: gpio
-  #   pin: ${fillSolenoidGpio}
-  #   name: "Fill solenoid"
-  #   id: fillSolenoid
-  #   icon: mdi:icon7-level-up
-
   - platform: gpio
-    pin: 2
-    id: LED
-    name: "Built In LED"
-    inverted: True
-    internal: True
-    restore_mode: RESTORE_DEFAULT_OFF
+    pin: ${drainSolenoidGpio}
+    name: "Drain solenoid"
+    id: drainSolenoid
+    icon: mdi:icon7-level-up
+
+    # Fill solenoid
+  - platform: gpio
+    pin: ${fillSolenoidGpio}
+    name: "Fill solenoid"
+    id: fillSolenoid
+    icon: mdi:icon7-level-up
 
     #<<: !include "../common/ledSwitch.yml"
 
