@@ -4,7 +4,3 @@ text_sensor:
     name: YAML Version
     lambda:       
       return {"${YAML_VERSION}"};
-
-logger:
-  logs:
-    text_sensor: ERROR
