@@ -1,4 +1,5 @@
   - platform: template
     id: yamlVersion
     name: YAML Version
-    state: "${yamlVersion}"
+    lambda:       
+      return {"${yamlVersion}"}
