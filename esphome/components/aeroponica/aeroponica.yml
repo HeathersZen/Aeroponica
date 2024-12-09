@@ -60,6 +60,9 @@ one_wire:
 ###############################
 ## Switches
 ###############################
+<<: !include "../common/ledSwitch.yml"
+
+
 switch:
     # Drain solenoid
   - platform: gpio
@@ -74,9 +77,6 @@ switch:
     name: "Fill solenoid"
     id: fillSolenoid
     icon: mdi:icon7-level-up
-
-    <<: !include "../common/ledSwitch.yml"
-
 
 sensor:
   #   # Temperature probe:
