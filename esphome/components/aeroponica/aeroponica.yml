@@ -76,7 +76,7 @@ switch:
   #   icon: mdi:icon7-level-up
 
   - platform: gpio
-    pin: ${ledGpio}
+    pin: 2
     id: LED
     name: "Built In LED"
     inverted: True
