@@ -75,7 +75,15 @@ switch:
     id: fillSolenoid
     icon: mdi:icon7-level-up
 
-    <<: !include "../common/ledSwitch.yml"
+  - platform: gpio
+    pin: ${ledGpio}
+    id: LED
+    name: LED
+    inverted: True
+    internal: True
+    restore_mode: RESTORE_DEFAULT_OFF
+
+    #<<: !include "../common/ledSwitch.yml"
 
 
 sensor:
