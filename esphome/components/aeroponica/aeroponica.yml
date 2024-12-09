@@ -12,3 +12,10 @@ packages:
     file: ../common/yamlVersion.yml
     vars:
       YAML_VERSION: "THIS IS THE VERSION"
+  heartbeat: !include:
+    files: 
+      ../common/heartbeat.yml
+    vars:
+      ledGpio: 2
+
+
