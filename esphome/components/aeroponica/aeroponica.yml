@@ -12,10 +12,3 @@ packages:
     file: ../common/yamlVersion.yml
     vars:
       YAML_VERSION: "v0.0.1 Dec 8, 2024 18:16pm"
-  heartbeat: !include:
-    files: 
-      ../common/heartbeat.yml
-    vars:
-      ledGpio: 2
-
-
