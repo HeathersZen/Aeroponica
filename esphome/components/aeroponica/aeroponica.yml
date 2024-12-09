@@ -28,3 +28,32 @@ switch:
   pin: GPIO17
   id: FillRelay
   name: Fill
+
+sensor:
+   # pressureLoopFlowRate: Pressure loop flow sensor measures how much nutrient is flowing out to the wall from the pressure loop. Should match the 
+   # feed flow sensor on each wall, and only show a value when the lines on each wall are feeding.
+  - platform: pulse_counter
+    id: pressureLoopFlowRate
+    name: "Flow Rate (Pressure Loop)"
+    state_class: measurement
+    pin: 
+        number: GPIO32
+    update_interval: 2s
+    filters:
+      - round: 2
+      - lambda: return ((x / 38.0) / 60);
+    unit_of_measurement: "L/m"
+
+    # circulationLoopFlowRate: Measures the nutrient flowing in the circulation loop. Should be relatively constant most times, when only the
+    # circulation pump is running (it is always running except during maintenance). Should go up significantly when the boost pump is turned on.
+  - platform: pulse_counter
+    id: circulationLoopFlowRate
+    name: "Flow Rate (Circulation Loop)"
+    state_class: measurement
+    pin: 
+        number: GPIO35
+    update_interval: 2s
+    filters:
+      - round: 2
+      - lambda: return ((x / 38.0) / 60);
+    unit_of_measurement: "L/m" 
