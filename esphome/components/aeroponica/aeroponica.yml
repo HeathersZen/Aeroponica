@@ -75,7 +75,7 @@ switch:
     id: fillSolenoid
     icon: mdi:icon7-level-up
 
-<<: !include "../common/ledSwitch.yml"
+    <<: !include "../common/ledSwitch.yml"
 
 
 sensor:
