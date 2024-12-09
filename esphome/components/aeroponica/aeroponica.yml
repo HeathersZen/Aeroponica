@@ -63,36 +63,36 @@ one_wire:
 switch:
     # Drain solenoid
   - platform: gpio
-    pin: GPIO16
+    pin: ${drainSolenoidGpio} 
     name: "Drain solenoid"
     id: drainSolenoid
     icon: mdi:icon7-level-up
 
     # Fill solenoid
   - platform: gpio
-    pin: GPIO17
+    pin: ${fillSolenoidGpio}
     name: "Fill solenoid"
     id: fillSolenoid
     icon: mdi:icon7-level-up
 
 sensor:
-    # Temperature probe:
-  - platform: dallas_temp
-    address: 0xd7011452dd22aa28 
-    id: nutrientTemperatureCelsius
-    name: "Nutrient Temperature (C)"
-    update_interval: 60s
-    unit_of_measurement: "°C"
-    icon: mdi:icon7-sun-fill
+  #   # Temperature probe:
+  # - platform: dallas_temp
+  #   address: 0xd7011452dd22aa28 
+  #   id: nutrientTemperatureCelsius
+  #   name: "Nutrient Temperature (C)"
+  #   update_interval: 60s
+  #   unit_of_measurement: "°C"
+  #   icon: mdi:icon7-sun-fill
 
-    # Temperature probe (converted to F)
-  - platform: template
-    id: nutrientTemperatureFahrenheit
-    name: "Nutrient Temperature (F)"
-    lambda: return id(nutrientTemperatureCelsius).state * (9.0/5.0) + 32.0;
-    unit_of_measurement: "°F"
-    update_interval: 60s
-    icon: mdi:icon7-sun-fill    
+  #   # Temperature probe (converted to F)
+  # - platform: template
+  #   id: nutrientTemperatureFahrenheit
+  #   name: "Nutrient Temperature (F)"
+  #   lambda: return id(nutrientTemperatureCelsius).state * (9.0/5.0) + 32.0;
+  #   unit_of_measurement: "°F"
+  #   update_interval: 60s
+  #   icon: mdi:icon7-sun-fill    
 
 text_sensor:
   <<: !include "../common/yamlVersion.yml"
