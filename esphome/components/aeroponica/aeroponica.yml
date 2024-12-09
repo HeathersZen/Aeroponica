@@ -63,14 +63,14 @@ one_wire:
 switch:
     # Drain solenoid
   - platform: gpio
-    pin: "${drainSolenoidGpio}"
+    pin: ${drainSolenoidGpio}
     name: "Drain solenoid"
     id: drainSolenoid
     icon: mdi:icon7-level-up
 
     # Fill solenoid
   - platform: gpio
-    pin: "${fillSolenoidGpio}"
+    pin: ${fillSolenoidGpio}
     name: "Fill solenoid"
     id: fillSolenoid
     icon: mdi:icon7-level-up
