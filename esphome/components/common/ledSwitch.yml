@@ -2,5 +2,5 @@
     pin: ${ledGpio}
     id: LED
     name: LED
-    inverted: True
+    inverted: false
     restore_mode: RESTORE_DEFAULT_OFF
