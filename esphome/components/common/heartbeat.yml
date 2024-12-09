@@ -4,7 +4,7 @@ switch:
     id: LED
     name: LED
 
-esp32:
+esphome:
   on_boot:
     then:
       - script.execute: 
