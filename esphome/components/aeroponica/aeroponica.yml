@@ -17,6 +17,9 @@ packages:
     vars:
       LED_GPIO: GPIO23
 
+logger:
+  logs:
+    sensor: error
 
 switch:
 - platform: gpio
