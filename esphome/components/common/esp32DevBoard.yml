@@ -27,3 +27,6 @@ captive_portal:
 
 logger:
   level: ${LOG_LEVEL}
+
+web_server:
+  port: 80
