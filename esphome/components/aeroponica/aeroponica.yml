@@ -8,8 +8,3 @@ packages:
       ENCRYPTION_KEY: "hpXN+rXUDSLWGcobsuXwhxTEm5gOzXQ8+giugMVABv8="
       OTA_PASSWORD: "7d111d45dbb313c5e9b70879d0682d71"
       FALLBACK_HOTSPOT_PASSWORD: "UhtYT6DWw17v"
-
-  text_sensor: !include
-    file: ../common/yamlVersion.yml
-    vars:
-      YAML_VERSION: "v.0.0.1 Dec 8, 2024 17:55"
