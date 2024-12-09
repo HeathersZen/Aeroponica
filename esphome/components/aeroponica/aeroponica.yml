@@ -18,13 +18,13 @@ packages:
       LED_GPIO: GPIO23
 
 
-  switch:
-  - platform: gpio
-    pin: GPIO16
-    id: DrainRelay
-    name: Drain
+switch:
+- platform: gpio
+  pin: GPIO16
+  id: DrainRelay
+  name: Drain
 
-  - platform: gpio
-    pin: GPIO17
-    id: FillRelay
-    name: Fill
+- platform: gpio
+  pin: GPIO17
+  id: FillRelay
+  name: Fill
