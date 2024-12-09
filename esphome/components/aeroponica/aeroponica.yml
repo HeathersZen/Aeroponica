@@ -75,6 +75,9 @@ switch:
     id: fillSolenoid
     icon: mdi:icon7-level-up
 
+    <<: !include "../common/ledSwitch.yml"
+
+
 sensor:
   #   # Temperature probe:
   # - platform: dallas_temp

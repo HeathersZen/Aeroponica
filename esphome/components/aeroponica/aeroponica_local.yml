@@ -5,6 +5,7 @@ substitutions:
   yamlVersion: "v .0.1 Dec 8, 2024 15:45"
   fillSolenoidGpio: GPIO17
   drainSolenoidGpio: GPIO16
+  LedGpio: GPIO2
 
 packages:
   remote_package:
