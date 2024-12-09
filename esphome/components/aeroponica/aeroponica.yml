@@ -78,7 +78,7 @@ switch:
   - platform: gpio
     pin: ${ledGpio}
     id: LED
-    name: LED
+    name: "Built In LED"
     inverted: True
     internal: True
     restore_mode: RESTORE_DEFAULT_OFF
