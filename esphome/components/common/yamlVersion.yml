@@ -2,4 +2,4 @@
     id: yamlVersion
     name: YAML Version
     lambda:       
-      return {"${yamlVersion}"}
+      return {"${yamlVersion}"};
