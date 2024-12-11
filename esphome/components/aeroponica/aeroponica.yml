@@ -11,7 +11,7 @@ packages:
   yamlVersion: !include
     file: ../common/yamlVersion.yml
     vars:
-      YAML_VERSION: "v0.0.2 Dec 10, 2024 11:33pm"
+      YAML_VERSION: "v0.0.2 Dec 10, 2024 5:46pm"
   heartbeat: !include
     file: ../common/heartbeat.yml
     vars:
@@ -71,39 +71,39 @@ sensor:
     name: "Tank Pressure"
     update_interval: 2s
 
-#     # Temperature probe:
-#   - platform: dallas_temp
-#     id: nutrientTemperatureCelsius
-#     name: "Nutrient Temperature (C)"
-#     update_interval: 10s
-#     unit_of_measurement: "°C"
-#     icon: mdi:icon7-sun-fill
+  #   # Temperature probe:
+  # - platform: dallas_temp
+  #   id: nutrientTemperatureCelsius
+  #   name: "Nutrient Temperature (C)"
+  #   update_interval: 10s
+  #   unit_of_measurement: "°C"
+  #   icon: mdi:icon7-sun-fill
 
-#     # Temperature probe (converted to F)
-#   - platform: template
-#     id: nutrientTemperatureFahrenheit
-#     name: "Nutrient Temperature (F)"
-#     lambda: return id(nutrientTemperatureCelsius).state * (9.0/5.0) + 32.0;
-#     unit_of_measurement: "°F"
-#     update_interval: 10s
-#     icon: mdi:icon7-sun-fill    
+  #   # Temperature probe (converted to F)
+  # - platform: template
+  #   id: nutrientTemperatureFahrenheit
+  #   name: "Nutrient Temperature (F)"
+  #   lambda: return id(nutrientTemperatureCelsius).state * (9.0/5.0) + 32.0;
+  #   unit_of_measurement: "°F"
+  #   update_interval: 10s
+  #   icon: mdi:icon7-sun-fill    
 
-# number:
-#   - platform: template
-#     name: Over Temp Threshold # The temp at which the platform will send an over temp theshold
-#     id: overTempThreshold
-#     min_value: 1.0
-#     max_value: 100.0
-#     initial_value: 62.0
-#     step: .1
-#     optimistic: true
-#     mode: BOX
-#   - platform: template
-#     name: Under Temp Threshold # The temp at which the platform will send an under temp theshold
-#     id: underTempThreshold
-#     min_value: 1.0
-#     max_value: 100.0
-#     initial_value: 56.0
-#     step: .1
-#     optimistic: true
-#     mode: BOX
+number:
+  - platform: template
+    name: Over Temp Threshold # The temp at which the platform will send an over temp theshold event. 
+    id: overTempThreshold
+    min_value: 1.0
+    max_value: 100.0
+    initial_value: 62.0
+    step: .1
+    optimistic: true
+    mode: BOX
+  - platform: template
+    name: Under Temp Threshold # The temp at which the platform will send an under temp theshold event.
+    id: underTempThreshold
+    min_value: 1.0
+    max_value: 100.0
+    initial_value: 56.0
+    step: .1
+    optimistic: true
+    mode: BOX
