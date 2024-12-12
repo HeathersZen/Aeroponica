@@ -30,3 +30,8 @@ logger:
 
 web_server:
   port: 80
+
+sensor:
+  - platform: uptime
+    type: seconds
+    name: Uptime Sensor
