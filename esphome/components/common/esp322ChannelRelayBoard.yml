@@ -46,6 +46,6 @@ text_sensor:
     name: "Boot Time"
     lambda: |-
       char str[17];
-      time_t currTime = id(time).state; 
+      time_t currTime = id(bootTime).state; 
       strftime(str, sizeof(str), "%Y-%m-%d %H:%M:%S", localtime(&currTime));
       return  { str }; 
