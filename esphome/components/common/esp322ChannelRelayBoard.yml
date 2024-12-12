@@ -34,5 +34,4 @@ web_server:
 sensor:
   - platform: uptime
     type: timestamp
-    update_interval: 10s
     name: Uptime Sensor
