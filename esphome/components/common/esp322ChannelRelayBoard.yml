@@ -38,3 +38,16 @@ sensor:
 
 time:
   - platform: sntp
+    id: time
+    name: "time"
+    internal: true
+
+text_sensor:
+  - platform: template
+    id: bootTime
+    name: "Boot Time"
+    lambda: |-
+      char str[17];
+      time_t currTime = id(time).state; 
+      strftime(str, sizeof(str), "%Y-%m-%d %H:%M:%S", localtime(&currTime));
+      return  { str }; 
