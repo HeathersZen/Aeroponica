@@ -33,19 +33,19 @@ web_server:
 
 sensor:
   - platform: uptime
-    type: timestamp
+    type: seconds
     name: Uptime Sensor
 
 time:
   - platform: sntp
     id: bootTimestamp
 
-text_sensor:
-  - platform: template
-    id: bootTime
-    name: "Boot Time"
-    lambda: |-
-      char str[17];
-      auto time = id(bootTime).state;
-      strftime(str, sizeof(str), "%Y-%m-%d %H:%M:%S", time);
-      return  { str }; 
+# text_sensor:
+#   - platform: template
+#     id: bootTime
+#     name: "Boot Time"
+#     lambda: |-
+#       char str[17];
+#       auto time = id(bootTime).state;
+#       strftime(str, sizeof(str), "%Y-%m-%d %H:%M:%S", time);
+#       return  { str }; 
