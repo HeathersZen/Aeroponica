@@ -39,7 +39,6 @@ sensor:
 time:
   - platform: sntp
     id: bootTimestamp
-    internal: true
 
 text_sensor:
   - platform: template
