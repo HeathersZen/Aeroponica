@@ -35,3 +35,6 @@ sensor:
   - platform: uptime
     type: timestamp
     name: Uptime Sensor
+
+time:
+  - platform: sntp
