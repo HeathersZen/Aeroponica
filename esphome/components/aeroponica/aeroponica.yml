@@ -24,7 +24,7 @@ logger:
 
 one_wire:
   - platform: gpio
-    pin: ADC1_6
+    pin: GPIO27
 
 switch:
 - platform: gpio
