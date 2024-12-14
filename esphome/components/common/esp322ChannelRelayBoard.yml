@@ -40,6 +40,10 @@ time:
   - platform: sntp
     id: bootTimestamp
 
+button:
+  - platform: restart
+    name: "Restart"
+
 # text_sensor:
 #   - platform: template
 #     id: bootTime
