@@ -22,10 +22,9 @@ logger:
     sensor: error
     pulse_counter: error
 
-# one_wire:
-#   - platform: gpio
-#     pin: GPIO27
-#     id: Bus2
+one_wire:
+  - platform: gpio
+    pin: GPIO0
 
 switch:
 - platform: gpio
