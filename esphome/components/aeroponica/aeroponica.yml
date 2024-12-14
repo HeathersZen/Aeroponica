@@ -78,7 +78,6 @@ sensor:
     update_interval: 10s
     unit_of_measurement: "°C"
     icon: mdi:icon7-sun-fill
-    one_wire_id: Bus2
 
     # Temperature probe (converted to F)
   - platform: template
