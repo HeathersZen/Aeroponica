@@ -60,7 +60,7 @@ sensor:
     name: "Flow Rate (Circulation Loop)"
     state_class: measurement
     pin: 
-        number: GPIO25
+        number: GPIO26
     update_interval: 2s
     filters:
       - round: 2
