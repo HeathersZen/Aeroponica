@@ -11,7 +11,8 @@ packages:
   yamlVersion: !include
     file: ../common/yamlVersion.yml
     vars:
-      YAML_VERSION: "v0.0.2 Dec 13, 2024 10:10pm"
+      YAML_VERSION: "v0.0.2 Dec 13, 2024 10:10
+      pm"
   heartbeat: !include
     file: ../common/heartbeat.yml
     vars:
@@ -59,7 +60,7 @@ sensor:
     name: "Flow Rate (Circulation Loop)"
     state_class: measurement
     pin: 
-        number: GPIO35
+        number: GPIO25
     update_interval: 2s
     filters:
       - round: 2
