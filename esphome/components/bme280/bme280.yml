@@ -1,6 +1,6 @@
 packages:
   device_base: !include
-    file: ../common/esp32DevBoard.yml
+    file: ../common/esp8266DevBoard.yml
     vars:
       NAME: system4-thp-sensor
       FRIENDLY_NAME: "System4 THP Sensor"
