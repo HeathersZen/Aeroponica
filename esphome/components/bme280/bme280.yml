@@ -65,5 +65,11 @@ sensor:
     humidity:
       name: "BME280 Humidity"
       id: "system4_humidity"
-
+  - platform: template
+    id: system4_temperatureF
+    name: "Temperature (F)"
+    lambda: return id(system4_temperature).state * (9.0/5.0) + 32.0;
+    unit_of_measurement: "°F"
+    update_interval: 60s
+    icon: mdi:icon7-sun-fill  
 captive_portal:
