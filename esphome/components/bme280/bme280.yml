@@ -1,3 +1,13 @@
+packages:
+  yamlVersion: !include
+    file: ../common/yamlVersion.yml
+    vars:
+      YAML_VERSION: "v0.0.2 Dec 15, 2024 16:18 pm"
+  heartbeat: !include
+    file: ../common/heartbeat.yml
+    vars:
+      LED_GPIO: GPIO23
+
 esphome:
   name: "system4-thp-sensor"
   friendly_name: system4-thp-sensor
@@ -13,7 +23,6 @@ syslog:
 # Enable logging
 logger:
   level: INFO
-
   
 esp8266:
   board: esp01_1m
@@ -35,6 +44,9 @@ wifi:
   ap:
     ssid: "Ambientdht22-1 Fallback Hotspot"
     password: "R9dbW0nldQ7y"
+
+web_server:
+  port: 80
 
 i2c:
   sda: GPIO4
