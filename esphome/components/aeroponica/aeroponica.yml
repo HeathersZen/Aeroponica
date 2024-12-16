@@ -20,6 +20,7 @@ packages:
 logger:
   logs:
     sensor: error
+    dallas: error
     pulse_counter: error
 
 one_wire:
