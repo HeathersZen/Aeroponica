@@ -20,7 +20,7 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   ap:
-    ssid: ${FRIENDLY_NAME} Fallback Hotspot
+    ssid: ${FRIENDLY_NAME} FHS
     password: "{$FALLBACK_HOTSPOT_PASSWORD}"
 
 captive_portal:
