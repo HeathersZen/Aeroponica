@@ -3,7 +3,7 @@ packages:
     file: ../common/esp32DevBoard.yml
     vars:
       NAME: system4-thp-sensor
-      FRIENDLY_NAME: "System4 Temperature & Humidity Sensor"
+      FRIENDLY_NAME: "System4 THP Sensor"
       LOG_LEVEL: DEBUG
       ENCRYPTION_KEY: "czhoVjNvAL45QTYr9dPGNpYZ5rM8X66JAs5opv4f89E="
       OTA_PASSWORD: "dd7adf95aa5a34e92677177dae6487fd"
