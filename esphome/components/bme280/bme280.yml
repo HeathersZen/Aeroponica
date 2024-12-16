@@ -6,7 +6,7 @@ packages:
   heartbeat: !include
     file: ../common/heartbeat.yml
     vars:
-      LED_GPIO: GPIO23
+      LED_GPIO: GPIO2
 
 esphome:
   name: "system4-thp-sensor"
