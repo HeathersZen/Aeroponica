@@ -1,3 +1,13 @@
+packages:
+  yamlVersion: !include
+    file: ../common/yamlVersion.yml
+    vars:
+      YAML_VERSION: "v .0.0.5 Dec 20, 2024 12:01"
+  heartbeat: !include
+    file: ../common/heartbeat.yml
+    vars:
+      LED_GPIO: GPIO23
+
 esphome:
   name: "wall-2-controller"
   friendly_name: Wall 2 Controller
@@ -309,15 +319,15 @@ script:
       - switch.turn_off: line_5_feeder
       - delay: 1s
       - switch.turn_on: line_6_feeder
-      - delay: 3.5s
+      - delay: 2.75s
       - switch.turn_off: line_6_feeder
       - delay: 1s
       - switch.turn_on: line_7_feeder
-      - delay: 3.5s
+      - delay: 2.75s
       - switch.turn_off: line_7_feeder
       - delay: 1s
       - switch.turn_on: line_8_feeder
-      - delay: 3.5s
+      - delay: 2.75s
       - switch.turn_off: line_8_feeder         
       - logger.log:
           format: "feedPlantsByTimeStaticDelay: Feed cycle completed."
@@ -669,11 +679,6 @@ time:
     id: homeassistant_time
     timezone: America/Los_Angeles
 text_sensor:
-  - platform: template
-    id: wallControllerCodeVersion
-    name: Wall Controller Code Version
-    lambda:       
-      return {"v .0.0.41 Nov 21, 2024 6:34"};
   - platform: template
     name: "Last Feed"
     id: lastFeedTime
