@@ -2,7 +2,7 @@ packages:
   yamlVersion: !include
     file: ../common/yamlVersion.yml
     vars:
-      YAML_VERSION: "v .0.0.5 Dec 20, 2024 18:29"
+      YAML_VERSION: "v .0.0.5 Dec 21, 2024 13:40"
   heartbeat: !include
     file: ../common/heartbeat.yml
     vars:
@@ -299,7 +299,7 @@ script:
             id: lastFeedTimestamp                                                                                                                                                   
             state: !lambda 'return id(homeassistant_time).now().timestamp;'
       - switch.turn_on: line_1_feeder
-      - delay: 3s
+      - delay: 2.5s
       - switch.turn_off: line_1_feeder
       - delay: 1s
       - switch.turn_on: line_2_feeder
@@ -307,11 +307,11 @@ script:
       - switch.turn_off: line_2_feeder
       - delay: 1s
       - switch.turn_on: line_3_feeder
-      - delay: 3s
+      - delay: 2.5s
       - switch.turn_off: line_3_feeder
       - delay: 1s
       - switch.turn_on: line_4_feeder
-      - delay: 3s
+      - delay: 2.5s
       - switch.turn_off: line_4_feeder
       - delay: 1s
       - switch.turn_on: line_5_feeder
@@ -753,9 +753,9 @@ button:
         script.execute: feedAllThePlants
 
 interval:
-  - interval: 270sec
+  - interval: 300sec
     then:
-      - logger.log: "Interval Feed cycle initiated (4:30 minutes static)"
+      - logger.log: "Interval Feed cycle initiated (5:00 minutes static)"
       - sensor.template.publish:                                                                                                                                           
             id: lastFeedTimestamp                                                                                                                                                   
             state: !lambda 'return id(homeassistant_time).now().timestamp;'
