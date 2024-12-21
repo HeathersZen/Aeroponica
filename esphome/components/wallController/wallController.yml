@@ -666,7 +666,7 @@ number:
     id: overfeedAlertThreshold
     min_value: 0
     max_value: 30
-    initial_value: .035
+    initial_value: .039
     step: .0001
     optimistic: true
     mode: BOX
