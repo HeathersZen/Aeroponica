@@ -2,7 +2,7 @@ packages:
   yamlVersion: !include
     file: ../common/yamlVersion.yml
     vars:
-      YAML_VERSION: "v .0.0.5 Dec 20, 2024 12:01"
+      YAML_VERSION: "v .0.0.5 Dec 20, 2024 18:29"
   heartbeat: !include
     file: ../common/heartbeat.yml
     vars:
@@ -299,35 +299,35 @@ script:
             id: lastFeedTimestamp                                                                                                                                                   
             state: !lambda 'return id(homeassistant_time).now().timestamp;'
       - switch.turn_on: line_1_feeder
-      - delay: 3.5s
+      - delay: 3s
       - switch.turn_off: line_1_feeder
       - delay: 1s
       - switch.turn_on: line_2_feeder
-      - delay: 3.5s
+      - delay: 2.5s
       - switch.turn_off: line_2_feeder
       - delay: 1s
       - switch.turn_on: line_3_feeder
-      - delay: 3.5s
+      - delay: 3s
       - switch.turn_off: line_3_feeder
       - delay: 1s
       - switch.turn_on: line_4_feeder
-      - delay: 3.5s
+      - delay: 3s
       - switch.turn_off: line_4_feeder
       - delay: 1s
       - switch.turn_on: line_5_feeder
-      - delay: 3.5s
+      - delay: 2.5s
       - switch.turn_off: line_5_feeder
       - delay: 1s
       - switch.turn_on: line_6_feeder
-      - delay: 2.75s
+      - delay: 2.5s
       - switch.turn_off: line_6_feeder
       - delay: 1s
       - switch.turn_on: line_7_feeder
-      - delay: 2.75s
+      - delay: 2.5s
       - switch.turn_off: line_7_feeder
       - delay: 1s
       - switch.turn_on: line_8_feeder
-      - delay: 2.75s
+      - delay: 2.5s
       - switch.turn_off: line_8_feeder         
       - logger.log:
           format: "feedPlantsByTimeStaticDelay: Feed cycle completed."
@@ -753,9 +753,9 @@ button:
         script.execute: feedAllThePlants
 
 interval:
-  - interval: 4min
+  - interval: 270sec
     then:
-      - logger.log: "Interval Feed cycle initiated (4minutes static)"
+      - logger.log: "Interval Feed cycle initiated (4:30 minutes static)"
       - sensor.template.publish:                                                                                                                                           
             id: lastFeedTimestamp                                                                                                                                                   
             state: !lambda 'return id(homeassistant_time).now().timestamp;'
