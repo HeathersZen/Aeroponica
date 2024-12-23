@@ -3,6 +3,8 @@ switch:
     pin: ${LED_GPIO}
     id: LED
     name: LED
+    inverted: ${LED_INVERTED}
+    internal: true
 
 esphome:
   on_boot:

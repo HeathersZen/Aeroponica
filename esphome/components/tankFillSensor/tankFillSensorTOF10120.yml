@@ -16,6 +16,7 @@ packages:
     file: ../common/heartbeat.yml
     vars:
       LED_GPIO: GPIO2
+      LED_INVERTED: true
 
 # Enable logging
 logger:
@@ -111,10 +112,12 @@ text_sensor:
   - platform: template
     id: "tankHeightSensor"
     name: "Tank Height"
+    internal: true    
   
   - platform: template
     id: "fillAmountSensor"
     name: "Fill Amount"  
+    internal: true    
 
 number:
   - platform: template
