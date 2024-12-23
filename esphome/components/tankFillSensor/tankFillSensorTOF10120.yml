@@ -1,0 +1,144 @@
+packages:
+  device_base: !include
+    file: ../common/esp8266DevBoard.yml
+    vars:
+      NAME: tankfillsensordev
+      FRIENDLY_NAME: Tank Fill Sensor TOF10120
+      LOG_LEVEL: DEBUG
+      ENCRYPTION_KEY: "O8hdA9BjOKarJ53rWlg7L8Cv5iVSVRU2xPsRat9pgKg="
+      OTA_PASSWORD: "9a8761636d28715126cbb05d60f8c8b2"
+      FALLBACK_HOTSPOT_PASSWORD: "UhtYT6DWw17v"
+  yamlVersion: !include
+    file: ../common/yamlVersion.yml
+    vars:
+      YAML_VERSION: "v1.0.0 Dec 22, 2024 22:53 pm"
+  heartbeat: !include
+    file: ../common/heartbeat.yml
+    vars:
+      LED_GPIO: GPIO2
+
+# Enable logging
+logger:
+  baud_rate: 0
+  logs:
+    uart: ERROR
+    logger: ERROR
+    sensor: ERROR
+    uart_debug: ERROR
+    text_sensor: ERROR
+    number: ERROR
+
+uart:
+ - id: uart_bus1
+   rx_pin: 3 #This is the TX pin on the esp8266 (tywe3s) https://developer.tuya.com/en/docs/iot/wifie3smodule?id=K9605ua1cx9tv
+   tx_pin: 1
+   baud_rate: 115200
+   debug:
+     direction: BOTH
+     dummy_receiver: true
+     after:
+      delimiter: "\r\n" #the data is sent in the format XXmm\r\n where XX is an integer value between 0-2000
+     sequence:
+        - lambda: |-
+            std::string str(bytes.begin(), bytes.end());
+            static unsigned long lastUpdate = 0;
+            bool isAlarm;
+            bool isDistance;
+            bool isState;
+            int distanceMeasured = 0;
+            std::string statusValue;
+            auto TAG = "DISTANCE";                    
+                       
+            int result = 0;
+
+            //ESP_LOGI(TAG, "Read: %s", str.c_str() );
+
+            if(str.find("d:") != std::string::npos) {
+                result = sscanf(str.c_str(), "d: %d mm", &distanceMeasured);
+            }
+            else if (str.find("State;") != std::string::npos) {
+                std::string::size_type found = str.find(",");
+              
+                if(found != std::string::npos) {
+                  statusValue = str.substr(found + 2, str.length() - (found + 4));
+                }
+            }
+
+            if (millis() - lastUpdate >= 1000) {
+              lastUpdate = millis();
+
+              if (distanceMeasured > 0 || statusValue == "MinRangeFail") {
+                id(distanceValueSensor).publish_state(distanceMeasured);
+              }
+
+              id(statusValueSensor).publish_state(statusValue.c_str());
+            }
+
+sensor:
+  - platform: template
+    name: "Distance"
+    id: "distanceValueSensor"
+    unit_of_measurement: "mm"
+    device_class: "distance"
+    on_value: 
+      then:
+        - component.update: tankLevel
+
+  - platform: template
+    name: "Tank Level"
+    id: "tankLevel"
+    update_interval: 1s
+    unit_of_measurement: "%"
+    state_class: measurement
+    lambda: |-
+      if (id(distanceValueSensor).state > id(tankEmptyDistance).state)
+        return 0;
+      else
+      {
+        float tankHeight = float(id(tankEmptyDistance).state) - float(id(tankFullDistance).state); // Total distance of the tank from top to bottom
+        id(tankHeightSensor).publish_state(std::to_string(tankHeight));
+
+        float fillAmount = ((float(id(distanceValueSensor).state) - float(id(tankFullDistance).state)) / tankHeight) * 100;
+        id(fillAmountSensor).publish_state(std::to_string(fillAmount));
+        return 100 - fillAmount;
+      }
+
+text_sensor:
+  - platform: template
+    id: "statusValueSensor"
+    name: "Status Value"
+
+  - platform: template
+    id: "tankHeightSensor"
+    name: "Tank Height"
+  
+  - platform: template
+    id: "fillAmountSensor"
+    name: "Fill Amount"  
+
+number:
+  - platform: template
+    id: tankEmptyDistance
+    name: "Tank Empty Distance"
+    optimistic: True
+    step: 1
+    initial_value: 381
+    min_value: 0
+    max_value: 10000
+    mode: BOX
+    on_value: 
+      then:
+        - component.update: tankLevel
+
+  - platform: template
+    id: tankFullDistance
+    name: "Tank Full Distance"
+    optimistic: True
+    step: 1
+    initial_value: 100
+    min_value: 0
+    max_value: 10000
+    mode: BOX
+    on_value: 
+      then:
+        - component.update: tankLevel
