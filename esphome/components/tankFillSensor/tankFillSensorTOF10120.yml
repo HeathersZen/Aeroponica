@@ -56,8 +56,8 @@ uart:
 
             if(str.find("d:") != std::string::npos) {
                 result = sscanf(str.c_str(), "d: %d mm", &distanceMeasured);
-                id(lastUpdateTimestamp).publish_state(id(current_time).state);
-                gLastUpdateTimestamp = id(homeassistant_time).now().timestamp;
+
+                id(last_update).publish_state(id(homeassistant_time).now().timestamp);
             }
             else if (str.find("State;") != std::string::npos) {
                 std::string::size_type found = str.find(",");
@@ -78,10 +78,6 @@ uart:
                 id(statusValueSensor).publish_state(statusValue.c_str());
               }
             }
-
-globals:
-  - id: gLastUpdateTimestamp
-    type: int
 
 time:
   - platform: homeassistant
@@ -118,22 +114,22 @@ sensor:
       }
 
   - platform: template
+    name: "Last Update"
+    device_class: timestamp
+    id: last_update
+
+  - platform: template
     name: "Seconds Since Last Update"
     id: secondsSincelastUpdate
     device_class: ""
     lambda: |-
-      auto elapsed = id(gLastUpdateTimestamp).state.elapsed();
+      auto elapsed = id(last_update).state.elapsed();
       return  { elapsed.count() }; 
 
 text_sensor:
   - platform: template
     id: "statusValueSensor"
     name: "Status Value"
-
-  - platform: template
-    name: "Last Update Timestamp"
-    id: lastUpdateTimestamp   
-    device_class: timestamp
 
   - platform: template
     id: "tankHeightSensor"
