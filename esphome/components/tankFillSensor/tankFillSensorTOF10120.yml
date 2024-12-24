@@ -81,7 +81,7 @@ uart:
 
 globals:
   - id: gLastUpdateTimestamp
-    type: timestamp
+    type: esphome::ESPTime
 
 time:
   - platform: homeassistant
