@@ -72,7 +72,7 @@ uart:
                 id(distanceValueSensor).publish_state(distanceMeasured);
               }
 
-              if (statusValueSensor.length() > 0) {
+              if (statusValue.length() > 0) {
                 id(statusValueSensor).publish_state(statusValue.c_str());
               }
             }
