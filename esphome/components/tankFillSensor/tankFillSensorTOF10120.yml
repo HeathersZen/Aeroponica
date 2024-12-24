@@ -11,7 +11,7 @@ packages:
   yamlVersion: !include
     file: ../common/yamlVersion.yml
     vars:
-      YAML_VERSION: "v1.0.0 Dec 23, 2024 10:09"
+      YAML_VERSION: "v1.0.0 Dec 24, 2024 00:22"
   heartbeat: !include
     file: ../common/heartbeat.yml
     vars:
@@ -65,14 +65,16 @@ uart:
                 }
             }
 
-            if (millis() - lastUpdate >= 1000) {
+            if (millis() - lastUpdate >= 5000) {
               lastUpdate = millis();
 
               if (distanceMeasured > 0 || statusValue == "MinRangeFail") {
                 id(distanceValueSensor).publish_state(distanceMeasured);
               }
 
-              id(statusValueSensor).publish_state(statusValue.c_str());
+              if (statusValueSensor.length() > 0) {
+                id(statusValueSensor).publish_state(statusValue.c_str());
+              }
             }
 
 sensor:
@@ -88,7 +90,7 @@ sensor:
   - platform: template
     name: "Tank Level"
     id: "tankLevel"
-    update_interval: 1s
+    update_interval: 5s
     unit_of_measurement: "%"
     state_class: measurement
     lambda: |-
