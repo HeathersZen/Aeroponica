@@ -145,10 +145,9 @@ text_sensor:
     name: "Fill Amount"  
     internal: true    
 
-
-
   - platform: template
     name: "Current time"
+    id: "current_time"
     lambda: |-
       char str[17];
       time_t currTime = id(homeassistant_time).now().timestamp;
