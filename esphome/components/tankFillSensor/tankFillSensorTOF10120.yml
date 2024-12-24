@@ -56,6 +56,7 @@ uart:
 
             if(str.find("d:") != std::string::npos) {
                 result = sscanf(str.c_str(), "d: %d mm", &distanceMeasured);
+                id(lastUpdateTimestamp).publish_state(id(homeassistant_time).now());
             }
             else if (str.find("State;") != std::string::npos) {
                 std::string::size_type found = str.find(",");
@@ -76,6 +77,11 @@ uart:
                 id(statusValueSensor).publish_state(statusValue.c_str());
               }
             }
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+    timezone: America/Los_Angeles
 
 sensor:
   - platform: template
@@ -106,6 +112,11 @@ sensor:
         return 100 - fillAmount;
       }
 
+  - platform: template
+    name: "Last Update Timestamp"
+    id: lastUpdateTimestamp   
+    device_class: timestamp
+
 text_sensor:
   - platform: template
     id: "statusValueSensor"
@@ -120,6 +131,14 @@ text_sensor:
     id: "fillAmountSensor"
     name: "Fill Amount"  
     internal: true    
+
+  - platform: template
+    name: "Seconds Since Last Update"
+    id: secondsSincelastUpdate
+    device_class: ""
+    lambda: |-
+      auto elapsed = id(lastUpdateTimestamp).state.elapsed();
+      return  { elapsed.count() }; 
 
 number:
   - platform: template
