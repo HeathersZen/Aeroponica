@@ -65,7 +65,7 @@ uart:
                 }
             }
 
-            if (millis() - lastUpdate >= 5000) {
+            if (millis() - lastUpdate >= 1000) {
               lastUpdate = millis();
 
               if (distanceMeasured > 0 || statusValue == "MinRangeFail") {
