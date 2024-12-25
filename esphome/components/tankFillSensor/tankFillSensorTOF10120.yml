@@ -11,7 +11,7 @@ packages:
   yamlVersion: !include
     file: ../common/yamlVersion.yml
     vars:
-      YAML_VERSION: "v1.0.0 Dec 24, 2024 00:22"
+      YAML_VERSION: "v1.0.0 Dec 24, 2024 16:27"
   heartbeat: !include
     file: ../common/heartbeat.yml
     vars:
@@ -56,8 +56,13 @@ uart:
 
             if(str.find("d:") != std::string::npos) {
                 result = sscanf(str.c_str(), "d: %d mm", &distanceMeasured);
+                distanceMeasured = distanceMeasured + 20; // correct for overcompensation. Always reads 20mm too close.
+                //id(last_update).publish_state(id(homeassistant_time).now().timestamp);
 
-                id(last_update).publish_state(id(homeassistant_time).now());
+                //char str[25];
+                //time_t currTime = id(homeassistant_time).now().timestamp;
+                //strftime(str, sizeof(str), "%b %d-%Y %H:%M:%S", localtime(&currTime));
+                //id(last_update_time).publish_state(str);
             }
             else if (str.find("State;") != std::string::npos) {
                 std::string::size_type found = str.find(",");
@@ -113,18 +118,19 @@ sensor:
         return 100 - fillAmount;
       }
 
-  - platform: template
-    name: "Last Update"
-    device_class: timestamp
-    id: last_update
+# These fields were used to debug why it took so long to get "d" updates from the sensor.
+  # - platform: template
+  #   name: "Last Update"
+  #   device_class: timestamp
+  #   update_interval: 60s    
+  #   id: last_update
 
   # - platform: template
   #   name: "Seconds Since Last Update"
   #   id: secondsSincelastUpdate
-  #   device_class: ""
+  #   update_interval: 1s
   #   lambda: |-
-  #     auto elapsed = id(last_update).state.elapsed();
-  #     return  { elapsed.count() }; 
+  #     return  { id(homeassistant_time).now().timestamp - id(last_update).state }; 
 
 text_sensor:
   - platform: template
@@ -141,15 +147,20 @@ text_sensor:
     name: "Fill Amount"  
     internal: true    
 
-  - platform: template
-    name: "Current time"
-    id: "current_time"
-    lambda: |-
-      char str[17];
-      time_t currTime = id(homeassistant_time).now().timestamp;
-      strftime(str, sizeof(str), "%Y-%m-%d %H:%M", localtime(&currTime));
-      return  { str };
-    update_interval: 60s
+  # - platform: template
+  #   name: "Current time"
+  #   id: "current_time"
+  #   lambda: |-
+  #     char str[25];
+  #     time_t currTime = id(homeassistant_time).now().timestamp;
+  #     strftime(str, sizeof(str), "%b %d-%Y %H:%M:%S", localtime(&currTime));
+  #     return  { str };
+  #   update_interval: 1s
+
+  # - platform: template
+  #   name: "Last Update Time"
+  #   update_interval: 1s    
+  #   id: last_update_time
 
 number:
   - platform: template
@@ -170,7 +181,7 @@ number:
     name: "Tank Full Distance"
     optimistic: True
     step: 1
-    initial_value: 100
+    initial_value: 75
     min_value: 0
     max_value: 10000
     mode: BOX
