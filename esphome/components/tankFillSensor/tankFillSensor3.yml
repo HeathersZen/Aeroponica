@@ -3,7 +3,7 @@ packages:
     file: ../common/esp32DevBoard.yml
     vars:
       NAME: tankFillSensor3
-      FRIENDLY_NAME: Tank Fill Sensor 3
+      FRIENDLY_NAME: "Tank Fill Sensor 3"
       LOG_LEVEL: DEBUG
       ENCRYPTION_KEY: "zGWJVJDs88OsGldUdsWIKzXJHTvZZPds2fi4+uMrIOE="
       OTA_PASSWORD: "3ad6cbf585bc8b563f43e21d173f24e8"
