@@ -2,7 +2,7 @@ packages:
   device_base: !include
     file: ../common/esp32DevBoard.yml
     vars:
-      NAME: tankFillSensor3
+      NAME: tankfillsensor3
       FRIENDLY_NAME: "Tank Fill Sensor 3"
       LOG_LEVEL: DEBUG
       ENCRYPTION_KEY: "zGWJVJDs88OsGldUdsWIKzXJHTvZZPds2fi4+uMrIOE="
