@@ -1,0 +1,12 @@
+sensor:
+  - platform: resistance
+    id: resistanceSensor
+    name: "Resistance Level Sensor"
+    sensor: source_sensor
+    configuration: DOWNSTREAM
+    resistor: 220Ohm
+
+# Example source sensor:
+  - platform: adc
+    id: source_sensor
+    pin: A0

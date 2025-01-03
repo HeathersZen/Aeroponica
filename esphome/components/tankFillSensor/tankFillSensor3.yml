@@ -1,0 +1,42 @@
+packages:
+  device_base: !include
+    file: ../common/esp32DevBoard.yml
+    vars:
+      NAME: tankFillSensor3
+      FRIENDLY_NAME: Tank Fill Sensor 3
+      LOG_LEVEL: DEBUG
+      ENCRYPTION_KEY: "zGWJVJDs88OsGldUdsWIKzXJHTvZZPds2fi4+uMrIOE="
+      OTA_PASSWORD: "3ad6cbf585bc8b563f43e21d173f24e8"
+      FALLBACK_HOTSPOT_PASSWORD: "JP2dIejjuZTD"
+  yamlVersion: !include
+    file: ../common/yamlVersion.yml
+    vars:
+      YAML_VERSION: "v1.0.0 Jan 2, 2025 23:19"
+  heartbeat: !include
+    file: ../common/heartbeat.yml
+    vars:
+      LED_GPIO: GPIO2
+      LED_INVERTED: true
+  # tof10120Uart: !include
+  #   file: ./tof10120Uart.yml
+  floatSensor: !include
+    file: ./floatSensor.yml
+
+
+# Enable logging
+logger:
+  baud_rate: 0
+  logs:
+    uart: ERROR
+    logger: ERROR
+    sensor: ERROR
+    uart_debug: ERROR
+    text_sensor: ERROR
+    number: ERROR
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+    timezone: America/Los_Angeles
+
+
