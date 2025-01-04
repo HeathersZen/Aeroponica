@@ -1,6 +1,6 @@
 packages:
   device_base: !include
-    file: ../common/esp32DevBoard.yml
+    file: ../common/esp8266DevBoard.yml
     vars:
       NAME: tankfillsensor3
       FRIENDLY_NAME: "Tank Fill Sensor 3"
