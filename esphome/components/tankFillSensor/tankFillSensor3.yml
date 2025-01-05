@@ -11,7 +11,7 @@ packages:
   yamlVersion: !include
     file: ../common/yamlVersion.yml
     vars:
-      YAML_VERSION: "v1.0.0 Jan 2, 2025 23:19"
+      YAML_VERSION: "v1.0.0 Jan 4, 2025 17:21"
   heartbeat: !include
     file: ../common/heartbeat.yml
     vars:
