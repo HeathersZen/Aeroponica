@@ -3,7 +3,7 @@ sensor:
     id: resistanceSensor
     name: "Resistance Level Sensor"
     sensor: source_sensor
-    configuration: DOWNSTREAM
+    configuration: UPSTREAM
     resistor: 831Ohm
 
 # Example source sensor:
