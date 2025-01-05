@@ -1,6 +1,6 @@
 packages:
   device_base: !include
-    file: ../common/esp8266DevBoard.yml
+    file: ../common/boards/esp8266DevBoard.yml
     vars:
       NAME: tankfillsensordev
       FRIENDLY_NAME: Tank Fill Sensor TOF10120
@@ -9,11 +9,11 @@ packages:
       OTA_PASSWORD: "9a8761636d28715126cbb05d60f8c8b2"
       FALLBACK_HOTSPOT_PASSWORD: "UhtYT6DWw17v"
   yamlVersion: !include
-    file: ../common/yamlVersion.yml
+    file: ../common/scripts/yamlVersion.yml
     vars:
-      YAML_VERSION: "v1.0.0 Dec 24, 2024 16:27"
+      YAML_VERSION: "v1.0.0 Jan 5, 2025 13:17"
   heartbeat: !include
-    file: ../common/heartbeat.yml
+    file: ../common/scripts/heartbeat.yml
     vars:
       LED_GPIO: GPIO2
       LED_INVERTED: true

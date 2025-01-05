@@ -1,6 +1,6 @@
 packages:
   device_base: !include
-    file: ../common/esp32DevBoard.yml
+    file: ../common/boards/esp32DevBoard.yml
     vars:
       NAME: tankfillsensor3
       FRIENDLY_NAME: "Tank Fill Sensor 3"
@@ -9,11 +9,11 @@ packages:
       OTA_PASSWORD: "3ad6cbf585bc8b563f43e21d173f24e8"
       FALLBACK_HOTSPOT_PASSWORD: "JP2dIejjuZTD"
   yamlVersion: !include
-    file: ../common/yamlVersion.yml
+    file: ../common/scripts/yamlVersion.yml
     vars:
-      YAML_VERSION: "v1.0.0 Jan 4, 2025 17:21"
+      YAML_VERSION: "v1.0.0 Jan 5, 2025 13:17"
   heartbeat: !include
-    file: ../common/heartbeat.yml
+    file: ../common/scripts/heartbeat.yml
     vars:
       LED_GPIO: GPIO2
       LED_INVERTED: false

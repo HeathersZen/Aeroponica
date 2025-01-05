@@ -1,6 +1,6 @@
 packages:
   device_base: !include
-    file: ../common/esp322ChannelRelayBoard.yml
+    file: ../common/boards/esp322ChannelRelayBoard.yml
     vars:
       NAME: aeroponica
       FRIENDLY_NAME: Aeroponica
@@ -13,7 +13,7 @@ packages:
     vars:
       YAML_VERSION: "v0.0.2 Dec 15, 2024 16:35 pm"
   heartbeat: !include
-    file: ../common/heartbeat.yml
+    file: ../common/scripts/heartbeat.yml
     vars:
       LED_GPIO: GPIO23
 

@@ -1,0 +1,1 @@
+This folder is used to assemble the various assets in the "common" tree into a working solution. For example, assembling one a temperature sensors, a fahrenheir conversion text sensor and some range trigger scripts into a solution so you can easiliy consume them all from one place.

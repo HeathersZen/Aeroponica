@@ -1,6 +1,6 @@
 packages:
   device_base: !include
-    file: ../common/esp8266DevBoard.yml
+    file: ../common/boards/esp8266DevBoard.yml
     vars:
       NAME: system4-thp-sensor
       FRIENDLY_NAME: "System4 THP Sensor"
@@ -9,14 +9,15 @@ packages:
       OTA_PASSWORD: "dd7adf95aa5a34e92677177dae6487fd"
       FALLBACK_HOTSPOT_PASSWORD: "R9dbW0nldQ7y"
   yamlVersion: !include
-    file: ../common/yamlVersion.yml
+    file: ../common/scripts/yamlVersion.yml
     vars:
       YAML_VERSION: "v0.0.2 Dec 15, 2024 16:27 pm"
   heartbeat: !include
-    file: ../common/heartbeat.yml
+    file: ../common/scripts/heartbeat.yml
     vars:
       LED_GPIO: GPIO2
 
+# This is a syslog module.
 external_components:
   - source: github://TheStaticTurtle/esphome_syslog
     components: [syslog]
