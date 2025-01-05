@@ -4,7 +4,7 @@ sensor:
     name: "Resistance Level Sensor"
     sensor: source_sensor
     configuration: DOWNSTREAM
-    resistor: 220Ohm
+    resistor: 831Ohm
 
 # Example source sensor:
   - platform: adc
