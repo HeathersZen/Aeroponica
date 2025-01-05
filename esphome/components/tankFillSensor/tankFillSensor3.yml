@@ -11,7 +11,7 @@ packages:
   yamlVersion: !include
     file: ../common/scripts/yamlVersion.yml
     vars:
-      YAML_VERSION: "v1.0.0 Jan 5, 2025 13:17"
+      YAML_VERSION: "v1.0.0 Jan 5, 2025 13:56"
   heartbeat: !include
     file: ../common/scripts/heartbeat.yml
     vars:
@@ -21,7 +21,6 @@ packages:
   #   file: ./tof10120Uart.yml
   floatSensor: !include
     file: ./floatSensor.yml
-
 
 # Enable logging
 logger:
