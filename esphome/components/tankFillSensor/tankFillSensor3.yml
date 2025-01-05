@@ -38,5 +38,3 @@ time:
   - platform: homeassistant
     id: homeassistant_time
     timezone: America/Los_Angeles
-
-

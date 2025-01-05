@@ -1,14 +1,48 @@
 sensor:
+    # Resistance sensor that calculates the resistance on the voltage divider circuit 
+    # based on the known reference resistor and the unknown resistance in the float valve.
   - platform: resistance
-    id: resistanceSensor
-    name: "Resistance Level Sensor"
+    id: floatSensorResistance
+    name: "Float Sensor"
     sensor: source_sensor
     configuration: DOWNSTREAM
     resistor: 831Ohm
     reference_voltage: 3.3V
 
-# Example source sensor:
+    # Source sensor to read the voltage value from the pin.
   - platform: adc
-    id: source_sensor
+    id: floatSensorVoltage
+    name: "Float Sensor Resistance"
     pin: GPIO34
     update_interval: 1s
+
+    # What the resistance value should be when the sensor is fully down to the bottom/tank is empty
+  - platform: template
+    id: tankEmptyValue
+    name: "Tank Empty Value"
+    lambda: return 19.3;
+
+    # What the resistance value should be when the sensor is fully up to the top/tank is full
+  - platform: template
+    id: tankFullValue
+    name: "Tank Full Value"
+    lambda: return 195.0;
+
+    # Returns a percentage value indicating how full the tank is based on the ratio of the current sensor reading to the full/empty values.
+  - platform: template
+    name: "Tank Level"
+    id: "tankLevel"
+    update_interval: 5s
+    unit_of_measurement: "%"
+    state_class: measurement
+    lambda: |-
+      if (id(floatSensorResistance).state < id(tankEmptyValue).state)
+        return 0;
+      else
+      {
+        // Total possible delta in readings between a full tank and an empty tank.
+        float maxResistanceRange = float(id(tankFullValue).state) - float(id(tankEmptyValue).state); 
+        float fillAmount = ( float(id(tankFullValue).state) - (float(id(floatSensorResistance).state)) / maxResistanceRange) * 100;
+        return 100 - fillAmount;
+      }
+
