@@ -3,7 +3,7 @@ sensor:
     # based on the known reference resistor and the unknown resistance in the float valve.
   - platform: resistance
     id: floatSensorResistance
-    name: "Float Sensor"
+    name: "Float Sensor Resistance"
     sensor: floatSensorVoltage
     configuration: DOWNSTREAM
     resistor: 831Ohm
@@ -12,19 +12,19 @@ sensor:
     # Source sensor to read the voltage value from the pin.
   - platform: adc
     id: floatSensorVoltage
-    name: "Float Sensor Resistance"
+    name: "Float Sensor Voltage"
     pin: GPIO34
-    update_interval: 1s
+    update_interval: 10s
 
-    # What the resistance value should be when the sensor is fully down to the bottom/tank is empty
+    # What the resistance value was measured at  when the sensor was fully down to the bottom of its travel
   - platform: template
-    id: tankEmptyValue
-    name: "Tank Empty Value"
+    id: sensorMinResistance
+    name: "Sensor Minimum Resistance"
     lambda: return 19.3;
 
-    # What the resistance value should be when the sensor is fully up to the top/tank is full
+    # What the resistance value was measured at when the sensor is fully up to the top of its travel
   - platform: template
-    id: tankFullValue
+    id: sensorMaxResistance
     name: "Tank Full Value"
     lambda: return 195.0;
 
@@ -32,17 +32,17 @@ sensor:
   - platform: template
     name: "Tank Level"
     id: "tankLevel"
-    update_interval: 5s
+    update_interval: 10s
     unit_of_measurement: "%"
     state_class: measurement
     lambda: |-
-      if (id(floatSensorResistance).state < id(tankEmptyValue).state)
+      if (id(floatSensorResistance).state < id(sensorMinResistance).state)
         return 0;
       else
       {
         // Total possible delta in readings between a full tank and an empty tank.
-        float maxResistanceRange = float(id(tankFullValue).state) - float(id(tankEmptyValue).state); 
-        float fillAmount = ( float(id(tankFullValue).state) - (float(id(floatSensorResistance).state)) / maxResistanceRange) * 100;
-        return 100 - fillAmount;
+        float maxResistanceRange = float(id(sensorMaxResistance).state) - float(id(sensorMinResistance).state); 
+        float fillAmount = ( (  float(id(floatSensorResistance).state) - float(id(sensorMinResistance).state) ) / maxResistanceRange ) * 100;
+        return fillAmount;
       }
 
