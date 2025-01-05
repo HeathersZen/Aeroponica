@@ -8,6 +8,9 @@ sensor:
     configuration: DOWNSTREAM
     resistor: 831Ohm
     reference_voltage: 3.3V
+    on_value:
+      then:
+        - component.update: tankLevel
 
     # Source sensor to read the voltage value from the pin.
   - platform: adc
@@ -32,7 +35,6 @@ sensor:
   - platform: template
     name: "Tank Level"
     id: "tankLevel"
-    update_interval: 10s
     unit_of_measurement: "%"
     state_class: measurement
     lambda: |-
