@@ -10,5 +10,5 @@ sensor:
 # Example source sensor:
   - platform: adc
     id: source_sensor
-    pin: A0
+    pin: 13
     update_interval: 1s
