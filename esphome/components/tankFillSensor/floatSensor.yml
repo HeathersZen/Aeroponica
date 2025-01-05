@@ -4,7 +4,7 @@ sensor:
   - platform: resistance
     id: floatSensorResistance
     name: "Float Sensor"
-    sensor: source_sensor
+    sensor: floatSensorVoltage
     configuration: DOWNSTREAM
     resistor: 831Ohm
     reference_voltage: 3.3V

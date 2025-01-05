@@ -9,7 +9,7 @@ packages:
       OTA_PASSWORD: "3ad6cbf585bc8b563f43e21d173f24e8"
       FALLBACK_HOTSPOT_PASSWORD: "JP2dIejjuZTD"
   yamlVersion: !include
-    file: ../common/scripts/yamlVersion.yml
+    file: ../common/sensors/yamlVersion.yml
     vars:
       YAML_VERSION: "v1.0.0 Jan 5, 2025 13:56"
   heartbeat: !include
