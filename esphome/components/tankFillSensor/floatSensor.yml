@@ -3,10 +3,12 @@ sensor:
     id: resistanceSensor
     name: "Resistance Level Sensor"
     sensor: source_sensor
-    configuration: UPSTREAM
+    configuration: DOWNSTREAM
     resistor: 831Ohm
+    reference_voltage: 3.3V
 
 # Example source sensor:
   - platform: adc
     id: source_sensor
     pin: 34
+    update_interval: 1s
