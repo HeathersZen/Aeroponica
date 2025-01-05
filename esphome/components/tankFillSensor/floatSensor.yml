@@ -5,6 +5,7 @@ sensor:
     sensor: source_sensor
     configuration: DOWNSTREAM
     resistor: 220Ohm
+    update_interval: 1s
 
 # Example source sensor:
   - platform: adc
