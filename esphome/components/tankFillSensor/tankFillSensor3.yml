@@ -16,7 +16,7 @@ packages:
     file: ../common/heartbeat.yml
     vars:
       LED_GPIO: GPIO2
-      LED_INVERTED: true
+      LED_INVERTED: false
   # tof10120Uart: !include
   #   file: ./tof10120Uart.yml
   floatSensor: !include
