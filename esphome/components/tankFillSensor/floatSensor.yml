@@ -39,6 +39,7 @@ sensor:
   - platform: template
     name: "Tank Level"
     id: "tankLevel"
+    accuracy_decimals: 0
     unit_of_measurement: "%"
     state_class: measurement
     lambda: |-
