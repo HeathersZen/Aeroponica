@@ -29,7 +29,7 @@ sensor:
   - platform: template
     id: sensorMaxResistance
     name: "Tank Full Value"
-    lambda: return 195.0;
+    lambda: return 148.0;
 
     # Returns a percentage value indicating how full the tank is based on the ratio of the current sensor reading to the full/empty values.
   - platform: template
