@@ -21,7 +21,7 @@ sensor:
     id: floatSensorVoltage
     name: "Float Sensor Voltage"
     pin: GPIO34
-    update_interval: 10s
+    update_interval: 5s
 
     # What the resistance value was measured at  when the sensor was fully down to the bottom of its travel
   - platform: template
