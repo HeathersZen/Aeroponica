@@ -10,8 +10,8 @@ sensor:
     reference_voltage: 3.3V
     filters:
       - sliding_window_moving_average:
-          window_size: 5
-          send_every: 1
+          window_size: 15
+          send_every: 2
     on_value:
       then:
         - component.update: tankLevel
