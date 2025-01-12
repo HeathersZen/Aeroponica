@@ -2,7 +2,7 @@ packages:
   yamlVersion: !include
     file: ../common/scripts/yamlVersion.yml
     vars:
-      YAML_VERSION: "v 1.0.0 Jan 5, 2025 13:19"
+      YAML_VERSION: "v 1.0.1 Jan 12, 2025 15:40"
   heartbeat: !include
     file: ../common/scripts/heartbeat.yml
     vars:
@@ -299,7 +299,7 @@ script:
             id: lastFeedTimestamp                                                                                                                                                   
             state: !lambda 'return id(homeassistant_time).now().timestamp;'
       - switch.turn_on: line_1_feeder
-      - delay: 2.5s
+      - delay: 3s
       - switch.turn_off: line_1_feeder
       - delay: 1s
       - switch.turn_on: line_2_feeder
@@ -327,7 +327,7 @@ script:
       - switch.turn_off: line_7_feeder
       - delay: 1s
       - switch.turn_on: line_8_feeder
-      - delay: 2.5s
+      - delay: 3.5s
       - switch.turn_off: line_8_feeder         
       - logger.log:
           format: "feedPlantsByTimeStaticDelay: Feed cycle completed."
