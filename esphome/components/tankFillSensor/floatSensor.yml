@@ -5,6 +5,7 @@ sensor:
     id: floatSensorResistance
     name: "Float Sensor Resistance"
     sensor: floatSensorVoltage
+    accuracy_decimals: 0
     configuration: DOWNSTREAM
     resistor: 831Ohm
     reference_voltage: 3.3V
@@ -20,6 +21,7 @@ sensor:
   - platform: adc
     id: floatSensorVoltage
     name: "Float Sensor Voltage"
+    accuracy_decimals: 0
     pin: GPIO34
     update_interval: 5s
 
@@ -41,6 +43,10 @@ sensor:
     id: "tankLevel"
     accuracy_decimals: 0
     unit_of_measurement: "%"
+    filters:
+      - sliding_window_moving_average:
+          window_size: 15
+          send_every: 2    
     state_class: measurement
     lambda: |-
       if (id(floatSensorResistance).state < id(sensorMinResistance).state)
