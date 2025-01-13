@@ -11,7 +11,7 @@ packages:
   yamlVersion: !include
     file: ../common/sensors/yamlVersion.yml
     vars:
-      YAML_VERSION: "v1.0.1 Jan 12, 2025 11:13"
+      YAML_VERSION: "v1.0.1 Jan 13, 2025 12:49"
   heartbeat: !include
     file: ../common/scripts/heartbeat.yml
     vars:
@@ -37,3 +37,42 @@ time:
   - platform: homeassistant
     id: homeassistant_time
     timezone: America/Los_Angeles
+
+number:
+  - platform: template
+    name: Tank Empty Percentage
+    id: tankEmptyPercentage
+    min_value: 0
+    max_value: 80
+    initial_value: 0
+    step: 1
+    optimistic: true
+    mode: BOX
+    on_value:
+      then:
+        - if:
+            condition:
+            - lambda: 'return id(tankEmptyPercentage).state >= id(tankFullPercentage).state;'
+            then:
+              - number.set:  
+                  id: tankEmptyPercentage                                                                                                                                                   
+                  value: 0
+  - platform: template
+    name: Tank Full Percentage
+    id: tankFullPercentage
+    min_value: 1
+    max_value: 110
+    initial_value: 100
+    step: 1
+    optimistic: true
+    mode: BOX
+    on_value:
+      then:
+        - if:
+            condition:
+            - lambda: 'return id(tankFullPercentage).state <= id(tankEmptyPercentage).state;'
+            then:
+              - number.set:
+                  id: tankFullPercentage                                                                                                                                                   
+                  value: 100
+      
