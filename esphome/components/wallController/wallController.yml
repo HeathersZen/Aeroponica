@@ -328,7 +328,7 @@ script:
       - switch.turn_off: line_7_feeder
       - delay: 1s
       - switch.turn_on: line_8_feeder
-      - delay: 3.5s
+      - delay: 4.5s
       - switch.turn_off: line_8_feeder         
       - logger.log:
           format: "feedPlantsByTimeStaticDelay: Feed cycle completed."
