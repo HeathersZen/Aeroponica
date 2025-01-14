@@ -12,6 +12,9 @@ sensor:
     on_value:
       then:
         - component.update: tankLevel
+        - sensor.template.publish:
+            id: tankLevelSmoothed
+            state: !lambda return float(id(tankLevel).state);
 
     # Source sensor to read the voltage value from the pin.
   - platform: adc
@@ -19,7 +22,7 @@ sensor:
     name: "Float Sensor Voltage"
     accuracy_decimals: 0
     pin: GPIO34
-    update_interval: 2s
+    update_interval: 1s
 
     # What the resistance value was measured at  when the sensor was fully down to the bottom of its travel
   - platform: template
@@ -51,3 +54,13 @@ sensor:
         return fillAmount;
       }
 
+  - platform: template
+    name: "Tank Level Smoothed"
+    id: "tankLevelSmoothed"
+    accuracy_decimals: 0
+    update_interval: 30s
+    unit_of_measurement: "%"
+    filters:
+      - sliding_window_moving_average:
+          window_size: 60
+          send_every: 30  
