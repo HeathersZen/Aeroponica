@@ -9,10 +9,6 @@ sensor:
     configuration: DOWNSTREAM
     resistor: 831Ohm
     reference_voltage: 3.3V
-    filters:
-      - sliding_window_moving_average:
-          window_size: 10
-          send_every: 1
     on_value:
       then:
         - component.update: tankLevel
@@ -43,10 +39,6 @@ sensor:
     id: "tankLevel"
     accuracy_decimals: 0
     unit_of_measurement: "%"
-    filters:
-      - sliding_window_moving_average:
-          window_size: 10
-          send_every: 1    
     state_class: measurement
     lambda: |-
       if (id(floatSensorResistance).state < id(sensorMinResistance).state)
