@@ -11,8 +11,8 @@ sensor:
     reference_voltage: 3.3V
     filters:
       - sliding_window_moving_average:
-          window_size: 15
-          send_every: 2
+          window_size: 10
+          send_every: 1
     on_value:
       then:
         - component.update: tankLevel
@@ -23,7 +23,7 @@ sensor:
     name: "Float Sensor Voltage"
     accuracy_decimals: 0
     pin: GPIO34
-    update_interval: 5s
+    update_interval: 2s
 
     # What the resistance value was measured at  when the sensor was fully down to the bottom of its travel
   - platform: template
@@ -45,8 +45,8 @@ sensor:
     unit_of_measurement: "%"
     filters:
       - sliding_window_moving_average:
-          window_size: 15
-          send_every: 2    
+          window_size: 10
+          send_every: 1    
     state_class: measurement
     lambda: |-
       if (id(floatSensorResistance).state < id(sensorMinResistance).state)

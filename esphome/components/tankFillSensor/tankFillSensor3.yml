@@ -40,39 +40,22 @@ time:
 
 number:
   - platform: template
-    name: Tank Empty Percentage
-    id: tankEmptyPercentage
+    name: Auto-drain drain stop Percentage
+    id: autoDrainStopDrainPercentage
     min_value: 0
     max_value: 80
     initial_value: 0
     step: 1
     optimistic: true
-    mode: BOX
-    on_value:
-      then:
-        - if:
-            condition:
-            - lambda: 'return id(tankEmptyPercentage).state >= id(tankFullPercentage).state;'
-            then:
-              - number.set:  
-                  id: tankEmptyPercentage                                                                                                                                                   
-                  value: 0
+    mode: BOX                                                                                                                                                 
   - platform: template
-    name: Tank Full Percentage
-    id: tankFullPercentage
+    name: Auto-fill Filling Stop Percentage
+    id: autoFillStopFillPercentage
     min_value: 1
-    max_value: 110
-    initial_value: 100
+    max_value: 100
+    initial_value: 80
     step: 1
     optimistic: true
     mode: BOX
-    on_value:
-      then:
-        - if:
-            condition:
-            - lambda: 'return id(tankFullPercentage).state <= id(tankEmptyPercentage).state;'
-            then:
-              - number.set:
-                  id: tankFullPercentage                                                                                                                                                   
-                  value: 100
+                                                                                                                                          
       
