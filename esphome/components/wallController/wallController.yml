@@ -538,49 +538,49 @@ sensor:
   - platform: template
     name: "Line 1 Last Feed Amount"
     id: Line1LastFeedAmount
-    accuracy_decimals: 4
+    accuracy_decimals: 2
     unit_of_measurement: "L"
 
   - platform: template
     name: "Line 2 Last Feed Amount"
     id: Line2LastFeedAmount
-    accuracy_decimals: 4
+    accuracy_decimals: 2
     unit_of_measurement: "L"
 
   - platform: template
     name: "Line 3 Last Feed Amount"
     id: Line3LastFeedAmount
-    accuracy_decimals: 4
+    accuracy_decimals: 2
     unit_of_measurement: "L"
 
   - platform: template
     name: "Line 4 Last Feed Amount"
     id: Line4LastFeedAmount
-    accuracy_decimals: 4
+    accuracy_decimals: 2
     unit_of_measurement: "L"
 
   - platform: template
     name: "Line 5 Last Feed Amount"
     id: Line5LastFeedAmount
-    accuracy_decimals: 4
+    accuracy_decimals: 2
     unit_of_measurement: "L" 
 
   - platform: template
     name: "Line 6 Last Feed Amount"
     id: Line6LastFeedAmount
-    accuracy_decimals: 4
+    accuracy_decimals: 2
     unit_of_measurement: "L"  
 
   - platform: template
     name: "Line 7 Last Feed Amount"
     id: Line7LastFeedAmount
-    accuracy_decimals: 4
+    accuracy_decimals: 2
     unit_of_measurement: "L"  
 
   - platform: template
     name: "Line 8 Last Feed Amount"
     id: Line8LastFeedAmount
-    accuracy_decimals: 4
+    accuracy_decimals: 2
     unit_of_measurement: "L"
 
   - platform: template
