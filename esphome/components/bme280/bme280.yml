@@ -16,6 +16,7 @@ packages:
     file: ../common/scripts/heartbeat.yml
     vars:
       LED_GPIO: GPIO2
+      LED_INVERTED: FALSE
 
 # This is a syslog module.
 external_components:
