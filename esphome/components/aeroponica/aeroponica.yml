@@ -9,13 +9,14 @@ packages:
       OTA_PASSWORD: "7d111d45dbb313c5e9b70879d0682d71"
       FALLBACK_HOTSPOT_PASSWORD: "UhtYT6DWw17v"
   yamlVersion: !include
-    file: ../common/yamlVersion.yml
+    file: ../common/sensors/yamlVersion.yml
     vars:
-      YAML_VERSION: "v0.0.2 Dec 15, 2024 16:35 pm"
+      YAML_VERSION: "v0.0.2 Jan 19, 2024 16:13 pm"
   heartbeat: !include
     file: ../common/scripts/heartbeat.yml
     vars:
       LED_GPIO: GPIO23
+      LED_INVERTED: FALSE
 
 logger:
   logs:

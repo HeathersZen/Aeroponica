@@ -1,3 +1,15 @@
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: America/Los_Angeles
+
+globals:
+  - id: lastUpdate
+    type: time_t
+    restore_value: false
+    initial_value: '0'
+
+
 sensor:
     # Resistance sensor that calculates the resistance on the voltage divider circuit 
     # based on the known reference resistor and the unknown resistance in the float valve.
@@ -12,9 +24,12 @@ sensor:
     on_value:
       then:
         - component.update: tankLevel
-        - sensor.template.publish:
-            id: tankLevelSmoothed
-            state: !lambda return float(id(tankLevel).state);
+
+  - platform: template
+    name: "Last Update Timestamp"
+    id: lastUpdateTimestamp   
+    device_class: timestamp
+    update_interval: 1s
 
     # Source sensor to read the voltage value from the pin.
   - platform: adc
@@ -43,24 +58,59 @@ sensor:
     accuracy_decimals: 0
     unit_of_measurement: "%"
     state_class: measurement
+    update_interval: 1s    
     lambda: |-
       if (id(floatSensorResistance).state < id(sensorMinResistance).state)
         return 0;
       else
-      {
+           {
         // Total possible delta in readings between a full tank and an empty tank.
         float maxResistanceRange = float(id(sensorMaxResistance).state) - float(id(sensorMinResistance).state); 
         float fillAmount = ( (  float(id(floatSensorResistance).state) - float(id(sensorMinResistance).state) ) / maxResistanceRange ) * 100;
-        return fillAmount;
+        int et = id(sntp_time).now().timestamp - id(lastUpdate);
+
+        // Logic to keep the tank fill % from going up and down too fast due to tank filling/water jostling.
+        // If the elapsed time since the last value was published > 5 seconds, or if the new value is within 1% of the old value,
+        // then send the current reading. Otherwise, send the existing value. 
+
+
+        if (isnan(id(tankLevel).state))
+        {
+          id(lastUpdate) = sntp_time->now().timestamp;
+          ESP_LOGD("FILL", "Passing updated value due to nan: LT: %ld ET: %d Old: %f.1 New: %f.1", id(lastUpdate), et, float(id(tankLevel).state), fillAmount );
+          return fillAmount;
+        }
+        else if (isnan(id(lastUpdate)))
+        {
+          id(lastUpdate) = sntp_time->now().timestamp;
+          ESP_LOGD("FILL", "Passing updated value due to empty timestamp: LT: %ld ET: %d Old: %f.1 New: %f.1",  id(lastUpdate), et, float(id(tankLevel).state), fillAmount );
+          return fillAmount;
+        }
+        else if (et > 5)
+        {
+          id(lastUpdate) = sntp_time->now().timestamp;
+          ESP_LOGD("FILL", "Passing updated value due to staleness: LT: %ld ET: %d Old: %f.1New: %f.1",  id(lastUpdate), et, float(id(tankLevel).state), fillAmount );
+          return fillAmount;
+        }
+        else if (abs(fillAmount - float(id(tankLevel).state)) <= 1)
+        {
+          id(lastUpdate) = sntp_time->now().timestamp;
+          ESP_LOGD("FILL", "Passing allowable change: LT: %ld ET: %d Old: %f New: %f",  id(lastUpdate), et, float(id(tankLevel).state), fillAmount );        
+          return fillAmount;
+        }
+        else
+        {
+          ESP_LOGD("FILL", "Clamping excess change: LT: %ld ET: %d Old: %f New: %f",  id(lastUpdate), et, float(id(tankLevel).state), fillAmount );
+          return float(id(tankLevel).state);
+        }
       }
 
   - platform: template
-    name: "Tank Level Smoothed"
-    id: "tankLevelSmoothed"
+    name: "Tank Level Slow Update"
+    id: "tankLevelSlowUpdate"
     accuracy_decimals: 0
-    update_interval: 30s
     unit_of_measurement: "%"
-    filters:
-      - sliding_window_moving_average:
-          window_size: 60
-          send_every: 30  
+    state_class: measurement
+    update_interval: 60s    
+    lambda: |-
+      return id(tankLevel).state;
