@@ -1,9 +1,13 @@
+substitutions:
+  NAME: w3l1controller
+  FRIENDLY_NAME: "W3L1 Controller"
+
 packages:
   device_base: !include
     file: ../common/boards/esp322ChannelRelayBoard.yml
     vars:
-      NAME: w3l1-controller
-      FRIENDLY_NAME: "W3L1 Controller"
+      NAME: ${NAME}
+      FRIENDLY_NAME: ${FRIENDLY_NAME}
       LOG_LEVEL: DEBUG
       ENCRYPTION_KEY: "eghKGz0oPMDGTfFYFgaxw3iUBAujxUQbTr0KPBEAwwY="
       OTA_PASSWORD: "805de5af4da0cd679cb7e0090cd4ad50"
@@ -43,12 +47,12 @@ switch:
   - platform: gpio
     pin: GPIO16
     name: "${FRIENDLY_NAME} Feeder"
-    id: feeder_${NAME}
+    id: "feeder_${NAME}"
 
   - platform: gpio
     pin: GPIO17
     name: "${FRIENDLY_NAME} Drain Pump"
-    id: drain_pump_${NAME}
+    id: "drain_pump_${NAME}"
 
 ################
 ## Scripts
@@ -58,14 +62,14 @@ script:
     mode: single
     then:
       - logger.log:
-          format: "${FRIENDLY_NAME}.feedPlantsByTime: Feed cycle initiated feedMistingDuration: %f  feedPauseDuration: %f"
-          args: ['id(feedMistingDuration).state', 'id(feedPauseDuration).state']
+          format: "${FRIENDLY_NAME}.feedPlantsByTime: Feed cycle initiated feedMistingDuration: %f  feedRestDuration: %f"
+          args: ['id(feedMistingDuration).state', 'id(feedRestDuration).state']
       - sensor.template.publish:                                                                                                                                           
             id: lastFeedTimestamp                                                                                                                                                   
             state: !lambda 'return id(homeassistant_time).now().timestamp;'
-      - switch.turn_on: feeder
+      - switch.turn_on: feeder_${NAME}
       - delay: !lambda "return id(feedMistingDuration).state * 1000;"
-      - switch.turn_off: feeder
+      - switch.turn_off: feeder_${NAME}
       - logger.log:
           format: "${FRIENDLY_NAME}.feedPlantsByTime: Feed cycle completed."
 
@@ -114,58 +118,6 @@ time:
     id: homeassistant_time
     timezone: America/Los_Angeles
 
-text_sensor:
-  - platform: template
-    name: "Last Feed"
-    id: lastFeedTime
-    device_class: ""
-    lambda: |-
-      char str[17];
-      time_t currTime = id(lastFeedTimestamp).state; 
-      strftime(str, sizeof(str), "%H:%M:%S", localtime(&currTime));
-      return  { str }; 
-
-  - platform: template
-    name: "Next Feed"
-    id: nextFeedTimestamp
-    device_class: ""
-    lambda: |-
-      char str[17];
-      time_t currTime = id(lastFeedTimestamp).state + id(feedRestDuration).state; 
-      strftime(str, sizeof(str), "%H:%M:%S", localtime(&currTime));
-      return  { str };     
-
-  - platform: template
-    name: "Current time"
-    id: currentTime
-    lambda: |-
-      char str[17];
-      time_t currTime = id(homeassistant_time).now().timestamp;
-      strftime(str, sizeof(str), "%H:%M:%S", localtime(&currTime));
-      return  { str };
-    update_interval: 1000ms
-
-  - platform: template
-    name: "Next Feed Countdown"
-    id: nextFeedCountdown
-    update_interval: 1000ms
-    lambda: |-
-      auto TAG = "Next Feed Countdown Lambda";    
-      // Parse the NextFeedTime string into a usable time.
-
-      std::string str_time = id(nextFeedTimestamp).state; 
-      std::tm tm = {};
-      std::istringstream ss(str_time);
-      std::time_t nextFeedTimestamp = std::mktime(&tm);
-      ESP_LOGD(TAG, "Next feed timestamp: %s", str_time );
-
-      // Subtract the NextFeedTime from the current time to get the remaining time.
-      //std::time_t duration = nextFeedTimestamp - id(homeassistant_time).now().timestamp;
-      std::time_t duration = id(homeassistant_time).now().timestamp;
-      char buffer[80];
-      strftime(buffer, sizeof(buffer), "%H:%M:%S", std::localtime(&duration));
-      return { buffer };
-
 button:
   - platform: template
     id: sendAlertTest
@@ -188,6 +140,6 @@ interval:
     then:
       - if: 
           condition:
-            - lambda: 'return int(id(lastFeedTimestamp).state) < id(homeassistant_time).now().timestamp + int(id(feedRestDuration).state);'
+            - lambda: 'return int(id(lastFeedTimestamp).state) + int(id(feedRestDuration).state) < id(homeassistant_time).now().timestamp;'
           then:
             - script.execute: feedPlantsByTime
