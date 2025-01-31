@@ -15,12 +15,18 @@ packages:
   yamlVersion: !include
     file: ../common/sensors/yamlVersion.yml
     vars:
-      YAML_VERSION: "v0.0.9 Jan 30, 2025 17:38"
+      YAML_VERSION: "v1.0.0 Jan 30, 2025 21:36"
   heartbeat: !include
     file: ../common/scripts/heartbeat.yml
     vars:
       LED_GPIO: GPIO2
       LED_INVERTED: true
+
+esphome:
+  on_boot:
+    then:
+      - lambda: |-
+          id(nextFeedCountdown).publish_state(int(id(feedRestDuration).state));
 
 # Enable logging
 logger:
@@ -38,11 +44,29 @@ logger:
 ###############################
 switch:
     ## Allows the silencing of various system alerts. Should default to true.
+  # - platform: template
+  #   name: "Alerts Enabled"
+  #   id: isAlertsEnabled  
+  #   optimistic: true
+  #   restore_mode: RESTORE_DEFAULT_ON
+
   - platform: template
-    name: "Alerts Enabled"
-    id: isAlertsEnabled  
+    name: "Feed Enabled"
+    id: isFeedEnabled  
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
+    on_turn_on:
+      - lambda: |-
+          id(nextFeedCountdown).publish_state(int(id(feedRestDuration).state));
+
+  - platform: template
+    name: "Drain Pump Enabled"
+    id: isDrainPumpEnabled  
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+    on_turn_on:
+      - lambda: |-
+          id(nextDrainCountdown).publish_state(int(id(drainPumpRestDuration).state));
 
   - platform: gpio
     pin: GPIO16
@@ -64,14 +88,22 @@ script:
       - logger.log:
           format: "${FRIENDLY_NAME}.feedPlantsByTime: Feed cycle initiated feedMistingDuration: %f  feedRestDuration: %f"
           args: ['id(feedMistingDuration).state', 'id(feedRestDuration).state']
-      - sensor.template.publish:                                                                                                                                           
-            id: lastFeedTimestamp                                                                                                                                                   
-            state: !lambda 'return id(homeassistant_time).now().timestamp;'
       - switch.turn_on: feeder_${NAME}
       - delay: !lambda "return id(feedMistingDuration).state * 1000;"
       - switch.turn_off: feeder_${NAME}
       - logger.log:
           format: "${FRIENDLY_NAME}.feedPlantsByTime: Feed cycle completed."
+  - id: cycleDrainPump
+    mode: single
+    then:
+      - logger.log:
+          format: "${FRIENDLY_NAME}.cycleDrainPump: Drain cycle initiated drainMistingDuration: %f  drainRestDuration: %f"
+          args: ['id(drainPumpOnDuration).state', 'id(drainPumpRestDuration).state']
+      - switch.turn_on: drain_pump_${NAME}
+      - delay: !lambda "return id(drainPumpOnDuration).state * 1000;"
+      - switch.turn_off: drain_pump_${NAME}
+      - logger.log:
+          format: "${FRIENDLY_NAME}.cycleDrainPump: Drain cycle completed."          
 
 ##################
 ## Sensors
@@ -83,21 +115,16 @@ sensor:
     update_interval: 60s
     entity_category: diagnostic
 
-  - platform: template
-    name: "Last Feed Timestamp"
-    id: lastFeedTimestamp   
-    device_class: timestamp
-
 ########################
 ## Numbers
 ########################
 number:
   - platform: template
-    name: Feed - Misting Duration ## How long to open the feed solenoids for (in seconds)
+    name: Feed - Misting Duration ## How long to open the feed solenoids for (in seconds) during each misting cycle.
     id: feedMistingDuration
     min_value: 1
     max_value: 20
-    initial_value: 5
+    initial_value: 3
     step: .1
     optimistic: true
     mode: BOX
@@ -111,7 +138,55 @@ number:
     step: 1
     optimistic: true
     mode: BOX       
-    unit_of_measurement: "duration"         
+    unit_of_measurement: "duration"     
+    on_value:
+      then:
+        - lambda: |-
+            id(nextFeedCountdown).publish_state(int(id(feedRestDuration).state));
+  - platform: template
+    name: Next Feed Countdown ## How many seconds until the next feed event
+    id: nextFeedCountdown
+    min_value: 1
+    max_value: 3000
+    initial_value: 2000
+    step: 1
+    optimistic: true
+    mode: BOX       
+    unit_of_measurement: "duration"   
+  - platform: template
+    name: Drain Pump - Drain Duration ## How long to turn on the drain pump for each drain cycle.
+    id: drainPumpOnDuration
+    min_value: 1
+    max_value: 10
+    initial_value: 5
+    step: .1
+    optimistic: true
+    mode: BOX
+    unit_of_measurement: "duration"
+  - platform: template
+    name: Drain Pump - Rest Duration ## How long to wait between drain cycles (in seconds)
+    id: drainPumpRestDuration
+    min_value: 1
+    max_value: 3000
+    initial_value: 802
+    step: 1
+    optimistic: true
+    mode: BOX       
+    unit_of_measurement: "duration"     
+    on_value:
+      then:
+        - lambda: |-
+            id(nextDrainCountdown).publish_state(int(id(drainPumpRestDuration).state));
+  - platform: template
+    name: Next Drain Countdown ## How many seconds until the next drain event
+    id: nextDrainCountdown
+    min_value: 1
+    max_value: 3000
+    initial_value: 2000
+    step: 1
+    optimistic: true
+    mode: BOX       
+    unit_of_measurement: "duration"       
 
 time:
   - platform: homeassistant
@@ -138,8 +213,29 @@ button:
 interval:
   - interval: 1sec
     then:
+      - if:
+          condition:
+            - lambda: 'return id(isFeedEnabled).state == true;'
+          then:
+            - lambda: |-
+                id(nextFeedCountdown).publish_state(id(nextFeedCountdown).state-1);
+      - if:
+          condition:
+            - lambda: 'return id(isDrainPumpEnabled).state == true;'
+          then:
+            - lambda: |-
+                id(nextDrainCountdown).publish_state(id(nextDrainCountdown).state-1);
       - if: 
           condition:
-            - lambda: 'return int(id(lastFeedTimestamp).state) + int(id(feedRestDuration).state) < id(homeassistant_time).now().timestamp;'
+            - lambda: 'return int(id(nextFeedCountdown).state) <= 0;'
           then:
-            - script.execute: feedPlantsByTime
+            - lambda: |-
+                id(nextFeedCountdown).publish_state(int(id(feedRestDuration).state));
+            - script.execute: feedPlantsByTime                
+      - if: 
+          condition:
+            - lambda: 'return int(id(nextDrainCountdown).state) <= 0;'
+          then:
+            - lambda: |-
+                id(nextDrainCountdown).publish_state(int(id(drainPumpRestDuration).state));
+            - script.execute: cycleDrainPump                            
