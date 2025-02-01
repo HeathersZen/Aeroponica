@@ -39,11 +39,11 @@ packages:
       NEXT_EVENT_COUNTDOWN_ID: "feedNextOnEventCountdown"
 
 # # Enable logging
-# logger:
-#   logs:
-#     uart: ERROR
-#     logger: ERROR
-#     sensor: ERROR
-#     uart_debug: ERROR
-#     text_sensor: ERROR
-#     number: ERROR
+logger:
+  logs:
+    uart: ERROR
+    logger: ERROR
+    sensor: ERROR
+    uart_debug: ERROR
+    text_sensor: ERROR
+    number: ERROR
