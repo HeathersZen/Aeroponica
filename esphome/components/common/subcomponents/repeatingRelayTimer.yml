@@ -51,7 +51,7 @@ number:
     step: .1
     optimistic: true
     mode: BOX
-    unit_of_measurement: "duration"
+    unit_of_measurement: "seconds"
   - platform: template
     name: ${PAUSE_DURATION_NAME}
     id: ${PAUSE_DURATION_ID}
@@ -61,7 +61,7 @@ number:
     step: 1
     optimistic: true
     mode: BOX       
-    unit_of_measurement: "duration"     
+    unit_of_measurement: "seconds"     
     on_value:
       then:
         - lambda: |-
@@ -75,7 +75,7 @@ number:
     step: 1
     optimistic: true
     mode: BOX       
-    unit_of_measurement: "duration"   
+    unit_of_measurement: "seconds"   
 
 interval:
   - interval: 1sec
