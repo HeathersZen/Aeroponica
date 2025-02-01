@@ -34,17 +34,16 @@ packages:
       RELAY_ON_INITIAL_VALUE: 2.5
       PAUSE_DURATION_NAME: "Feed - Rest Duration"
       PAUSE_DURATION_ID: "feedPauseDuration"
-      PAUSE_DURATION_INITIAL_VALUE: 300
+      PAUSE_DURATION_INITIAL_VALUE: 3001
       NEXT_EVENT_COUNTDOWN_NAME: "Feed - Next Feed Countdown"
       NEXT_EVENT_COUNTDOWN_ID: "feedNextOnEventCountdown"
 
-# Enable logging
-logger:
-  baud_rate: 0
-  logs:
-    uart: ERROR
-    logger: ERROR
-    sensor: ERROR
-    uart_debug: ERROR
-    text_sensor: ERROR
-    number: ERROR
+# # Enable logging
+# logger:
+#   logs:
+#     uart: ERROR
+#     logger: ERROR
+#     sensor: ERROR
+#     uart_debug: ERROR
+#     text_sensor: ERROR
+#     number: ERROR

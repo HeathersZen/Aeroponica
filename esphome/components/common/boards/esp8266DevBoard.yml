@@ -4,7 +4,7 @@ esphome:
 
 esp8266:
   board: esp01_1m
-
+    
 api:
   encryption:
     key: ${ENCRYPTION_KEY}
@@ -20,10 +20,23 @@ wifi:
     ssid: ${FRIENDLY_NAME} FHS
     password: "{$FALLBACK_HOTSPOT_PASSWORD}"
 
+sensor:
+  - platform: uptime
+    type: seconds
+    name: Uptime Sensor
+
+time:
+  - platform: sntp
+    id: bootTimestamp
+
+button:
+  - platform: restart
+    name: "Restart"
+
 captive_portal:
 
-logger:
-  level: ${LOG_LEVEL}
+# logger:
+#   level: ${LOG_LEVEL}
 
 web_server:
   port: 80
