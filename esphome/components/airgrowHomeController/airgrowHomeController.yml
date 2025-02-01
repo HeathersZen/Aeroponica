@@ -1,0 +1,50 @@
+substitutions:
+  NAME: airgrow-home-controller
+  FRIENDLY_NAME: "AirGrow Home Controller"
+
+packages:
+  device_base: !include
+    file: ../common/boards/esp8266DevBoard.yml
+    vars:
+      NAME: ${NAME}
+      FRIENDLY_NAME: ${FRIENDLY_NAME}
+      LOG_LEVEL: DEBUG
+      ENCRYPTION_KEY: "BIGYKjB80JAdhPr5zLIvDAhDEws4ltuZ+Pn4QXifujM="
+      OTA_PASSWORD: "0ec517d20576e2c90f4f23b550bd365f"
+      FALLBACK_HOTSPOT_PASSWORD: "0b2K6ulVr72K"
+  yamlVersion: !include
+    file: ../common/sensors/yamlVersion.yml
+    vars:
+      YAML_VERSION: "v1.0.0 Jan 31, 2025 18:52"
+  heartbeat: !include
+    file: ../common/scripts/heartbeat.yml
+    vars:
+      LED_GPIO: GPIO2
+      LED_INVERTED: true
+  repeatingRelayTimer: !include
+    file: ../common/subcomponents/repeatingRelayTimer.yml
+    vars:
+      NAME: ${NAME}
+      FRIENDLY_NAME: ${FRIENDLY_NAME}
+      RELAY_GPIO: 0
+      RELAY_NAME: "Feeder"
+      RELAY_ID: "feeder"
+      RELAY_ON_DURATION_NAME: "Feed - Feed Duration"
+      RELAY_ON_DURATION_ID: "feedRelayOnDuration"
+      RELAY_ON_INITIAL_VALUE: 2.5
+      PAUSE_DURATION_NAME: "Feed - Rest Duration"
+      PAUSE_DURATION_ID: "feedPauseDuration"
+      PAUSE_DURATION_INITIAL_VALUE: 300
+      NEXT_EVENT_COUNTDOWN_NAME: "Feed - Next Feed Countdown"
+      NEXT_EVENT_COUNTDOWN_ID: "feedNextOnEventCountdown"
+
+# Enable logging
+logger:
+  baud_rate: 0
+  logs:
+    uart: ERROR
+    logger: ERROR
+    sensor: ERROR
+    uart_debug: ERROR
+    text_sensor: ERROR
+    number: ERROR

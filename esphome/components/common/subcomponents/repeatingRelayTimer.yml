@@ -1,0 +1,96 @@
+esphome:
+  on_boot:
+    then:
+      - lambda: |-
+          id(${NEXT_EVENT_COUNTDOWN_ID}).publish_state(int(id(${PAUSE_DURATION_ID}).state));
+
+################
+## Scripts
+################
+script:
+  - id: executeRelayOnEvent${RELAY_ID}
+    mode: single
+    then:
+      - logger.log:
+          format: "${FRIENDLY_NAME}.executeRelayOnEvent: Turning relay on. OnDuration: %f  PauseDuration: %f"
+          args: ['id(${RELAY_ON_DURATION_ID}).state', 'id(${PAUSE_DURATION_ID}).state']
+      - switch.turn_on: ${RELAY_ID}
+      - delay: !lambda "return id(${RELAY_ON_DURATION_ID}).state * 1000;"
+      - switch.turn_off: ${RELAY_ID}
+      - logger.log:
+          format: "${FRIENDLY_NAME}.executeRelayOnEvent: Turning relay off."
+
+###############################
+## Switches
+###############################
+switch:
+  - platform: template
+    name: "Timer Enabled"
+    id: isTimerEnabled${RELAY_ID}
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+    on_turn_on:
+      - lambda: |-
+          id(${NEXT_EVENT_COUNTDOWN_ID}).publish_state(int(id(${PAUSE_DURATION_ID}).state));
+
+  - platform: gpio
+    pin: ${RELAY_GPIO}
+    name: "${RELAY_NAME}"
+    id: "${RELAY_ID}"
+
+########################
+## Numbers
+########################
+number:
+  - platform: template
+    name: ${RELAY_ON_DURATION_NAME}
+    id: ${RELAY_ON_DURATION_ID}
+    min_value: 1
+    max_value: 20000
+    initial_value: ${RELAY_ON_INITIAL_VALUE}
+    step: .1
+    optimistic: true
+    mode: BOX
+    unit_of_measurement: "duration"
+  - platform: template
+    name: ${PAUSE_DURATION_NAME}
+    id: ${PAUSE_DURATION_ID}
+    min_value: 1
+    max_value: 3000
+    initial_value: ${PAUSE_DURATION_INITIAL_VALUE}
+    step: 1
+    optimistic: true
+    mode: BOX       
+    unit_of_measurement: "duration"     
+    on_value:
+      then:
+        - lambda: |-
+            id(${NEXT_EVENT_COUNTDOWN_ID}).publish_state(int(id(${PAUSE_DURATION_ID}).state));
+  - platform: template
+    name: ${NEXT_EVENT_COUNTDOWN_NAME}
+    id: ${NEXT_EVENT_COUNTDOWN_ID}
+    min_value: 1
+    max_value: 3000
+    initial_value: 2000
+    step: 1
+    optimistic: true
+    mode: BOX       
+    unit_of_measurement: "duration"   
+
+interval:
+  - interval: 1sec
+    then:
+      - if:
+          condition:
+            - lambda: 'return id(isTimerEnabled${RELAY_ID}).state == true;'
+          then:
+            - lambda: |-
+                id(${NEXT_EVENT_COUNTDOWN_ID}).publish_state(id(${NEXT_EVENT_COUNTDOWN_ID}).state-1);
+      - if: 
+          condition:
+            - lambda: 'return int(id(${NEXT_EVENT_COUNTDOWN_ID}).state) <= 0;'
+          then:
+            - lambda: |-
+                id(${NEXT_EVENT_COUNTDOWN_ID}).publish_state(int(id(${PAUSE_DURATION_ID}).state));
+            - script.execute: executeRelayOnEvent${RELAY_ID}
+
