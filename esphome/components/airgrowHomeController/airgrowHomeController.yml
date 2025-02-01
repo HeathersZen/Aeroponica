@@ -34,7 +34,7 @@ packages:
       RELAY_ON_INITIAL_VALUE: 2.5
       PAUSE_DURATION_NAME: "Feed - Rest Duration"
       PAUSE_DURATION_ID: "feedPauseDuration"
-      PAUSE_DURATION_INITIAL_VALUE: 3001
+      PAUSE_DURATION_INITIAL_VALUE: 300
       NEXT_EVENT_COUNTDOWN_NAME: "Feed - Next Feed Countdown"
       NEXT_EVENT_COUNTDOWN_ID: "feedNextOnEventCountdown"
 
