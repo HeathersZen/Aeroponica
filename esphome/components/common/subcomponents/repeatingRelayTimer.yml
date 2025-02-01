@@ -91,5 +91,5 @@ interval:
             - lambda: 'return int(id(${NEXT_EVENT_COUNTDOWN_ID}).state) <= 0;'
           then:
             - lambda: |-
-                id(${NEXT_EVENT_COUNTDOWN_ID}).publish_state(int(id(${PAUSE_DURATION_ID}).state) + int(id(${RELAY_ON_DURATION_ID}).state) );
+                id(${NEXT_EVENT_COUNTDOWN_ID}).publish_state(int(id(${PAUSE_DURATION_ID}).state) );
             - script.execute: executeRelayOnEvent${RELAY_ID}
