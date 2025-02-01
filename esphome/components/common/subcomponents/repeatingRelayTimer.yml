@@ -12,20 +12,20 @@ script:
     mode: single
     then:
       - logger.log:
-          format: "${FRIENDLY_NAME}.executeRelayOnEvent: Turning relay on. OnDuration: %f  PauseDuration: %f"
+          format: "${FRIENDLY_NAME}.${RELAY_NAME}.executeRelayOnEvent: Turning relay on. OnDuration: %f  PauseDuration: %f"
           args: ['id(${RELAY_ON_DURATION_ID}).state', 'id(${PAUSE_DURATION_ID}).state']
       - switch.turn_on: ${RELAY_ID}
       - delay: !lambda "return id(${RELAY_ON_DURATION_ID}).state * 1000;"
       - switch.turn_off: ${RELAY_ID}
       - logger.log:
-          format: "${FRIENDLY_NAME}.executeRelayOnEvent: Turning relay off."
+          format: "${FRIENDLY_NAME}.${RELAY_NAME}.executeRelayOnEvent: Turning relay off."
 
 ###############################
 ## Switches
 ###############################
 switch:
   - platform: template
-    name: "Timer Enabled"
+    name: "${RELAY_NAME} Timer Enabled"
     id: isTimerEnabled${RELAY_ID}
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
@@ -35,7 +35,7 @@ switch:
 
   - platform: gpio
     pin: ${RELAY_GPIO}
-    name: "${RELAY_NAME}"
+    name: "${RELAY_NAME} Switch"
     id: "${RELAY_ID}"
 
 ########################
