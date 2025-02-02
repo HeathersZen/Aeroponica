@@ -28,6 +28,7 @@ switch:
     name: "${RELAY_NAME} Timer Enabled"
     id: isTimerEnabled${RELAY_ID}
     optimistic: true
+    inverted: ${RELAY_INVERTED}
     restore_mode: RESTORE_DEFAULT_ON
     on_turn_on:
       - lambda: |-

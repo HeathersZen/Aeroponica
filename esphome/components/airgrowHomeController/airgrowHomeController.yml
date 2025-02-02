@@ -32,6 +32,7 @@ packages:
       RELAY_ON_DURATION_NAME: "Feed - Feed Duration"
       RELAY_ON_DURATION_ID: "feedRelayOnDuration"
       RELAY_ON_INITIAL_VALUE: 2.5
+      RELAY_INVERTED: true
       PAUSE_DURATION_NAME: "Feed - Rest Duration"
       PAUSE_DURATION_ID: "feedPauseDuration"
       PAUSE_DURATION_INITIAL_VALUE: 300
