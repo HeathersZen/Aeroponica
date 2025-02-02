@@ -28,13 +28,13 @@ switch:
     name: "${RELAY_NAME} Timer Enabled"
     id: isTimerEnabled${RELAY_ID}
     optimistic: true
-    inverted: ${RELAY_INVERTED}
     restore_mode: RESTORE_DEFAULT_ON
     on_turn_on:
       - lambda: |-
           id(${NEXT_EVENT_COUNTDOWN_ID}).publish_state(int(id(${PAUSE_DURATION_ID}).state));
 
   - platform: gpio
+    inverted: ${RELAY_INVERTED}
     pin: ${RELAY_GPIO}
     name: "${RELAY_NAME} Switch"
     id: "${RELAY_ID}"
