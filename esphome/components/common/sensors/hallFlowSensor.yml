@@ -1,3 +1,4 @@
+sensor:
   - platform: pulse_counter
     id: ${ID}
     name: "${FRIENDLY_NAME}"
