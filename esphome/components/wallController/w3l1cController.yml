@@ -58,54 +58,18 @@ packages:
       NEXT_EVENT_COUNTDOWN_NAME: "Drain - Next Drain Countdown"
       NEXT_EVENT_COUNTDOWN_ID: "relayNextOnEventCountdown"
 
-# Enable logging
-logger:
-  baud_rate: 0
-  logs:
-    uart: ERROR
-    logger: ERROR
-    sensor: ERROR
-    uart_debug: ERROR
-    text_sensor: ERROR
-    number: ERROR
+# # Enable logging
+# logger:
+#   baud_rate: 0
+#   logs:
+#     uart: ERROR
+#     logger: ERROR
+#     sensor: ERROR
+#     uart_debug: ERROR
+#     text_sensor: ERROR
+#     number: ERROR
 
 time:
   - platform: homeassistant
     id: homeassistant_time
     timezone: America/Los_Angeles
-
-
-
-
-
-
-esphome:
-  name: w3l1ccontroller
-
-esp32:
-  board: esp32doit-devkit-v1
-  framework:
-    type: arduino
-
-# Enable logging
-logger:
-
-# Enable Home Assistant API
-api:
-  password: ""
-
-ota:
-  - platform: esphome
-    password: ""
-
-wifi:
-  ssid: "FBI Surveilance Van #423"
-  password: "alison88"
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "W3L1Ccontroller Fallback Hotspot"
-    password: "my2hu5OqsxEY"
-
-captive_portal:
-    
