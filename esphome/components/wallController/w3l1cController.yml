@@ -1,0 +1,111 @@
+substitutions:
+  NAME: w3l1ccontroller
+  FRIENDLY_NAME: "W3L1c Controller"
+
+packages:
+  device_base: !include
+    file: ../common/boards/esp322ChannelRelayBoard.yml
+    vars:
+      NAME: ${NAME}
+      FRIENDLY_NAME: ${FRIENDLY_NAME}
+      LOG_LEVEL: DEBUG
+      ENCRYPTION_KEY: "ls2WYlAZ1TSlBKczfaIXBy/DcrUv+6kJb3CIvTFipT8="
+      OTA_PASSWORD: "1aca097bc1deac0470b36e788e42c878"
+      FALLBACK_HOTSPOT_PASSWORD: "JP2dIejjuZTD"
+  yamlVersion: !include
+    file: ../common/sensors/yamlVersion.yml
+    vars:
+      YAML_VERSION: "v1.0.0 Feb 12, 2025 15:00"
+  heartbeat: !include
+    file: ../common/scripts/heartbeat.yml
+    vars:
+      LED_GPIO: GPIO2
+      LED_INVERTED: true
+  wifiSignal: !include
+    file: ../common/sensors/wifiSignal.yml
+  repeatingRelayTimer: !include
+    file: ../common/subcomponents/repeatingRelayTimer.yml
+    vars:
+      NAME: ${NAME}
+      FRIENDLY_NAME: ${FRIENDLY_NAME}
+      RELAY_GPIO: GPIO16
+      RELAY_NAME: "Feeder"
+      RELAY_ID: "feeder"
+      RELAY_ON_DURATION_NAME: "Feed - Feed Duration"
+      RELAY_ON_DURATION_ID: "feedRelayOnDuration"
+      RELAY_ON_INITIAL_VALUE: 2.5
+      RELAY_INVERTED: false
+      PAUSE_DURATION_NAME: "Feed - Rest Duration"
+      PAUSE_DURATION_ID: "feedPauseDuration"
+      PAUSE_DURATION_INITIAL_VALUE: 300
+      NEXT_EVENT_COUNTDOWN_NAME: "Feed - Next Feed Countdown"
+      NEXT_EVENT_COUNTDOWN_ID: "feedNextOnEventCountdown"
+  repeatingRelayTimer2: !include
+    file: ../common/subcomponents/repeatingRelayTimer.yml
+    vars:
+      NAME: ${NAME}
+      FRIENDLY_NAME: ${FRIENDLY_NAME}
+      RELAY_GPIO: GPIO17
+      RELAY_NAME: "Drain"
+      RELAY_ID: "drain"
+      RELAY_ON_DURATION_NAME: "Drain - Drain Duration"
+      RELAY_ON_DURATION_ID: "drainRelayOnDuration"
+      RELAY_ON_INITIAL_VALUE: 6
+      RELAY_INVERTED: false
+      PAUSE_DURATION_NAME: "Drain - Rest Duration"
+      PAUSE_DURATION_ID: "relayPauseDuration"
+      PAUSE_DURATION_INITIAL_VALUE: 467
+      NEXT_EVENT_COUNTDOWN_NAME: "Drain - Next Drain Countdown"
+      NEXT_EVENT_COUNTDOWN_ID: "relayNextOnEventCountdown"
+
+# Enable logging
+logger:
+  baud_rate: 0
+  logs:
+    uart: ERROR
+    logger: ERROR
+    sensor: ERROR
+    uart_debug: ERROR
+    text_sensor: ERROR
+    number: ERROR
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+    timezone: America/Los_Angeles
+
+
+
+
+
+
+esphome:
+  name: w3l1ccontroller
+
+esp32:
+  board: esp32doit-devkit-v1
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  - platform: esphome
+    password: ""
+
+wifi:
+  ssid: "FBI Surveilance Van #423"
+  password: "alison88"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "W3L1Ccontroller Fallback Hotspot"
+    password: "my2hu5OqsxEY"
+
+captive_portal:
+    
