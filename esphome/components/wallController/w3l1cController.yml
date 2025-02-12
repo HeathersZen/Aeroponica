@@ -58,16 +58,16 @@ packages:
       NEXT_EVENT_COUNTDOWN_NAME: "Drain - Next Drain Countdown"
       NEXT_EVENT_COUNTDOWN_ID: "relayNextOnEventCountdown"
 
-# # Enable logging
-# logger:
-#   baud_rate: 0
-#   logs:
-#     uart: ERROR
-#     logger: ERROR
-#     sensor: ERROR
-#     uart_debug: ERROR
-#     text_sensor: ERROR
-#     number: ERROR
+# Enable logging
+logger:
+  baud_rate: 0
+  logs:
+    uart: ERROR
+    logger: ERROR
+    sensor: ERROR
+    uart_debug: ERROR
+    text_sensor: ERROR
+    number: ERROR
 
 time:
   - platform: homeassistant
