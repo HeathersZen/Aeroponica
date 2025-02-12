@@ -1,0 +1,11 @@
+  - platform: pulse_counter
+    id: ${ID}
+    name: "${FRIENDLY_NAME}"
+    state_class: measurement
+    pin: 
+        number: ${GPIO}
+    update_interval: ${UPDATE_INTERVAL}
+    filters:
+      - round: 2
+      - lambda: return ((x / ${PULSES_PER_UNIT}}) / 60);
+    unit_of_measurement: "${UNIT_OF_MEASURE}" 

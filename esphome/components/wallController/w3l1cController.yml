@@ -16,6 +16,29 @@ packages:
     file: ../common/sensors/yamlVersion.yml
     vars:
       YAML_VERSION: "v1.0.0 Feb 12, 2025 15:00"
+  rgbled: !include
+    file: ../common/subcomponents/rgbled.yml
+    vars:
+      RED_GPIO: GPIO25
+      GREEN_GPIO: GPIO27
+      BLUE_GPIO: GPIO12
+      INSTANCE: "1"
+  fillHallFlowSensor:
+    file: ../common/sensors/hallFlowSensor.yml
+    vars:
+      ID: fillSensor
+      GPIO: 34
+      FRIENDLY_NAME: "Fill Sensor"
+      UNIT_OF_MEASURE: "l/m"
+      PULSES_PER_UNIT: 38
+  drainHallFlowSensor:
+    file: ../common/sensors/hallFlowSensor.yml
+    vars:
+      ID: drainSensor
+      GPIO: 32
+      FRIENDLY_NAME: "Drain Sensor"
+      UNIT_OF_MEASURE: "l/m"
+      PULSES_PER_UNIT: 38
   heartbeat: !include
     file: ../common/scripts/heartbeat.yml
     vars:

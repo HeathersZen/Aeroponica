@@ -1,0 +1,13 @@
+switch:
+  - platform: gpio
+    pin: ${ledRedGpio}
+    id: LEDRed${instance}
+    name: "Red ${instance}"
+  - platform: gpio
+    pin: ${ledGreenGpio}
+    id: LEDGreen${instance}
+    name: "Green ${instance}"
+  - platform: gpio
+    pin: ${ledBlueGpio}
+    id: LEDBlue${instance}
+    name: "Blue ${instance}"
