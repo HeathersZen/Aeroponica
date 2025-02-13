@@ -29,7 +29,7 @@ packages:
       ID: fillSensor
       GPIO: GPIO12
       UPDATE_INTERVAL: 1000ms
-      FRIENDLY_NAME: "Feed Sensor"
+      FRIENDLY_NAME: "Feed Flow"
       UNIT_OF_MEASURE: "l/m"
       PULSES_PER_UNIT: 38 
   drainFlowSensor: !include
@@ -38,7 +38,7 @@ packages:
       ID: drainSensor
       GPIO: GPIO14
       UPDATE_INTERVAL: 1000ms
-      FRIENDLY_NAME: "Drain Sensor"
+      FRIENDLY_NAME: "Drain Flow"
       UNIT_OF_MEASURE: "l/m"
       PULSES_PER_UNIT: 38 
   heartbeat: !include
@@ -56,14 +56,14 @@ packages:
       RELAY_GPIO: GPIO16
       RELAY_NAME: "Feed"
       RELAY_ID: "feed"
-      RELAY_ON_DURATION_NAME: "Feed - Feed Duration"
+      RELAY_ON_DURATION_NAME: "Feed Duration"
       RELAY_ON_DURATION_ID: "feedRelayOnDuration"
       RELAY_ON_INITIAL_VALUE: 2.5
       RELAY_INVERTED: false
-      PAUSE_DURATION_NAME: "Feed - Rest Duration"
+      PAUSE_DURATION_NAME: "Feed Rest Duration"
       PAUSE_DURATION_ID: "feedPauseDuration"
       PAUSE_DURATION_INITIAL_VALUE: 300
-      NEXT_EVENT_COUNTDOWN_NAME: "Feed - Next Feed Countdown"
+      NEXT_EVENT_COUNTDOWN_NAME: "Feed Countdown"
       NEXT_EVENT_COUNTDOWN_ID: "feedNextOnEventCountdown"
       STATUS_LED: "LEDBlue1"
   repeatingRelayTimer2: !include
@@ -74,14 +74,14 @@ packages:
       RELAY_GPIO: GPIO17
       RELAY_NAME: "Drain"
       RELAY_ID: "drain"
-      RELAY_ON_DURATION_NAME: "Drain - Drain Duration"
+      RELAY_ON_DURATION_NAME: "Drain Duration"
       RELAY_ON_DURATION_ID: "drainRelayOnDuration"
       RELAY_ON_INITIAL_VALUE: 6
       RELAY_INVERTED: false
-      PAUSE_DURATION_NAME: "Drain - Rest Duration"
+      PAUSE_DURATION_NAME: "Drain Rest Duration"
       PAUSE_DURATION_ID: "relayPauseDuration"
       PAUSE_DURATION_INITIAL_VALUE: 467
-      NEXT_EVENT_COUNTDOWN_NAME: "Drain - Next Drain Countdown"
+      NEXT_EVENT_COUNTDOWN_NAME: "Drain Countdown"
       NEXT_EVENT_COUNTDOWN_ID: "relayNextOnEventCountdown"
       STATUS_LED: "LEDGreen1"
 
