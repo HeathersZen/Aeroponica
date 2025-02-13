@@ -86,15 +86,15 @@ packages:
       STATUS_LED: "LEDGreen1"
 
 # Enable logging
-# logger:
-#   baud_rate: 0
-#   logs:
-#     uart: ERROR
-#     logger: ERROR
-#     sensor: ERROR
-#     uart_debug: ERROR
-#     text_sensor: ERROR
-#     number: ERROR
+logger:
+  baud_rate: 0
+  logs:
+    uart: ERROR
+    logger: ERROR
+    sensor: ERROR
+    uart_debug: ERROR
+    text_sensor: ERROR
+    number: ERROR
 
 time:
   - platform: homeassistant
