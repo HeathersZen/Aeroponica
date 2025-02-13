@@ -23,15 +23,15 @@ packages:
   #     GREEN_GPIO: GPIO27
   #     BLUE_GPIO: GPIO12
   #     INSTANCE: "1"
-  # fillFlowSensor: !include
-  #   file: ../common/sensors/flowSensor.yml
-  #   vars:
-  #     ID: fillSensor
-  #     GPIO: 34
-  #     UPDATE_INTERVAL: 1000ms
-  #     FRIENDLY_NAME: "Fill Sensor"
-  #     UNIT_OF_MEASURE: "l/m"
-  #     PULSES_PER_UNIT: 38 
+  fillFlowSensor: !include
+    file: ../common/sensors/flowSensor.yml
+    vars:
+      ID: fillSensor
+      GPIO: 34
+      UPDATE_INTERVAL: 1000ms
+      FRIENDLY_NAME: "Fill Sensor"
+      UNIT_OF_MEASURE: "l/m"
+      PULSES_PER_UNIT: 38 
   # drainFlowSensor: !include
   #   file: ../common/sensors/flowSensor.yml
   #   vars:
