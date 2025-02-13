@@ -95,6 +95,7 @@ logger:
     uart_debug: ERROR
     text_sensor: ERROR
     number: ERROR
+    pulse_counter: ERROR
 
 time:
   - platform: homeassistant
