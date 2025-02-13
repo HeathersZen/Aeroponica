@@ -24,7 +24,7 @@ packages:
       BLUE_GPIO: GPIO12
       INSTANCE: "1"
   fillFlowSensor: !include
-    file: ../common/sensors/flowsensor.yml
+    file: ../common/sensors/flowSensor.yml
     vars:
       ID: fillSensor
       GPIO: 34
@@ -32,7 +32,7 @@ packages:
       UNIT_OF_MEASURE: "l/m"
       PULSES_PER_UNIT: 38 
   drainFlowSensor: !include
-    file: ../common/sensors/flowsensor.yml
+    file: ../common/sensors/flowSensor.yml
     vars:
       ID: drainSensor
       GPIO: 32
