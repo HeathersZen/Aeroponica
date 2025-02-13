@@ -65,7 +65,7 @@ packages:
       PAUSE_DURATION_INITIAL_VALUE: 300
       NEXT_EVENT_COUNTDOWN_NAME: "Feed - Next Feed Countdown"
       NEXT_EVENT_COUNTDOWN_ID: "feedNextOnEventCountdown"
-      STATUS_LED: "LedBlue1"
+      STATUS_LED: "LEDBlue1"
   repeatingRelayTimer2: !include
     file: ../common/subcomponents/repeatingRelayTimer.yml
     vars:
@@ -83,7 +83,7 @@ packages:
       PAUSE_DURATION_INITIAL_VALUE: 467
       NEXT_EVENT_COUNTDOWN_NAME: "Drain - Next Drain Countdown"
       NEXT_EVENT_COUNTDOWN_ID: "relayNextOnEventCountdown"
-      STATUS_LED: "LedGreen1"
+      STATUS_LED: "LEDGreen1"
 
 # Enable logging
 # logger:

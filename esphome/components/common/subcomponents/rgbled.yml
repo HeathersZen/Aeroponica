@@ -2,12 +2,15 @@ switch:
   - platform: gpio
     pin: ${RED_GPIO}
     id: LEDRed${INSTANCE}
-    name: "Red ${INSTANCE}"
+    name: "Red ${INSTANCE}"    
+    internal: true
   - platform: gpio
     pin: ${GREEN_GPIO}
     id: LEDGreen${INSTANCE}
     name: "Green ${INSTANCE}"
+    internal: true
   - platform: gpio
     pin: ${BLUE_GPIO}
     id: LEDBlue${INSTANCE}
     name: "Blue ${INSTANCE}"
+    internal: true    

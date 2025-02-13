@@ -40,6 +40,10 @@ switch:
     pin: ${RELAY_GPIO}
     name: "${RELAY_NAME} Switch"
     id: "${RELAY_ID}"
+    on_turn_on:
+    - switch.turn_on: ${STATUS_LED}
+    on_turn_off:
+    - switch.turn_off: ${STATUS_LED}
 
 ########################
 ## Numbers
