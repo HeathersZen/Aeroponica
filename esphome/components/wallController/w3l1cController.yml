@@ -28,6 +28,7 @@ packages:
     vars:
       ID: fillSensor
       GPIO: 34
+      UPDATE_INTERVAL: 1000ms
       FRIENDLY_NAME: "Fill Sensor"
       UNIT_OF_MEASURE: "l/m"
       PULSES_PER_UNIT: 38 
@@ -36,6 +37,7 @@ packages:
     vars:
       ID: drainSensor
       GPIO: 32
+      UPDATE_INTERVAL: 1000ms
       FRIENDLY_NAME: "Drain Sensor"
       UNIT_OF_MEASURE: "l/m"
       PULSES_PER_UNIT: 38 
