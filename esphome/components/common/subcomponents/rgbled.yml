@@ -1,13 +1,13 @@
 switch:
   - platform: gpio
-    pin: ${ledRedGpio}
-    id: LEDRed${instance}
-    name: "Red ${instance}"
+    pin: ${RED_GPIO}
+    id: LEDRed${INSTANCE}
+    name: "Red ${INSTANCE}"
   - platform: gpio
-    pin: ${ledGreenGpio}
-    id: LEDGreen${instance}
-    name: "Green ${instance}"
+    pin: ${GREEN_GPIO}
+    id: LEDGreen${INSTANCE}
+    name: "Green ${INSTANCE}"
   - platform: gpio
-    pin: ${ledBlueGpio}
-    id: LEDBlue${instance}
-    name: "Blue ${instance}"
+    pin: ${BLUE_GPIO}
+    id: LEDBlue${INSTANCE}
+    name: "Blue ${INSTANCE}"

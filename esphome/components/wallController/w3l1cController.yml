@@ -23,22 +23,22 @@ packages:
       GREEN_GPIO: GPIO27
       BLUE_GPIO: GPIO12
       INSTANCE: "1"
-  fillHallFlowSensor:
-    file: ../common/sensors/hallFlowSensor.yml
+  fillFlowSensor: !include
+    file: ../common/sensors/flowsensor.yml
     vars:
       ID: fillSensor
       GPIO: 34
       FRIENDLY_NAME: "Fill Sensor"
       UNIT_OF_MEASURE: "l/m"
-      PULSES_PER_UNIT: 38
-  drainHallFlowSensor:
-    file: ../common/sensors/hallFlowSensor.yml
+      PULSES_PER_UNIT: 38 
+  drainFlowSensor: !include
+    file: ../common/sensors/flowsensor.yml
     vars:
       ID: drainSensor
       GPIO: 32
       FRIENDLY_NAME: "Drain Sensor"
       UNIT_OF_MEASURE: "l/m"
-      PULSES_PER_UNIT: 38
+      PULSES_PER_UNIT: 38 
   heartbeat: !include
     file: ../common/scripts/heartbeat.yml
     vars:
