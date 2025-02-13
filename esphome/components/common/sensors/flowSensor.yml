@@ -8,5 +8,5 @@ sensor:
     update_interval: ${UPDATE_INTERVAL}
     filters:
       - round: 2
-      - lambda: return ((x / ${PULSES_PER_UNIT}}) / 60);
+      - lambda: return ((x / ${PULSES_PER_UNIT}) / 60);
     unit_of_measurement: "${UNIT_OF_MEASURE}" 
