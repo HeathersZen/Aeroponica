@@ -16,36 +16,36 @@ packages:
     file: ../common/sensors/yamlVersion.yml
     vars:
       YAML_VERSION: "v1.0.0 Feb 12, 2025 15:00"
-  # rgbled: !include
-  #   file: ../common/subcomponents/rgbled.yml
-  #   vars:
-  #     RED_GPIO: GPIO25
-  #     GREEN_GPIO: GPIO27
-  #     BLUE_GPIO: GPIO12
-  #     INSTANCE: "1"
-  # fillFlowSensor: !include
-  #   file: ../common/sensors/flowSensor.yml
-  #   vars:
-  #     ID: fillSensor
-  #     GPIO: 34
-  #     UPDATE_INTERVAL: 1000ms
-  #     FRIENDLY_NAME: "Fill Sensor"
-  #     UNIT_OF_MEASURE: "l/m"
-  #     PULSES_PER_UNIT: 38 
-  # drainFlowSensor: !include
-  #   file: ../common/sensors/flowSensor.yml
-  #   vars:
-  #     ID: drainSensor
-  #     GPIO: 32
-  #     UPDATE_INTERVAL: 1000ms
-  #     FRIENDLY_NAME: "Drain Sensor"
-  #     UNIT_OF_MEASURE: "l/m"
-  #     PULSES_PER_UNIT: 38 
-  heartbeat: !include
-    file: ../common/scripts/heartbeat.yml
+  rgbled: !include
+    file: ../common/subcomponents/rgbled.yml
     vars:
-      LED_GPIO: GPIO2
-      LED_INVERTED: true
+      RED_GPIO: GPIO32
+      GREEN_GPIO: GPIO33
+      BLUE_GPIO: GPIO25
+      INSTANCE: "1"
+  fillFlowSensor: !include
+    file: ../common/sensors/flowSensor.yml
+    vars:
+      ID: fillSensor
+      GPIO: GPIO12
+      UPDATE_INTERVAL: 1000ms
+      FRIENDLY_NAME: "Feed Sensor"
+      UNIT_OF_MEASURE: "l/m"
+      PULSES_PER_UNIT: 38 
+  drainFlowSensor: !include
+    file: ../common/sensors/flowSensor.yml
+    vars:
+      ID: drainSensor
+      GPIO: GPIO14
+      UPDATE_INTERVAL: 1000ms
+      FRIENDLY_NAME: "Drain Sensor"
+      UNIT_OF_MEASURE: "l/m"
+      PULSES_PER_UNIT: 38 
+  heartbeat: !include
+    file: ../common/scripts/heartbeatRGBLed.yml
+    vars:
+      RED_LED: "LEDRed1"
+      GREEN_LED: "LEDGreen1"
   wifiSignal: !include
     file: ../common/sensors/wifiSignal.yml
   repeatingRelayTimer: !include
@@ -54,8 +54,8 @@ packages:
       NAME: ${NAME}
       FRIENDLY_NAME: ${FRIENDLY_NAME}
       RELAY_GPIO: GPIO16
-      RELAY_NAME: "Feeder"
-      RELAY_ID: "feeder"
+      RELAY_NAME: "Feed"
+      RELAY_ID: "feed"
       RELAY_ON_DURATION_NAME: "Feed - Feed Duration"
       RELAY_ON_DURATION_ID: "feedRelayOnDuration"
       RELAY_ON_INITIAL_VALUE: 2.5
@@ -65,6 +65,7 @@ packages:
       PAUSE_DURATION_INITIAL_VALUE: 300
       NEXT_EVENT_COUNTDOWN_NAME: "Feed - Next Feed Countdown"
       NEXT_EVENT_COUNTDOWN_ID: "feedNextOnEventCountdown"
+      STATUS_LED: "LedBlue1"
   repeatingRelayTimer2: !include
     file: ../common/subcomponents/repeatingRelayTimer.yml
     vars:
@@ -82,17 +83,18 @@ packages:
       PAUSE_DURATION_INITIAL_VALUE: 467
       NEXT_EVENT_COUNTDOWN_NAME: "Drain - Next Drain Countdown"
       NEXT_EVENT_COUNTDOWN_ID: "relayNextOnEventCountdown"
+      STATUS_LED: "LedGreen1"
 
 # Enable logging
-logger:
-  baud_rate: 0
-  logs:
-    uart: ERROR
-    logger: ERROR
-    sensor: ERROR
-    uart_debug: ERROR
-    text_sensor: ERROR
-    number: ERROR
+# logger:
+#   baud_rate: 0
+#   logs:
+#     uart: ERROR
+#     logger: ERROR
+#     sensor: ERROR
+#     uart_debug: ERROR
+#     text_sensor: ERROR
+#     number: ERROR
 
 time:
   - platform: homeassistant

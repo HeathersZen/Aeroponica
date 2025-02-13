@@ -15,8 +15,10 @@ script:
           format: "${FRIENDLY_NAME}.${RELAY_NAME}.executeRelayOnEvent: Turning relay on. OnDuration: %f  PauseDuration: %f"
           args: ['id(${RELAY_ON_DURATION_ID}).state', 'id(${PAUSE_DURATION_ID}).state']
       - switch.turn_on: ${RELAY_ID}
+      - switch.turn_on: ${STATUS_LED}
       - delay: !lambda "return id(${RELAY_ON_DURATION_ID}).state * 1000;"
       - switch.turn_off: ${RELAY_ID}
+      - switch.turn_off: ${STATUS_LED}
       - logger.log:
           format: "${FRIENDLY_NAME}.${RELAY_NAME}.executeRelayOnEvent: Turning relay off."
 
