@@ -1,0 +1,7 @@
+substitutions:
+  NAME: w3l2ccontroller
+  FRIENDLY_NAME: "W3L2 Controller"
+
+packages:
+  device_base: !include
+    file: ./modeldcontroller.yml

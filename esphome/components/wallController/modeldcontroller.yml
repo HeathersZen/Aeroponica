@@ -1,0 +1,99 @@
+packages:
+  device_base: !include
+    file: ../common/boards/esp322ChannelRelayBoard.yml
+    vars:
+      NAME: ${NAME}
+      FRIENDLY_NAME: ${FRIENDLY_NAME}
+      LOG_LEVEL: DEBUG
+      ENCRYPTION_KEY: "ls2WYlAZ1TSlBKczfaIXBy/DcrUv+6kJb3CIvTFipT8="
+      OTA_PASSWORD: "1aca097bc1deac0470b36e788e42c878"
+      FALLBACK_HOTSPOT_PASSWORD: "JP2dIejjuZTD"
+  yamlVersion: !include
+    file: ../common/sensors/yamlVersion.yml
+    vars:
+      YAML_VERSION: "v1.0.0 Feb 12, 2025 22:18"
+  rgbled: !include
+    file: ../common/subcomponents/rgbled.yml
+    vars:
+      RED_GPIO: GPIO32
+      GREEN_GPIO: GPIO33
+      BLUE_GPIO: GPIO25
+      INSTANCE: "1"
+  fillFlowSensor: !include
+    file: ../common/sensors/flowSensor.yml
+    vars:
+      ID: fillSensor
+      GPIO: GPIO12
+      UPDATE_INTERVAL: 1000ms
+      FRIENDLY_NAME: "Feed Flow"
+      UNIT_OF_MEASURE: "l/m"
+      PULSES_PER_UNIT: 38 
+  drainFlowSensor: !include
+    file: ../common/sensors/flowSensor.yml
+    vars:
+      ID: drainSensor
+      GPIO: GPIO14
+      UPDATE_INTERVAL: 1000ms
+      FRIENDLY_NAME: "Drain Flow"
+      UNIT_OF_MEASURE: "l/m"
+      PULSES_PER_UNIT: 38 
+  heartbeat: !include
+    file: ../common/scripts/heartbeatRGBLed.yml
+    vars:
+      RED_LED: "LEDRed1"
+      GREEN_LED: "LEDGreen1"
+  wifiSignal: !include
+    file: ../common/sensors/wifiSignal.yml
+  repeatingRelayTimer: !include
+    file: ../common/subcomponents/repeatingRelayTimer.yml
+    vars:
+      NAME: ${NAME}
+      FRIENDLY_NAME: ${FRIENDLY_NAME}
+      RELAY_GPIO: GPIO16
+      RELAY_NAME: "Feed"
+      RELAY_ID: "feed"
+      RELAY_ON_DURATION_NAME: "Feed Duration"
+      RELAY_ON_DURATION_ID: "feedRelayOnDuration"
+      RELAY_ON_INITIAL_VALUE: 2.5
+      RELAY_INVERTED: false
+      PAUSE_DURATION_NAME: "Feed Rest Duration"
+      PAUSE_DURATION_ID: "feedPauseDuration"
+      PAUSE_DURATION_INITIAL_VALUE: 300
+      NEXT_EVENT_COUNTDOWN_NAME: "Feed Countdown"
+      NEXT_EVENT_COUNTDOWN_ID: "feedNextOnEventCountdown"
+      STATUS_LED: "LEDBlue1"
+  repeatingRelayTimer2: !include
+    file: ../common/subcomponents/repeatingRelayTimer.yml
+    vars:
+      NAME: ${NAME}
+      FRIENDLY_NAME: ${FRIENDLY_NAME}
+      RELAY_GPIO: GPIO17
+      RELAY_NAME: "Drain"
+      RELAY_ID: "drain"
+      RELAY_ON_DURATION_NAME: "Drain Duration"
+      RELAY_ON_DURATION_ID: "drainRelayOnDuration"
+      RELAY_ON_INITIAL_VALUE: 6
+      RELAY_INVERTED: false
+      PAUSE_DURATION_NAME: "Drain Rest Duration"
+      PAUSE_DURATION_ID: "relayPauseDuration"
+      PAUSE_DURATION_INITIAL_VALUE: 467
+      NEXT_EVENT_COUNTDOWN_NAME: "Drain Countdown"
+      NEXT_EVENT_COUNTDOWN_ID: "relayNextOnEventCountdown"
+      STATUS_LED: "LEDGreen1"
+
+# Enable logging
+logger:
+  baud_rate: 0
+  logs:
+    uart: ERROR
+    logger: ERROR
+    sensor: ERROR
+    uart_debug: ERROR
+    text_sensor: ERROR
+    number: ERROR
+    pulse_counter: ERROR
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+    timezone: America/Los_Angeles

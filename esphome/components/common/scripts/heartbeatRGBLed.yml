@@ -25,10 +25,10 @@ script:
 interval:
   - interval: 1min
     then:
-      - logger.log: "Heartbeat"
       - script.execute: 
           id: flashLED
           flashCount: 3 
+      - logger.log: "Heartbeat executed."
 
 logger:
   logs:
