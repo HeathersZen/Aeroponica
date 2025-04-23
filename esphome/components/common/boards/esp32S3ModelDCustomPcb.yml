@@ -50,12 +50,12 @@ button:
   - platform: restart
     name: "Restart"
 
-# text_sensor:
-#   - platform: template
-#     id: bootTime
-#     name: "Boot Time"
-#     lambda: |-
-#       char str[17];
-#       auto time = id(bootTime).state;
-#       strftime(str, sizeof(str), "%Y-%m-%d %H:%M:%S", time);
-#       return  { str }; 
+text_sensor:
+  - platform: template
+    id: bootTime
+    name: "Boot Time"
+    lambda: |-
+      char str[17];
+      auto time = id(bootTime).state;
+      strftime(str, sizeof(str), "%Y-%m-%d %H:%M:%S", time);
+      return  { str }; 
