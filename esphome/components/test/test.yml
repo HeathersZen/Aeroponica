@@ -1,0 +1,42 @@
+esphome:
+  name: test1
+  on_boot:
+    priority: 800.0
+    then:
+      lambda: |-
+        uartSetPins(0, 44, 43, -1, -1);
+
+# Enable logging
+logger:
+  baud_rate: 115200
+  hardware_uart: UART0
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino
+
+
+# Enable Home Assistant API
+api:
+  password: ""
+  encryption:
+    key: "BIGYKjB80JAdhPr5zLIvDAhDEws4ltuZ+Pn4QXifujM="  
+
+ota:
+  - platform: esphome
+    password: ""
+
+wifi:
+  ssid: "FBI Surveilance Van #423"
+  password: "alison88"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Test1 Fallback Hotspot"
+    password: "vq1qiacjc47Z"
+
+captive_portal:
+
+web_server:
+  port: 80
